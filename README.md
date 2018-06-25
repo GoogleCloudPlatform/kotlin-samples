@@ -1,0 +1,23 @@
+# Google Cloud Platform Kotlin Samples
+
+This repository holds sample code written in Kotlin that demonstrates the Google
+Cloud Platform.
+
+## Contributing changes.
+
+Entirely new samples are not accepted. Bug fixes are welcome, either as pull
+requests or as GitHub issues.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute.
+
+## Licensing
+
+Code in this repository is licensed under the Apache 2.0. See [LICENSE](LICENSE).
+
+## Index
+
+|Path|Description|
+|---|---|
+|[vision](vision)|**Samples**: Basic examples for using [Google Cloud Vision API][vision-api].|
+
+[vision-api]: https://cloud.google.com/vision/

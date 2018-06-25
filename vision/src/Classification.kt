@@ -1,3 +1,16 @@
+// Copyright 2018 Google Inc.
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//        http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 package com.google.kotlinvision;
 
 import com.google.cloud.vision.v1.AnnotateImageRequest;
@@ -11,7 +24,6 @@ import java.io.IOException
 import java.io.File
 
 fun main(args: Array<String>) {
-
     var requests = ArrayList<AnnotateImageRequest>()
     val imageFile = if (args.size == 0) {
         "./resources/doggo.jpg" // Image file path
@@ -20,7 +32,6 @@ fun main(args: Array<String>) {
     }
 
     val file = File(imageFile)
-
     if (!file.exists()) {
         throw NoSuchFileException(file = file, reason = "The file you specified does not exist")
     }
@@ -28,7 +39,6 @@ fun main(args: Array<String>) {
     var imgProto = ByteString.copyFrom(file.readBytes()) // Load image into proto buffer
 
     try {
-
         var vision = ImageAnnotatorClient.create() // Create an Image Annotator
         var img = Image.newBuilder().setContent(imgProto).build()
         var feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build() // Image builder
@@ -43,27 +53,22 @@ fun main(args: Array<String>) {
         var responses = response.getResponsesList()
 
         for (resp in responses) {
-
-            val respError: Boolean = resp.hasError()
-
-            if (respError) {
+            if (resp.hasError()) {
                 val errorOutputFormat = String.format("Error: %s\n", resp.getError().getMessage())
-                print(errorOutputFormat)
+                println(errorOutputFormat)
                 return
             }
 
             for (annotation in resp.getLabelAnnotationsList()) {
                 for ((k, v) in annotation.getAllFields()) {
-                    val annotationOutput = String.format("%s : %s\n", k, v.toString())
-                    print(annotationOutput)
+                    val annotationOutput = String.format("%s: %s", k.name, v.toString())
+                    println(annotationOutput)
                 }
+                println()
             }
         }
-
     } catch (e: IOException) {
-
-        print("Image Annotator failed to initialise")
-
+        println("Image annotation failed:")
+        println(e.message)
     }
-
 }
