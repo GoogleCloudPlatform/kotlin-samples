@@ -1,4 +1,4 @@
-# Google Vision Kotlin Sample Application
+# Google Cloud Vision Kotlin Sample
 
 [![Open in Cloud Shell][shell_img]][shell_link]
 
@@ -7,49 +7,56 @@
 
 ## Description
 
-This simple command-line application demonstrates how to invoke Google
-Vision API from Kotlin.
+This simple command-line application demonstrates how to invoke the [Google
+Cloud Vision API][vision-api-docs] from Kotlin.
 
 ## Build and Run
-1.  **Clone the repo** and cd into this directory
-```
-$ git clone https://github.com/GoogleCloudPlatform/kotlin-samples
-$ cd kotlin-samples/vision
-```
-2.  **Enable APIs** - [Enable the Vision API][enable-vision-api] and create a
-    new project or select an existing project.
 
-### Using the Command Line / Gradle
+### Setup
 
-To run the sample using the Command Line and [Gradle][gradle], follow these
-steps:
-
-1.  **Download The Credentials** - Click "Go to credentials" after enabling the
-    APIs. Click "New Credentials" and select "Service Account Key". Create a new
-    service account, use the JSON key type, and select "Create". Once
-    downloaded, set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to
-    the path of the JSON key that was downloaded.
+ * **Clone the repo** and cd into this directory:
+```sh
+git clone https://github.com/GoogleCloudPlatform/kotlin-samples
+cd kotlin-samples/vision
 ```
+
+ * **[Enable the Vision API][enable-vision-api]** and create a new project or
+select an existing project.
+
+### Authenticate
+
+ * **Download The Credentials** - Click ["Go to credentials"][create-creds]
+   after enabling the APIs. Click "Create Credentials" and select "Service
+   Account Key". Create a new service account, use the JSON key type, and select
+   "Create". Once downloaded, set the environment variable
+   `GOOGLE_APPLICATION_CREDENTIALS` to the path of the JSON key that was
+   downloaded.
+```sh
 GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account_credentials.json
 ```
-2.  **Install dependencies** Using the gradle build command.
-```
-gradle build
-```
-3.  Run the command!
+
+### Install Dependencies with Gradle
+
+ * **Build the project** using the gradle build command:
 ```sh
-# run with the default image file
+# run with "-info" flag to print potential errors
+./gradlew build -info
+```
+
+### Run the command!
+
+```sh
+# Call the Vision API with the default image file in "resources/doggo.jpg"
 java -jar build/libs/vision.jar
-# run with your own image file
+# Call the Vision API with your own image file
 java -jar build/libs/vision.jar path/to/your-image.jpg
 ```
 
-### Using IntelliJ
+## Using IntelliJ
 
-1. Install the [Cloud Tools for IntelliJ][cloud-tools-intellij] plugin.
-2. Authenticate Google Cloud with the IntelliJ plugin.
-3. Open this directory in IntelliJ.
-4. Build and run the sample.
+This sample can be run in IntelliJ. Install the
+[Cloud Tools for IntelliJ][cloud-tools-intellij] plugin, and open the gradle
+project.
 
 ## The client library
 
@@ -60,13 +67,18 @@ to [browse the source][google-cloud-java-source] and
 
 ## Troubleshooting
 
-If you get the error **Failed to detect whether we are running on Google Compute
-Engine** or **"The Application Default Credentials are not available"**, set the
-environment variable `GOOGLE_APPLICATION_CREDENTIALS` to a path to service
-account credentials.
+ * **"Failed to detect whether we are running on Google ComputeEngine"**
+ * **"The Application Default Credentials are not available"**
 
+If you get these errors, set the environment variable
+`GOOGLE_APPLICATION_CREDENTIALS` to a path to service account credentials. If
+you don't already have your service account credentials, you will need to
+[create them][create-creds].
+
+[vision-api-docs]: https://cloud.google.com/vision/
 [enable-vision-api]: https://console.cloud.google.com/flows/enableapi?apiid=vision.googleapis.com
 [gradle]: https://docs.gradle.org/current/userguide/installation.html
+[create-creds]: https://console.cloud.google.com/apis/credentials
 [cloud-tools-intellij]: https://cloud.google.com/tools/intellij/docs/
 [google-cloud-java]: https://googlecloudplatform.github.io/google-cloud-java
 [google-cloud-java-source]: https://github.com/GoogleCloudPlatform/google-cloud-java
