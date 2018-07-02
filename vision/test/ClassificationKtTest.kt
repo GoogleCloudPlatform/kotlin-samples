@@ -21,8 +21,8 @@ internal class ClassificationKtTest {
         /*
          * Pass the image to the Vision API, expect a non-error response.
          */
-        var args = arrayOf("./resources/doggo.jpg");
-        main(args);
+        val args = arrayOf("./resources/doggo.jpg")
+        main(args)
     }
 
     @Test(expected = NoSuchFileException::class)
@@ -30,7 +30,7 @@ internal class ClassificationKtTest {
         /*
          * Pass invalid image path to the Vision API, expect an exception.
          */
-        var args = arrayOf("does/not/exist.jpg")
+        val args = arrayOf("does/not/exist.jpg")
         main(args)
    }
 }
