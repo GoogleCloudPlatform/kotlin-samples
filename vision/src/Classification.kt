@@ -11,21 +11,20 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
-package com.google.kotlinvision;
-
-import com.google.cloud.vision.v1.AnnotateImageRequest;
-import com.google.cloud.vision.v1.Feature;
-import com.google.cloud.vision.v1.Feature.Type;
-import com.google.cloud.vision.v1.Image;
-import com.google.cloud.vision.v1.ImageAnnotatorClient;
-import com.google.protobuf.ByteString;
+package com.google.kotlinvision
+import com.google.cloud.vision.v1.AnnotateImageRequest
+import com.google.cloud.vision.v1.Feature
+import com.google.cloud.vision.v1.Feature.Type
+import com.google.cloud.vision.v1.Image
+import com.google.cloud.vision.v1.ImageAnnotatorClient
+import com.google.protobuf.ByteString
 
 import java.io.IOException
 import java.io.File
 
 fun main(args: Array<String>) {
-    var requests = ArrayList<AnnotateImageRequest>()
-    val imageFile = if (args.size == 0) {
+    val requests = ArrayList<AnnotateImageRequest>()
+    val imageFile = if (args.isEmpty()) {
         "./resources/doggo.jpg" // Image file path
     } else {
         args[0] // grab args[0] for file
@@ -36,31 +35,31 @@ fun main(args: Array<String>) {
         throw NoSuchFileException(file = file, reason = "The file you specified does not exist")
     }
 
-    var imgProto = ByteString.copyFrom(file.readBytes()) // Load image into proto buffer
+    val imgProto = ByteString.copyFrom(file.readBytes()) // Load image into proto buffer
 
     try {
-        var vision = ImageAnnotatorClient.create() // Create an Image Annotator
-        var img = Image.newBuilder().setContent(imgProto).build()
-        var feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build() // Image builder
-        var request = AnnotateImageRequest.newBuilder()
+        val vision = ImageAnnotatorClient.create() // Create an Image Annotator
+        val img = Image.newBuilder().setContent(imgProto).build()
+        val feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build() // Image builder
+        val request = AnnotateImageRequest.newBuilder()
                 .addFeatures(feat)
                 .setImage(img)
                 .build()
         requests.add(request)
 
         // Performs label detection on the image file
-        var response = vision.batchAnnotateImages(requests)
-        var responses = response.getResponsesList()
+        val response = vision.batchAnnotateImages(requests)
+        val responses = response.responsesList
 
         for (resp in responses) {
             if (resp.hasError()) {
-                val errorOutputFormat = String.format("Error: %s\n", resp.getError().getMessage())
+                val errorOutputFormat = String.format("Error: %s\n", resp.error.message)
                 println(errorOutputFormat)
                 return
             }
 
-            for (annotation in resp.getLabelAnnotationsList()) {
-                for ((k, v) in annotation.getAllFields()) {
+            for (annotation in resp.labelAnnotationsList) {
+                for ((k, v) in annotation.allFields) {
                     val annotationOutput = String.format("%s: %s", k.name, v.toString())
                     println(annotationOutput)
                 }
