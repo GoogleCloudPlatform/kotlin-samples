@@ -37,7 +37,8 @@ Cloud Vision API][vision-api-docs] to work, you must first setup **[authenticati
 
 ### Setting GOOGLE_APPLICATION_CREDENTIALS
 
-Set the environment variable **GOOGLE_APPLICATION_CREDENTIALS** to the path of the JSON file downloaded previously.
+To access the Google Cloud Vision API with the credentials you just created, you will need to set the environment variable **GOOGLE_APPLICATION_CREDENTIALS** to the path of the JSON file downloaded previously.
+
 **Note:** This variable only applies to your current shell session, so if you open a new session, set the variable again.
 
 * Linux or macOS: 
