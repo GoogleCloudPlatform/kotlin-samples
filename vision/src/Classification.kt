@@ -12,6 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 package com.google.kotlinvision
+
 import com.google.cloud.vision.v1.AnnotateImageRequest
 import com.google.cloud.vision.v1.Feature
 import com.google.cloud.vision.v1.Feature.Type
@@ -45,6 +46,7 @@ fun main(args: Array<String>) {
                 .addFeatures(feat)
                 .setImage(img)
                 .build()
+
         requests.add(request)
 
         // Performs label detection on the image file
@@ -53,15 +55,13 @@ fun main(args: Array<String>) {
 
         for (resp in responses) {
             if (resp.hasError()) {
-                val errorOutputFormat = String.format("Error: %s\n", resp.error.message)
-                println(errorOutputFormat)
+                println("Error: ${resp.error.message}")
                 return
             }
 
             for (annotation in resp.labelAnnotationsList) {
                 for ((k, v) in annotation.allFields) {
-                    val annotationOutput = String.format("%s: %s", k.name, v.toString())
-                    println(annotationOutput)
+                    println("${k.name}: $v")
                 }
                 println()
             }
