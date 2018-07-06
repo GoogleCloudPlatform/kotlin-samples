@@ -93,8 +93,6 @@ to [browse the source][google-cloud-java-source] and
  * **"Failed to detect whether we are running on Google ComputeEngine"**; **"The Application Default Credentials are not available"**: If you get these errors, make sure you set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to a path to your service account credentials. If you don't already have service account credentials, you will need to
 [create them][create-creds]. 
 
-   **Note: Sometimes the system will only recognize the newly set environment variable after you restart your computer (Windows).**
-
  * If you get any **"Permission denied"** error, make sure you enabled billing for your Google Cloud project. 
  
  * **IntelliJ:** If you get this error: *"...the provided plugin org.jetbrains.kotlin.scripting.compiler.plugin.Scripting CompilerConfiguration ComponentRegistrar is not compatible with this version of compiler"*, **manually update your IDE Kotlin Plugin**.
