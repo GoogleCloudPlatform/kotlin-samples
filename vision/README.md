@@ -96,6 +96,8 @@ to [browse the source][google-cloud-java-source] and
  * If you get any **"Permission denied"** error, make sure you enabled billing for your Google Cloud project. 
  
  * **IntelliJ:** If you get this error: *"...the provided plugin org.jetbrains.kotlin.scripting.compiler.plugin.Scripting CompilerConfiguration ComponentRegistrar is not compatible with this version of compiler"*, **manually update your IDE Kotlin Plugin**.
+ 
+ * **IntelliJ:** If you get *"The project is not backed up by gradle"* or *"couldn't find jdk"* errors, make sure you set Gradle home path correctly -> [How to set Gradle home in IntelliJ](https://www.jetbrains.com/help/idea/gradle-settings.html).
 
 [vision-api-docs]: https://cloud.google.com/vision/
 [enable-vision-api]: https://console.cloud.google.com/flows/enableapi?apiid=vision.googleapis.com
