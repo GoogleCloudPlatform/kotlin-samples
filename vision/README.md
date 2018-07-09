@@ -27,7 +27,7 @@ Follow this **[link][enable-vision-api]** to enable the **Cloud Vision API** wit
 For the [Google
 Cloud Vision API][vision-api-docs] to work, you must first setup **[authentication](https://cloud.google.com/docs/authentication/production)** by creating a service account key.
 
-1. After enabling the Cloud Vision API, ["Go to credentials"][create-creds] to create a new credential.
+1. After enabling the Cloud Vision API, [Go to credentials][create-creds] and click **Create credentials**.
 2. From the **Create credentials** drop-down list, select **Service account key**.
 3. From the **Service account** drop-down list, select **New service account**.
 4. Choose a name for your Service account.
@@ -90,14 +90,14 @@ to [browse the source][google-cloud-java-source] and
 [report issues][google-cloud-java-issues].
 
 ## Troubleshooting
+ * **"Failed to detect whether we are running on Google ComputeEngine"**; **"The Application Default Credentials are not available"**: If you get these errors, make sure you set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to a path to your service account credentials. If you don't already have service account credentials, you will need to
+[create them][create-creds]. 
 
- * **"Failed to detect whether we are running on Google ComputeEngine"**
- * **"The Application Default Credentials are not available"**
-
-If you get these errors, set the environment variable
-`GOOGLE_APPLICATION_CREDENTIALS` to a path to service account credentials. If
-you don't already have your service account credentials, you will need to
-[create them][create-creds].
+ * If you get any **"Permission denied"** error, make sure you enabled billing for your Google Cloud project. 
+ 
+ * **IntelliJ:** If you get this error: *"...the provided plugin org.jetbrains.kotlin.scripting.compiler.plugin.Scripting CompilerConfiguration ComponentRegistrar is not compatible with this version of compiler"*, **manually update your IDE Kotlin Plugin**.
+ 
+ * **IntelliJ:** If you get *"The project is not backed up by gradle"* or *"couldn't find jdk"* errors, make sure you set Gradle home path correctly -> [How to set Gradle home in IntelliJ](https://www.jetbrains.com/help/idea/gradle-settings.html).
 
 [vision-api-docs]: https://cloud.google.com/vision/
 [enable-vision-api]: https://console.cloud.google.com/flows/enableapi?apiid=vision.googleapis.com
