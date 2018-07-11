@@ -52,7 +52,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account_key.json
    ```
    With PowerShell:
    ```sh
-   $env:GOOGLE_APPLICATION_CREDENTIALS= /path/to/service_account_key.json
+   $env:GOOGLE_APPLICATION_CREDENTIALS= "/path/to/service_account_key.json"
    ```
 ### Cloning the repository
 ```sh
