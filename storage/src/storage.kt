@@ -173,7 +173,6 @@ fun main(vararg args: String) {
         else -> {
             val actionArgs = Arrays.copyOfRange(args, 1, args.size)
             actions[args[0]]?.invoke(actionArgs)
-            return
         }
     }
 }
