@@ -135,6 +135,8 @@ Deletes a bucket or a blob
   java -jar build/libs/storage.jar delete <bucket> <blob>
   ```
 
+Head to [storageTest.kt][test/storageTest.kt] to see actual tests.
+
 ## Using IntelliJ IDE
 
 Follow instructions [here](https://www.jetbrains.com/help/idea/gradle.html) to import the project with the Gradle model by locating the **build.gradle** file.
