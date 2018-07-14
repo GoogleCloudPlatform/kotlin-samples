@@ -23,7 +23,7 @@ package com.google.storage
  *
  *  create <bucket> |
  *  info [<bucket>] |
- *  upload <localFilePath> <bucket> <blob> |
+ *  upload <localFilePath> <bucket> [<blob>] |
  *  download <bucket> <blob> <localFilePath> |
  *  delete <bucket> [<blob>] |
  *
@@ -54,14 +54,14 @@ The input to the program can be any of the below commands:
 
 -  create <bucket> |
 -  info [<bucket>] |
--  upload <localFilePath> <bucket> <blob> |
+-  upload <localFilePath> <bucket> [<blob>] |
 -  download <bucket> <blob> <localFilePath> |
 -  delete <bucket> [<blob>]
 """
 
 fun createBucket(vararg params: String) { // 1 arg expected: <bucket>
     if (params.isEmpty()) {
-        error("Bad input: command 'create' expects 1 mandatory argument <bucket>. $usage")
+        error("Bad input: command 'create' expects 1 mandatory argument <bucket>. \n $usage")
     }
 
     val bucketName = params[0]
@@ -72,10 +72,10 @@ fun createBucket(vararg params: String) { // 1 arg expected: <bucket>
 fun info(vararg params: String) { // 1 optional arg expected: [<bucket>]
     if (params.isEmpty()) { // No arg provided => Storage Info => List all buckets in storage
         if (storage.list().iterateAll().count() == 0) {
-            println("Looks like your storage is empty. You can create a bucket with the 'create' command. $usage")
+            println("Looks like your storage is empty. You can create a bucket with the 'create' command. \n $usage")
             return
         }
-        println("Listing all buckets in your storage:")
+        println("Listing all buckets in your storage: \n")
         for (bucket in storage.list().iterateAll()) {
             println(bucket.name)
         }
@@ -85,31 +85,31 @@ fun info(vararg params: String) { // 1 optional arg expected: [<bucket>]
     // 1 optional arg provided: <bucket> => Bucket Info => List all blobs in <bucket>
     val bucketName = params[0]
     val bucket = storage.get(bucketName)
-            ?: error("Bucket $bucketName does not exist. You can create a new bucket with the command 'create <bucket>'. $usage")
+            ?: error("Bucket $bucketName does not exist. You can create a new bucket with the command 'create <bucket>'. \n $usage")
 
     if (bucket.list().iterateAll().count() == 0) {
-        println("Looks like your bucket is empty. You can upload blobs to your bucket with the 'upload' command. $usage")
+        println("Looks like your bucket is empty. You can upload blobs to your bucket with the 'upload' command. \n $usage")
         return
     }
 
-    println("Listing all blobs in bucket $bucketName:")
+    println("Listing all blobs in bucket $bucketName: \n")
     for (blob in bucket.list().iterateAll()) {
         println("Name: ${blob.name} \t Content Type: ${blob.contentType} \t Size: ${blob.size}")
     }
 }
 
-fun upload(vararg params: String) { // 3 mandatory args expected: <localFilePath> <bucket> <blob>
-    if (params.size < 3) {
-        error("Bad input: command 'upload' expects 3 mandatory arguments. $usage")
+fun upload(vararg params: String) { // 2 mandatory and 1 optional args expected: <localFilePath> <bucket> [<blob>]
+    if (params.size < 2) {
+        error("Bad input: command 'upload' expects 3 mandatory arguments. \n $usage")
     }
 
     val localFilePath = params[0]
-    val bucketName = params[1]
-    val blobName = params[2]
-
     val file = Paths.get(localFilePath)
+    val bucketName = params[1]
+    val blobName = if (params.size == 2) file.fileName.toString() else params[2]
+
     val bucket = storage.get(bucketName)
-            ?: error("Bucket $bucketName does not exist. You can create a new bucket with the command 'create <bucket>'. $usage")
+            ?: error("Bucket $bucketName does not exist. You can create a new bucket with the command 'create <bucket>'. \n $usage")
 
     bucket.create(blobName, Files.readAllBytes(file))
     println("$blobName was successfully uploaded to bucket $bucketName.")
@@ -117,16 +117,16 @@ fun upload(vararg params: String) { // 3 mandatory args expected: <localFilePath
 
 fun download(vararg params: String) { // 3 mandatory args expected: <bucket> <blob> <localFilePath>
     if (params.size < 3) {
-        error("Bad input: command 'download' expects 3 mandatory arguments. $usage")
+        error("Bad input: command 'download' expects 3 mandatory arguments. \n $usage")
     }
 
     val bucketName = params[0]
     val bucket = storage.get(bucketName)
-            ?: error("Bucket $bucketName does not exist! To see your existing buckets, use command 'info'. $usage")
+            ?: error("Bucket $bucketName does not exist! To see your existing buckets, use command 'info'. \n $usage")
 
     val blobName = params[1]
     val blob = bucket.get(blobName)
-            ?: error("Blob $blobName does not exist! To see blobs in bucket $bucketName, use command 'info $bucketName'. $usage")
+            ?: error("Blob $blobName does not exist! To see blobs in bucket $bucketName, use command 'info $bucketName'. \n $usage")
 
     val localFilePath = Paths.get(params[2])
     val writeTo = PrintStream(FileOutputStream(localFilePath.toFile()))
@@ -138,7 +138,7 @@ fun download(vararg params: String) { // 3 mandatory args expected: <bucket> <bl
 fun delete(vararg params: String) { // 1 mandatory and 1 optional args expected: <bucket> [<blob>]
     val bucketName = params[0]
     val bucket = storage.get(bucketName)
-            ?: error("Bucket $bucketName does not exist! To see your existing buckets, use command 'info'. $usage")
+            ?: error("Bucket $bucketName does not exist! To see your existing buckets, use command 'info'. \n $usage")
 
     if (params.size == 1) { // 1 arg provided => Delete Bucket <bucket>
 
@@ -154,7 +154,7 @@ fun delete(vararg params: String) { // 1 mandatory and 1 optional args expected:
     // 2 args provided (<bucket> and <blob>) => Delete Blob <blob> of Bucket <bucket>
     val blobName = params[1]
     val blob = bucket.get(blobName)
-            ?: error("Blob $blobName does not exist! To see blobs in bucket $bucketName, use command 'info $bucketName'. $usage")
+            ?: error("Blob $blobName does not exist! To see blobs in bucket $bucketName, use command 'info $bucketName'. \n $usage")
 
     blob.delete()
     println("Blob $blobName was successfully deleted from bucket $bucketName.")
@@ -162,15 +162,13 @@ fun delete(vararg params: String) { // 1 mandatory and 1 optional args expected:
 
 fun main(vararg args: String) {
     when {
-        args.isEmpty() -> {
-            error("Command incomplete: Please provide the action to execute and its arguments! $usage")
-        }
+        args.isEmpty() -> error("Command incomplete: please provide the action to execute and its arguments! \n $usage")
 
         args[0] == "usage" -> println(usage)
 
-        !actions.containsKey(args[0]) -> error("Bad command: action not found! $usage")
+        !actions.containsKey(args[0]) -> error("Bad command: action not found! \n $usage")
 
-        args.size == 1 && args[0] != "info" -> error("Bad command: missing arguments! $usage")
+        args.size == 1 && args[0] != "info" -> error("Bad command: missing arguments! \n $usage")
 
         else -> {
             val actionArgs = Arrays.copyOfRange(args, 1, args.size)

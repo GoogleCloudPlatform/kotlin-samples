@@ -16,42 +16,74 @@
 
 import org.junit.Test
 import com.google.storage.*
+import org.junit.FixMethodOrder
+import org.junit.runners.MethodSorters
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 internal class StorageTest {
 
     @Test(expected = IllegalStateException::class)
-    fun createWithoutBucketName() {
-        main("create")
-    }
-
-    @Test(expected = IllegalStateException::class)
-    fun badActionName() {
-        main("feedMyDog")
-    }
-
-    /*@Test
-    fun infoStorage() {
-        main("info")
-    }*/
-
-    @Test(expected = IllegalStateException::class)
-    fun infoBucketNameNotExist() {
-        main("info", "i_bet_you_dont_have_a_bucket_with_this_name")
-    }
-
-    /*@Test
-    fun infoBucket() {
-        main("info", "wdfffdgttvr843")
-    }*/
-
-    @Test(expected = IllegalStateException::class)
-    fun mainNoArgTest() {
+    fun t01_mainNoArgTest() {
         main()
     }
 
+    @Test(expected = IllegalStateException::class)
+    fun t02_badActionName() {
+        main("feedMyDog")
+    }
 
-    /*@Test
-    fun createBucket() {
+    @Test
+    fun t03_usage() {
+        main("usage")
+    }
+
+    @Test(expected = IllegalStateException::class)
+    fun t04_createWithoutBucketName() {
+        main("create")
+    }
+
+    @Test
+    fun t05_createBucket() {
         main("create", "my_kotlin_sample_bucket_001")
-    }*/
+    }
+
+    @Test
+    fun t06_infoStorage() {
+        main("info")
+    }
+
+    @Test(expected = IllegalStateException::class)
+    fun t07_infoBucketNameNotExist() {
+        main("info", "i_bet_you_dont_have_a_bucket_with_this_name")
+    }
+
+    @Test
+    fun t08_infoBucket() {
+        main("info", "my_kotlin_sample_bucket_001")
+    }
+
+    @Test
+    fun t09_upload() {
+        main("upload", "resources/upload/dog1.jpg", "my_kotlin_sample_bucket_001", "dog.jpg")
+    }
+
+    @Test
+    fun t10_uploadNoBlobName() {
+        main("upload", "resources/upload/dog1.jpg", "my_kotlin_sample_bucket_001")
+    }
+
+    @Test
+    fun t11_download() {
+        main("download", "my_kotlin_sample_bucket_001", "dog.jpg", "resources/download/dogPic.jpg")
+    }
+
+    @Test
+    fun t12_deleteBlob() {
+        main("delete", "my_kotlin_sample_bucket_001", "dog.jpg")
+    }
+
+    @Test
+    fun t13_deleteBucket() {
+        main("delete", "my_kotlin_sample_bucket_001")
+    }
 }
