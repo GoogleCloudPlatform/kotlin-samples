@@ -24,7 +24,7 @@ Examples:
 java -jar build/libs/storage.jar create my_awesome_bucket
 ```
 ```sh 
-java -jar build/libs/storage.jar upload resources/upload/dog1.jpg my_awesome_bucket dog.jpg
+java -jar build/libs/storage.jar upload resources/upload/dog1.jpg my_awesome_bucket
 ```
 
 ## Project Setup
@@ -106,15 +106,17 @@ Gives details about a bucket or a blob
   ```sh 
   java -jar build/libs/storage.jar info <bucket>
   ```
- 
 ### upload
  
 Uploads a file to a bucket
-```sh 
-java -jar build/libs/storage.jar upload <localFilePath> <bucket> <blob>
-```
-Where **blob** is the name you wish to give the file in the bucket.
-  
+*  Letting the program infer blob name from **localFilePath**
+   ```sh 
+   java -jar build/libs/storage.jar upload <localFilePath> <bucket>
+   ```
+*  Providing blob name
+   ```sh 
+   java -jar build/libs/storage.jar upload <localFilePath> <bucket> <blob>
+   ```  
 ### download
 
 Downloads a blob from a bucket to your computer
