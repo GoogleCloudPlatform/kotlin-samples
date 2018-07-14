@@ -135,7 +135,7 @@ Deletes a bucket or a blob
   java -jar build/libs/storage.jar delete <bucket> <blob>
   ```
 
-Head to [storageTest.kt][test/storageTest.kt] to see actual tests.
+Head to [storageTest.kt][storage-sample-test] to see actual tests.
 
 ## Using IntelliJ IDE
 
@@ -156,6 +156,7 @@ to [browse the source][google-cloud-java-source] and
  
  * **IntelliJ:** If you get this error: *"...the provided plugin org.jetbrains.kotlin.scripting.compiler.plugin.Scripting CompilerConfiguration ComponentRegistrar is not compatible with this version of compiler"*, **manually update your IDE Kotlin Plugin**.
 
+[storage-sample-test]: test/storageTest.kt
 [storage-api-docs]: https://cloud.google.com/storage/
 [enable-storage-api]: https://console.cloud.google.com/flows/enableapi?apiid=storage.googleapis.com
 [gradle]: https://docs.gradle.org/current/userguide/installation.html
