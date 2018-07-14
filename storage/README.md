@@ -135,6 +135,7 @@ Deletes a bucket or a blob
   java -jar build/libs/storage.jar delete <bucket> <blob>
   ```
 
+
 Head to [storageTest.kt][storage-sample-test] to see actual tests.
 
 ## Using IntelliJ IDE
