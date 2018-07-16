@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 import org.junit.Test
-import com.google.kotlinvision.*
+import com.google.kotlinvision.main
 
 internal class ClassificationKtTest {
 
@@ -32,5 +32,5 @@ internal class ClassificationKtTest {
          */
         val args = arrayOf("does/not/exist.jpg")
         main(args)
-   }
+    }
 }
