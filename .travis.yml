@@ -15,6 +15,6 @@ script:
   - |
     for DIR in ./*/; do
       pushd $DIR
-      ./gradlew test
+      ./gradlew test --console=plain
       popd
     done
