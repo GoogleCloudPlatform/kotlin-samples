@@ -1,0 +1,28 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+branches:
+  only:
+    - master
+
+env:
+  - GOOGLE_APPLICATION_CREDENTIALS=$HOME/credentials.json
+
+install:
+  # Set Google Cloud credentials to a file
+  - echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $HOME/credentials.json
+  # Install ktlint for code style checking
+  - curl -sSLO https://github.com/shyiko/ktlint/releases/download/0.24.0/ktlint && chmod a+x ktlint
+
+script:
+  # Run the linter
+  - ./ktlint "**/*.kt"
+  # Run all tests in all sample directories
+  - |
+    for DIR in ./*/; do
+      pushd $DIR
+      ./gradlew test --console=plain
+      popd
+    done
