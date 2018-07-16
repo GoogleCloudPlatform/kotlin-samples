@@ -13,13 +13,16 @@
 //  limitations under the License.
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.51'
+    id 'org.jetbrains.kotlin.jvm' version "1.2.51"
+    id "org.jlleitschuh.gradle.ktlint" version "4.1.0"
 }
-
-version ''
 
 repositories {
     mavenCentral()
+
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
 }
 
 sourceSets {
@@ -30,8 +33,11 @@ sourceSets {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
     compile "com.google.cloud:google-cloud-storage:1.36.0"
+    compileClasspath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:4.1.0"
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: "org.jlleitschuh.gradle.ktlint"
 
 jar {
     manifest {

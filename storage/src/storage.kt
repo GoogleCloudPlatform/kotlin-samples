@@ -31,13 +31,14 @@ package com.google.storage
  *  Each action has specific arguments
  */
 
-import com.google.cloud.storage.*
+import com.google.cloud.storage.BucketInfo
+import com.google.cloud.storage.Storage
+import com.google.cloud.storage.StorageOptions
 import java.io.FileOutputStream
 import java.io.PrintStream
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.*
-
+import java.util.Arrays.copyOfRange
 
 val storage: Storage = StorageOptions.getDefaultInstance().service
 
@@ -171,7 +172,7 @@ fun main(vararg args: String) {
         args.size == 1 && args[0] != "info" -> error("Bad command: missing arguments! \n $usage")
 
         else -> {
-            val actionArgs = Arrays.copyOfRange(args, 1, args.size)
+            val actionArgs = copyOfRange(args, 1, args.size)
             actions[args[0]]?.invoke(actionArgs)
         }
     }

@@ -24,7 +24,7 @@ Examples:
 java -jar build/libs/storage.jar create my_awesome_bucket
 ```
 ```sh 
-java -jar build/libs/storage.jar upload resources/upload/dog1.jpg my_awesome_bucket
+java -jar build/libs/storage.jar upload resources/upload/dog.jpg my_awesome_bucket
 ```
 
 ## Project Setup
