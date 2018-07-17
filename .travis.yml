@@ -23,6 +23,6 @@ script:
   - |
     for DIR in ./*/; do
       pushd $DIR
-      ./gradlew test --console=plain
+      ./gradlew test --console=plain --info
       popd
     done
