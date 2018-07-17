@@ -23,7 +23,9 @@ import org.junit.runners.MethodSorters
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 internal class StorageTest {
 
-    private val timeStamp = Timestamp.now().seconds
+    companion object {
+        private val timestamp = Timestamp.now().seconds
+    }
 
     @Test(expected = IllegalStateException::class)
     fun t01_mainNoArgTest() {
@@ -47,7 +49,7 @@ internal class StorageTest {
 
     @Test
     fun t05_createBucket() {
-        main("create", "my_kotlin_sample_bucket_$timeStamp")
+        main("create", "my_kotlin_sample_bucket_$timestamp")
     }
 
     @Test
@@ -60,33 +62,32 @@ internal class StorageTest {
         main("info", "i_bet_you_do_not_have_a_bucket_with_this_name")
     }
 
-    @Test
     fun t08_infoBucket() {
-        main("info", "my_kotlin_sample_bucket_$timeStamp")
+        main("info", "my_kotlin_sample_bucket_$timestamp")
     }
 
     @Test
     fun t09_upload() {
-        main("upload", "resources/upload/dog.jpg", "my_kotlin_sample_bucket_$timeStamp", "dog.jpg")
+        main("upload", "resources/upload/dog.jpg", "my_kotlin_sample_bucket_$timestamp", "dog.jpg")
     }
 
     @Test
     fun t10_uploadNoBlobName() {
-        main("upload", "resources/upload/dog.jpg", "my_kotlin_sample_bucket_$timeStamp")
+        main("upload", "resources/upload/dog.jpg", "my_kotlin_sample_bucket_$timestamp")
     }
 
     @Test
     fun t11_download() {
-        main("download", "my_kotlin_sample_bucket_$timeStamp", "dog.jpg", "resources/dog-downloaded.jpg")
+        main("download", "my_kotlin_sample_bucket_$timestamp", "dog.jpg", "resources/dog-downloaded.jpg")
     }
 
     @Test
     fun t12_deleteBlob() {
-        main("delete", "my_kotlin_sample_bucket_$timeStamp", "dog.jpg")
+        main("delete", "my_kotlin_sample_bucket_$timestamp", "dog.jpg")
     }
 
     @Test
     fun t13_deleteBucket() {
-        main("delete", "my_kotlin_sample_bucket_$timeStamp")
+        main("delete", "my_kotlin_sample_bucket_$timestamp")
     }
 }
