@@ -24,7 +24,7 @@ import org.junit.runners.MethodSorters
 internal class StorageTest {
 
     companion object {
-        private val timestamp = Timestamp.now().seconds
+        val timestamp = Timestamp.now().seconds
     }
 
     @Test(expected = IllegalStateException::class)
