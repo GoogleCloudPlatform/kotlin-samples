@@ -21,6 +21,7 @@ script:
   - ./ktlint "**/*.kt"
   # Run all tests in all sample directories
   - |
+    set -e
     for DIR in ./*/; do
       pushd $DIR
       ./gradlew test --console=plain --info
