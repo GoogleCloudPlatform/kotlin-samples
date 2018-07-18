@@ -139,8 +139,7 @@ Deletes a bucket or a blob
 Head to [storageTest.kt][storage-sample-test] to see actual tests.
 
 ## Using IntelliJ IDE
-
-Follow instructions [here](https://www.jetbrains.com/help/idea/gradle.html) to import the project with the Gradle model by locating the **build.gradle** file.
+You can simply **open** the project in IntelliJ.
 
 ## The client library
 
