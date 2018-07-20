@@ -42,7 +42,7 @@ Cloud Storage API][storage-api-docs] to work, you must first setup **[authentica
 2. From the **Create credentials** drop-down list, select **Service account key**.
 3. From the **Service account** drop-down list, select **New service account**.
 4. Choose a name for your Service account.
-4. Select an appropriate role for your service account (the sample should work even when no role is set).
+4. Select an appropriate role for your service account (this sample requires Storage Admin role).
 5. Select **JSON** Key type and click **Create**. Note: if you didn't select any role, a warning will appear. In this case, click **Create without role**.
 6. A JSON file that contains your credentials will be **downloaded to your computer**.
 
