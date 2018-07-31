@@ -23,6 +23,6 @@ Code in this repository is licensed under the Apache 2.0. See [LICENSE](LICENSE)
 |[vision](vision)|**Samples**: Basic examples for using [Google Cloud Vision API][vision-api].|
 
 [appengine]: https://cloud.google.com/appengine/docs/standard/java/runtime-java8
-[storage-api]: https://cloud.google.com/vision/
-[vision-api]: https://cloud.google.com/storage/
+[storage-api]: https://cloud.google.com/storage/
+[vision-api]: https://cloud.google.com/vision/
 
