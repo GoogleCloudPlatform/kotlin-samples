@@ -18,6 +18,11 @@ Code in this repository is licensed under the Apache 2.0. See [LICENSE](LICENSE)
 
 |Path|Description|
 |---|---|
+|[appengine](appengine)|**Samples**: Examples for deploying Kotlin applications to [App Engine for Java 8][appengine].|
+|[storage](storage)|**Samples**: Basic examples for using [Google Cloud Storage API][storage-api].|
 |[vision](vision)|**Samples**: Basic examples for using [Google Cloud Vision API][vision-api].|
 
+[appengine]: https://cloud.google.com/appengine/docs/standard/java/runtime-java8
+[storage-api]: https://cloud.google.com/storage/
 [vision-api]: https://cloud.google.com/vision/
+

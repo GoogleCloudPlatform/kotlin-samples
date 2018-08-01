@@ -23,7 +23,9 @@ script:
   - |
     set -e
     for DIR in ./*/; do
-      pushd $DIR
-      ./gradlew test --console=plain --info
-      popd
+      if [ -f $DIR/gradlew ]; then
+        pushd $DIR
+        ./gradlew test --console=plain --info
+        popd
+      fi
     done
