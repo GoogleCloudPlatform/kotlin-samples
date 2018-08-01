@@ -3,10 +3,6 @@ language: java
 jdk:
   - oraclejdk8
 
-branches:
-  only:
-    - master
-
 env:
   - GOOGLE_APPLICATION_CREDENTIALS=$HOME/credentials.json
 
