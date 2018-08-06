@@ -107,7 +107,7 @@ class EmojifyController {
         // Calls vision api on above image annotation requests
         val response = vision.batchAnnotateImages(requests)
         val responses = response.responsesList
-        var output = "" //kind of log
+        var output = "" // kind of log
 
         for (resp in responses) {
             if (resp.hasError()) {
@@ -159,7 +159,7 @@ class EmojifyController {
             // Making it public
             blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))
         }
-        output +="Done!"
+        output += "Done!"
         // Everything went well; we can return the public url!
         return publicUrl
     }

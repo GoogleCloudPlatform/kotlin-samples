@@ -24,5 +24,5 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 class Application : SpringBootServletInitializer()
 
 fun main(args: Array<String>) {
-	SpringApplication.run(Application::class.java, *args)
+    SpringApplication.run(Application::class.java, *args)
 }
