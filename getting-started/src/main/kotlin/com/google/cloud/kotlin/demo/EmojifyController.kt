@@ -39,7 +39,7 @@ import javax.imageio.ImageIO
 import java.util.logging.Logger
 
 val storage: Storage = StorageOptions.getDefaultInstance().service
-val bucket = storage.get("cloud-kotlin-samples")
+val bucket = storage.get(System.getenv("GOOGLE_STORAGE_BUCKET"))
 
 const val RESOURCES_PATH = "resources/"
 const val EMOJIS_PATH = RESOURCES_PATH + "emojis/"
@@ -66,9 +66,9 @@ fun bestEmoji(annotation: FaceAnnotation): Emoji {
         Emoji.SORROW to annotation.sorrowLikelihood
     )
 
-    for (emotionLikelihood in emotionsLikelihood) {
-        for (emotion in emotions) {
-            if (emotion.value == emotionLikelihood) return emotion.key
+    for (likelihood in emotionsLikelihood) { // In this order: VERY_LIKELY, LIKELY, POSSIBLE
+        for (emotion in emotions) { // In this order: JOY, ANGER, SURPRISE, SORROW
+            if (emotion.value == likelihood) return emotion.key // Returns emotion corresponding to likelihood
         }
     }
     return Emoji.NONE
@@ -83,7 +83,8 @@ fun downloadObject(objectName: String) {
     writeTo.close()
 }
 
-data class EmojifyResponse(val url: String)
+class GcsObject(val bucketName: String, val blobName: String)
+class EmojifyResponse(val original: GcsObject, val emojified: GcsObject, val emojifiedUrl: String)
 
 @RestController
 class EmojifyController {
@@ -92,7 +93,7 @@ class EmojifyController {
 
         var publicUrl: String =
             "https://storage.googleapis.com/${bucket.name}/emojified/emojified-$objectName" // api response
-        val log = Logger.getLogger(EmojifyController::class.java!!.name)
+        val log = Logger.getLogger(Application::class.java.name)
 
         // Setting up image annotation request
         val requests = ArrayList<AnnotateImageRequest>()
@@ -109,6 +110,7 @@ class EmojifyController {
 
         // Calls vision api on above image annotation requests
         val response = vision.batchAnnotateImages(requests)
+        vision.close()
 
         for (resp in response.responsesList) {
             if (resp.hasError()) {
@@ -155,6 +157,10 @@ class EmojifyController {
             blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))
         }
         // Everything went well; we can return the public url!
-        return EmojifyResponse(publicUrl)
+        return EmojifyResponse(
+            GcsObject(bucket.name, objectName),
+            GcsObject(bucket.name, "emojified/emojified-$objectName"),
+            publicUrl
+        )
     }
 }

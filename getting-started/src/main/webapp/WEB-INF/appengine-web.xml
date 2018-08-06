@@ -17,4 +17,8 @@ limitations under the License.
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
+
+    <env-variables>
+        <env-var name="GOOGLE_STORAGE_BUCKET" value="cloud-kotlin-samples" />
+    </env-variables>
 </appengine-web-app>
