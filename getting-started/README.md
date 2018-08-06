@@ -1,4 +1,4 @@
-App Engine Getting Started Kotlin application
+App Engine Getting Started Kotlin application: Emojify Backend
 ===
 
 ## Sample SpringBoot application written in Kotlin for use with App Engine Java8 Standard.
@@ -14,6 +14,20 @@ detailed instructions.
 * [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * [Maven](https://maven.apache.org/download.cgi) (at least 3.5)
 * [Google Cloud SDK](https://cloud.google.com/sdk/) (aka gcloud command line tool)
+
+## About the sample
+This sample emojifies an input image by swapping faces detected on the image with emojis corresponding to predicted emotions on the faces. Face dectection is performed via [Cloud Vision API](https://cloud.google.com/vision).
+
+This backend acts as a cloud endpoint:
+
+* Input: **objectName** (String). Corresponds to an image in **gs://cloud-kotlin-samples** (bucket editable in source code)
+* Output: a String corresponding to the **public url** of the emojified image
+
+## Live demo
+
+Backend endpoint: [https://cloud-kotlin-samples.appspot.com/emojify](https://cloud-kotlin-samples.appspot.com/emojify)
+
+Example of call: https://cloud-kotlin-samples.appspot.com/emojify?objectName=engineers.png
 
 ## Setup
 
