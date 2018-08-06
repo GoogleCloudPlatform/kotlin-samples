@@ -82,8 +82,8 @@ class EmojifyController {
     @GetMapping("/emojify")
     fun emojify(@RequestParam(value = "objectName") objectName: String): String {
 
-        var result:String =
-            "https://storage.googleapis.com/${bucket.name}/emojified/emojified-$objectName" //public url to return
+        var publicUrl:String =
+            "https://storage.googleapis.com/${bucket.name}/emojified/emojified-$objectName" // api response
 
         val requests = ArrayList<AnnotateImageRequest>()
         //Setting up image annotation request
@@ -154,7 +154,7 @@ class EmojifyController {
             blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))
         }
         output+="Done!"
-        //Everything went well; we can return the url!
-        return result
+        //Everything went well; we can return the public url!
+        return publicUrl
     }
 }
