@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jetbrains.kotlin.demo
+package com.google.cloud.kotlin.demo
 
 import com.google.cloud.storage.Acl
 import com.google.cloud.storage.Storage
@@ -50,7 +50,7 @@ val emojiPic = mapOf(
     Emoji.NONE to "none.png"
 )
 
-//Returns best emojis based on detected emotions likelihoods
+//Returns best emoji based on detected emotions likelihoods
 fun bestEmoji(annotation: FaceAnnotation): Emoji {
     val emotionsLikelihood: Array<Likelihood> = arrayOf(Likelihood.VERY_LIKELY, Likelihood.LIKELY, Likelihood.POSSIBLE)
     val emotions = mapOf(
@@ -140,7 +140,6 @@ class EmojifyController {
                 output += "${poly.xpoints[0]}, ${poly.ypoints[0]}, ${poly.xpoints[1]}, ${poly.ypoints[2]}"
                 val height = poly.ypoints[2] - poly.ypoints[0]
                 val width = poly.xpoints[1] - poly.xpoints[0]
-
                 //Draws emoji on detected face
                 gfx.drawImage(imgEmoji, poly.xpoints[0], poly.ypoints[1], height, width, null)
             }

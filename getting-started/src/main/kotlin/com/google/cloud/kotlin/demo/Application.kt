@@ -1,5 +1,5 @@
 // See https://github.com/JetBrains/kotlin-examples/blob/master/LICENSE
-package org.jetbrains.kotlin.demo
+package com.google.cloud.kotlin.demo
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
