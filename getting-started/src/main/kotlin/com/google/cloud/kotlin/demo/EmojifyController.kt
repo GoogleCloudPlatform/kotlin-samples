@@ -125,7 +125,7 @@ class EmojifyController {
                 val emoji = bestEmoji(annotation)
                 val imgEmoji = ImageIO.read(Paths.get(EMOJIS_PATH + emojiPic[emoji]).toFile())
 
-               log.info("""
+                log.info("""
                     joy: ${annotation.joyLikelihood}
                     anger: ${annotation.angerLikelihood}
                     surprise: ${annotation.surpriseLikelihood}
