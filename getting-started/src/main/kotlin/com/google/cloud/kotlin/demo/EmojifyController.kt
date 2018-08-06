@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google Inc.
+ * Copyright 2018 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,13 @@ package com.google.cloud.kotlin.demo
 import com.google.cloud.storage.Acl
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
-import com.google.cloud.vision.v1.*
+import com.google.cloud.vision.v1.Likelihood
+import com.google.cloud.vision.v1.FaceAnnotation
+import com.google.cloud.vision.v1.AnnotateImageRequest
+import com.google.cloud.vision.v1.ImageAnnotatorClient
+import com.google.cloud.vision.v1.ImageSource
+import com.google.cloud.vision.v1.Image
+import com.google.cloud.vision.v1.Feature
 import com.google.cloud.vision.v1.Feature.Type
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -50,7 +56,7 @@ val emojiPic = mapOf(
     Emoji.NONE to "none.png"
 )
 
-//Returns best emoji based on detected emotions likelihoods
+// Returns best emoji based on detected emotions likelihoods
 fun bestEmoji(annotation: FaceAnnotation): Emoji {
     val emotionsLikelihood: Array<Likelihood> = arrayOf(Likelihood.VERY_LIKELY, Likelihood.LIKELY, Likelihood.POSSIBLE)
     val emotions = mapOf(
@@ -68,7 +74,7 @@ fun bestEmoji(annotation: FaceAnnotation): Emoji {
     return Emoji.NONE
 }
 
-//Downloads source image to a temp file
+// Downloads source image to a temp file
 fun downloadObject(objectName: String) {
     val blob = bucket.get(objectName)
     val localFilePath = Paths.get("/tmp/$objectName")
@@ -82,13 +88,13 @@ class EmojifyController {
     @GetMapping("/emojify")
     fun emojify(@RequestParam(value = "objectName") objectName: String): String {
 
-        var publicUrl:String =
+        var publicUrl: String =
             "https://storage.googleapis.com/${bucket.name}/emojified/emojified-$objectName" // api response
 
         val requests = ArrayList<AnnotateImageRequest>()
-        //Setting up image annotation request
+        // Setting up image annotation request
         val vision = ImageAnnotatorClient.create()
-        val source = ImageSource.newBuilder().setGcsImageUri("$bucketUri/$objectName").build() //Fetching our source image
+        val source = ImageSource.newBuilder().setGcsImageUri("$bucketUri/$objectName").build() // Fetching our source image
         val img = Image.newBuilder().setSource(source).build()
         val feat = Feature.newBuilder().setType(Type.FACE_DETECTION).build()
         val request = AnnotateImageRequest.newBuilder()
@@ -109,7 +115,7 @@ class EmojifyController {
                 return output
             }
 
-            downloadObject(objectName) //image is now downloaded to /tmp/<objectName>
+            downloadObject(objectName) // image is now downloaded to /tmp/<objectName>
             val imgBuff = ImageIO.read(Paths.get("/tmp/$objectName").toFile())
             val gfx = imgBuff.createGraphics()
             val extension = (Paths.get("/tmp/$objectName").toFile().extension)
@@ -125,8 +131,8 @@ class EmojifyController {
                     sorrow: ${annotation.sorrowLikelihood}
                     position: ${annotation.boundingPoly}
                 """
-                output+= "EMOJI DETECTED: $emoji \n"
-                output+= "****************************\n"
+                output += "EMOJI DETECTED: $emoji \n"
+                output += "****************************\n"
 
                 val poly = Polygon()
                 for (vertex in annotation.fdBoundingPoly.verticesList) {
@@ -140,21 +146,21 @@ class EmojifyController {
                 output += "${poly.xpoints[0]}, ${poly.ypoints[0]}, ${poly.xpoints[1]}, ${poly.ypoints[2]}"
                 val height = poly.ypoints[2] - poly.ypoints[0]
                 val width = poly.xpoints[1] - poly.xpoints[0]
-                //Draws emoji on detected face
+                // Draws emoji on detected face
                 gfx.drawImage(imgEmoji, poly.xpoints[0], poly.ypoints[1], height, width, null)
             }
-            //Writing emojified image to temp file
+            // Writing emojified image to temp file
             val writeTo = "/tmp/emojify-$objectName"
-            ImageIO.write(imgBuff, extension, Paths.get(writeTo).toFile());
+            ImageIO.write(imgBuff, extension, Paths.get(writeTo).toFile())
 
-            //Uploading emojified image to GCS
-            val blob = bucket.create("emojified/emojified-$objectName",  Files.readAllBytes(Paths.get(writeTo)))
+            // Uploading emojified image to GCS
+            val blob = bucket.create("emojified/emojified-$objectName", Files.readAllBytes(Paths.get(writeTo)))
 
-            //Making it public
+            // Making it public
             blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))
         }
-        output+="Done!"
-        //Everything went well; we can return the public url!
+        output +="Done!"
+        // Everything went well; we can return the public url!
         return publicUrl
     }
 }
