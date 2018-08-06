@@ -36,10 +36,10 @@ import java.io.PrintStream
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.imageio.ImageIO
+import java.util.logging.Logger
 
 val storage: Storage = StorageOptions.getDefaultInstance().service
 val bucket = storage.get("cloud-kotlin-samples")
-val bucketUri = "gs://cloud-kotlin-samples"
 
 const val RESOURCES_PATH = "resources/"
 const val EMOJIS_PATH = RESOURCES_PATH + "emojis/"
@@ -83,18 +83,21 @@ fun downloadObject(objectName: String) {
     writeTo.close()
 }
 
+data class EmojifyResponse(val url: String)
+
 @RestController
 class EmojifyController {
     @GetMapping("/emojify")
-    fun emojify(@RequestParam(value = "objectName") objectName: String): String {
+    fun emojify(@RequestParam(value = "objectName") objectName: String): EmojifyResponse? {
 
         var publicUrl: String =
             "https://storage.googleapis.com/${bucket.name}/emojified/emojified-$objectName" // api response
+        val log = Logger.getLogger(EmojifyController::class.java!!.name)
 
-        val requests = ArrayList<AnnotateImageRequest>()
         // Setting up image annotation request
+        val requests = ArrayList<AnnotateImageRequest>()
         val vision = ImageAnnotatorClient.create()
-        val source = ImageSource.newBuilder().setGcsImageUri("$bucketUri/$objectName").build() // Fetching our source image
+        val source = ImageSource.newBuilder().setGcsImageUri("gs://${bucket.name}/$objectName").build() // Fetching our source image
         val img = Image.newBuilder().setSource(source).build()
         val feat = Feature.newBuilder().setType(Type.FACE_DETECTION).build()
         val request = AnnotateImageRequest.newBuilder()
@@ -106,13 +109,11 @@ class EmojifyController {
 
         // Calls vision api on above image annotation requests
         val response = vision.batchAnnotateImages(requests)
-        val responses = response.responsesList
-        var output = "" // kind of log
 
-        for (resp in responses) {
+        for (resp in response.responsesList) {
             if (resp.hasError()) {
-                output += "Error: ${resp.error.message} \n"
-                return output
+                log.severe(resp.error.message)
+                return null
             }
 
             downloadObject(objectName) // image is now downloaded to /tmp/<objectName>
@@ -124,26 +125,20 @@ class EmojifyController {
                 val emoji = bestEmoji(annotation)
                 val imgEmoji = ImageIO.read(Paths.get(EMOJIS_PATH + emojiPic[emoji]).toFile())
 
-                output += """
+               log.info("""
                     joy: ${annotation.joyLikelihood}
                     anger: ${annotation.angerLikelihood}
                     surprise: ${annotation.surpriseLikelihood}
                     sorrow: ${annotation.sorrowLikelihood}
                     position: ${annotation.boundingPoly}
-                """
-                output += "EMOJI DETECTED: $emoji \n"
-                output += "****************************\n"
+                """)
 
+                log.info("EMOJI DETECTED: $emoji")
                 val poly = Polygon()
                 for (vertex in annotation.fdBoundingPoly.verticesList) {
                     poly.addPoint(vertex.x, vertex.y)
                 }
-                /* This draws a polygon around the detected face
-                gfx.stroke = BasicStroke(5f)
-                gfx.color = Color(0x00ff00)
-                gfx.draw(poly)
-                */
-                output += "${poly.xpoints[0]}, ${poly.ypoints[0]}, ${poly.xpoints[1]}, ${poly.ypoints[2]}"
+
                 val height = poly.ypoints[2] - poly.ypoints[0]
                 val width = poly.xpoints[1] - poly.xpoints[0]
                 // Draws emoji on detected face
@@ -159,8 +154,7 @@ class EmojifyController {
             // Making it public
             blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))
         }
-        output += "Done!"
         // Everything went well; we can return the public url!
-        return publicUrl
+        return EmojifyResponse(publicUrl)
     }
 }
