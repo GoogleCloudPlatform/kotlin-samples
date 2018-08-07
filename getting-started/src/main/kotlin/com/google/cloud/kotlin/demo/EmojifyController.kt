@@ -17,6 +17,7 @@
 package com.google.cloud.kotlin.demo
 
 import com.google.cloud.storage.Acl
+import com.google.cloud.storage.Bucket
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
 import com.google.cloud.vision.v1.Likelihood
@@ -150,11 +151,14 @@ class EmojifyController {
             val writeTo = "/tmp/emojify-$objectName"
             ImageIO.write(imgBuff, extension, Paths.get(writeTo).toFile())
 
-            // Uploading emojified image to GCS
-            val blob = bucket.create("emojified/emojified-$objectName", Files.readAllBytes(Paths.get(writeTo)))
+            // Uploading emojified image to GCS and making it public
+            val blob = bucket.create("emojified/emojified-$objectName",
+                Files.readAllBytes(Paths.get(writeTo)),
+                Bucket.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ)
+            )
 
             // Making it public
-            blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))
+            //blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))
         }
         // Everything went well; we can return the public url!
         return EmojifyResponse(
