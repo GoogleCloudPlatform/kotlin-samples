@@ -16,7 +16,6 @@
 
 package com.google.cloud.kotlin.demo
 
-import com.google.cloud.storage.Acl
 import com.google.cloud.storage.Bucket
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
