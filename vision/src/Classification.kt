@@ -14,10 +14,9 @@
 package com.google.kotlinvision
 
 import com.google.cloud.vision.v1.AnnotateImageRequest
-import com.google.cloud.vision.v1.Feature
-import com.google.cloud.vision.v1.Feature.Type
-import com.google.cloud.vision.v1.Image
 import com.google.cloud.vision.v1.ImageAnnotatorClient
+import com.google.cloud.vision.v1.Feature
+import com.google.cloud.vision.v1.extensions.*
 import com.google.protobuf.ByteString
 
 import java.io.IOException
@@ -36,16 +35,12 @@ fun main(args: Array<String>) {
         throw NoSuchFileException(file = file, reason = "The file you specified does not exist")
     }
 
-    val imgProto = ByteString.copyFrom(file.readBytes()) // Load image into proto buffer
-
     try {
         val vision = ImageAnnotatorClient.create() // Create an Image Annotator
-        val img = Image.newBuilder().setContent(imgProto).build()
-        val feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build() // Image builder
-        val request = AnnotateImageRequest.newBuilder()
-                .addFeatures(feat)
-                .setImage(img)
-                .build()
+        val request = annotateImageRequest {
+            feature(type = Feature.Type.LABEL_DETECTION)
+            image(content = ByteString.copyFrom(file.readBytes()))
+        }
 
         requests.add(request)
 
