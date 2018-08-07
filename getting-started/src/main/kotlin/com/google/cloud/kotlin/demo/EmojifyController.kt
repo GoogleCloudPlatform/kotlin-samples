@@ -156,9 +156,6 @@ class EmojifyController {
                 Files.readAllBytes(Paths.get(writeTo)),
                 Bucket.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ)
             )
-
-            // Making it public
-            //blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))
         }
         // Everything went well; we can return the public url!
         return EmojifyResponse(
