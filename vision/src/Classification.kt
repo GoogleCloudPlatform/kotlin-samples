@@ -23,7 +23,6 @@ import java.io.IOException
 import java.io.File
 
 fun main(args: Array<String>) {
-    val requests = ArrayList<AnnotateImageRequest>()
     val imageFile = if (args.isEmpty()) {
         "./resources/doggo.jpg" // Image file path
     } else {
@@ -38,26 +37,27 @@ fun main(args: Array<String>) {
     try {
         val vision = ImageAnnotatorClient.create() // Create an Image Annotator
 
-        // create a image using a typesafe DSL
-        val img = image { content = ByteString.copyFrom(file.readBytes()) }
+        // Create an Image using named arguments (outside of the request DSL)
+        val img = image(content = ByteString.copyFrom(file.readBytes()))
+        // Create a Feature using unnamed arguments (outside of the request DSL)
+        val feat = feature(Feature.Type.LABEL_DETECTION)
+        // Create an AnnotateImageRequest using a typesafe DSL
         val request = annotateImageRequest {
-            // Add a feature and supply an unnamed argument
-            feature(Feature.Type.LABEL_DETECTION)
-            // Add a feature and supply two named arguments
+            // Add a Feature and supply two named arguments
             feature(type = Feature.Type.LANDMARK_DETECTION, maxresults = 2)
-            // Add a feature using a typesafe DSL
+            // Add a Feature using a typesafe DSL
             feature {
                 type = Feature.Type.FACE_DETECTION
                 maxResults = 2
             }
-            // add an image directly to the request as a property
+            // Add an existing Feature variable using a Builder function
+            addFeatures(feat)
+            // Assign an existing Image variable to the request as a property
             image = img
         }
 
-        requests.add(request)
-
         // Performs label detection on the image file
-        val response = vision.batchAnnotateImages(requests)
+        val response = vision.batchAnnotateImages(listOf(request))
         val responses = response.responsesList
 
         for (resp in responses) {
