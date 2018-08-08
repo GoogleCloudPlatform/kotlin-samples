@@ -67,7 +67,7 @@ class EmojifyResponse(
 )
 
 @RestController
-class EmojifyController(@Value("\${storage.bucket}") val bucketName: String, val storage: Storage, val vision: ImageAnnotatorClient) {
+class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String, val storage: Storage, val vision: ImageAnnotatorClient) {
 
     val log = Logger.getLogger(EmojifyController::class.java.name)
     val emojiBufferedImage = mapOf(
@@ -91,14 +91,14 @@ class EmojifyController(@Value("\${storage.bucket}") val bucketName: String, val
     @GetMapping("/emojify")
     fun emojify(@RequestParam(value = "objectName") objectName: String): EmojifyResponse {
 
-        if (objectName.contains('/')) return errorResponse(400, "Slashes are intentionally forbidden in objectName!")
-        val bucket = storage.get(bucketName) ?: return errorResponse(500, "bucketName missing in internal configs!")
+        if (objectName.contains('/')) return errorResponse(400, "Slashes are intentionally forbidden in objectName.")
+        val bucket = storage.get(bucketName) ?: return errorResponse(500, "storage.bucket.name is missing in application.properties.")
         val publicUrl: String =
             "https://storage.googleapis.com/$bucketName/emojified/emojified-$objectName" // api response
 
         val blob = bucket.get(objectName) ?: return errorResponse(400, "Blob specified doesn't exist in bucket.")
 
-        val imgType = blob?.contentType?.substringAfter('/') ?: return errorResponse(400, "Unable to read source image ContentType from GCS!")
+        val imgType = blob?.contentType?.substringAfter('/') ?: return errorResponse(400, "Unable to read source image ContentType from GCS.")
 
         // Setting up image annotation request
         val source = ImageSource.newBuilder().setGcsImageUri("gs://$bucketName/$objectName").build()
