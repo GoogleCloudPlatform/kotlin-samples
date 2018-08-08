@@ -91,8 +91,8 @@ class EmojifyController(@Value("\${storage.bucket}") val bucketName: String, val
     @GetMapping("/emojify")
     fun emojify(@RequestParam(value = "objectName") objectName: String): EmojifyResponse {
 
+        if (objectName.contains('/')) return errorResponse(400, "Slashes intentionally forbidden!")
         val bucket = storage.get(bucketName) ?: return errorResponse(500, "bucketName missing in internal configs!")
-
         val publicUrl: String =
             "https://storage.googleapis.com/$bucketName/emojified/emojified-$objectName" // api response
 
