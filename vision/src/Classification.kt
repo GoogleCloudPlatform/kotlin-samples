@@ -37,9 +37,21 @@ fun main(args: Array<String>) {
 
     try {
         val vision = ImageAnnotatorClient.create() // Create an Image Annotator
+
+        // create a image using a typesafe DSL
+        val img = image { content = ByteString.copyFrom(file.readBytes()) }
         val request = annotateImageRequest {
-            feature(type = Feature.Type.LABEL_DETECTION)
-            image(content = ByteString.copyFrom(file.readBytes()))
+            // Add a feature and supply an unnamed argument
+            feature(Feature.Type.LABEL_DETECTION)
+            // Add a feature and supply two named arguments
+            feature(type = Feature.Type.LANDMARK_DETECTION, maxresults = 2)
+            // Add a feature using a typesafe DSL
+            feature {
+                type = Feature.Type.FACE_DETECTION
+                maxResults = 2
+            }
+            // add an image directly to the request as a property
+            image = img
         }
 
         requests.add(request)
