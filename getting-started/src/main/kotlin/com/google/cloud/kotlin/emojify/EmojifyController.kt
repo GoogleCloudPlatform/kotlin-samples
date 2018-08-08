@@ -52,7 +52,7 @@ fun bestEmoji(annotation: FaceAnnotation): Emoji {
         Emoji.SORROW to annotation.sorrowLikelihood
     )
     for (likelihood in emotionsLikelihood) { // In this order: VERY_LIKELY, LIKELY, POSSIBLE
-        for (emotion in emotions) {// In this order: JOY, ANGER, SURPRISE, SORROW (https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map-of.html)
+        for (emotion in emotions) { // In this order: JOY, ANGER, SURPRISE, SORROW (https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map-of.html)
             if (emotion.value == likelihood) return emotion.key // Returns emotion corresponding to likelihood
         }
     }
@@ -91,7 +91,7 @@ class EmojifyController(@Value("\${storage.bucket}") val bucketName: String, val
     @GetMapping("/emojify")
     fun emojify(@RequestParam(value = "objectName") objectName: String): EmojifyResponse {
 
-        if (objectName.contains('/')) return errorResponse(400, "Slashes intentionally forbidden!")
+        if (objectName.contains('/')) return errorResponse(400, "Slashes are intentionally forbidden in objectName!")
         val bucket = storage.get(bucketName) ?: return errorResponse(500, "bucketName missing in internal configs!")
         val publicUrl: String =
             "https://storage.googleapis.com/$bucketName/emojified/emojified-$objectName" // api response

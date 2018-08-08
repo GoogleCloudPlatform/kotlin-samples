@@ -10,6 +10,5 @@ import org.springframework.test.context.junit4.SpringRunner
 class EmojifyApplicationTests {
     @Test
 	fun contextLoads() {
-
     }
 }
