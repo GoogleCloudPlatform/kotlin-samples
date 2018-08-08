@@ -45,14 +45,14 @@ enum class Emoji {
 // Returns best emoji based on detected emotions likelihoods
 fun bestEmoji(annotation: FaceAnnotation): Emoji {
     val emotionsLikelihood = listOf(Likelihood.VERY_LIKELY, Likelihood.LIKELY, Likelihood.POSSIBLE)
-    val emotions = mapOf( // Iterated in order specified (https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map-of.html)
+    val emotions = mapOf(
         Emoji.JOY to annotation.joyLikelihood,
         Emoji.ANGER to annotation.angerLikelihood,
         Emoji.SURPRISE to annotation.surpriseLikelihood,
         Emoji.SORROW to annotation.sorrowLikelihood
     )
     for (likelihood in emotionsLikelihood) { // In this order: VERY_LIKELY, LIKELY, POSSIBLE
-        for (emotion in emotions) { // In this order: JOY, ANGER, SURPRISE, SORROW
+        for (emotion in emotions) {// In this order: JOY, ANGER, SURPRISE, SORROW (https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map-of.html)
             if (emotion.value == likelihood) return emotion.key // Returns emotion corresponding to likelihood
         }
     }
@@ -98,8 +98,7 @@ class EmojifyController(@Value("\${storage.bucket}") val bucketName: String, val
 
         val blob = bucket.get(objectName) ?: return errorResponse(400, "Blob specified doesn't exist in bucket.")
 
-        val imgType = blob?.contentType?.substringAfter('/') ?:
-            return errorResponse(400, "Unable to read source image ContentType from GCS!")
+        val imgType = blob?.contentType?.substringAfter('/') ?: return errorResponse(400, "Unable to read source image ContentType from GCS!")
 
         // Setting up image annotation request
         val source = ImageSource.newBuilder().setGcsImageUri("gs://$bucketName/$objectName").build()
