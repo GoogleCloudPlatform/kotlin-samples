@@ -14,17 +14,15 @@
 package com.google.kotlinvision
 
 import com.google.cloud.vision.v1.AnnotateImageRequest
-import com.google.cloud.vision.v1.Feature
-import com.google.cloud.vision.v1.Feature.Type
-import com.google.cloud.vision.v1.Image
 import com.google.cloud.vision.v1.ImageAnnotatorClient
+import com.google.cloud.vision.v1.Feature
+import com.google.cloud.vision.v1.extensions.*
 import com.google.protobuf.ByteString
 
 import java.io.IOException
 import java.io.File
 
 fun main(args: Array<String>) {
-    val requests = ArrayList<AnnotateImageRequest>()
     val imageFile = if (args.isEmpty()) {
         "./resources/doggo.jpg" // Image file path
     } else {
@@ -36,21 +34,30 @@ fun main(args: Array<String>) {
         throw NoSuchFileException(file = file, reason = "The file you specified does not exist")
     }
 
-    val imgProto = ByteString.copyFrom(file.readBytes()) // Load image into proto buffer
-
     try {
         val vision = ImageAnnotatorClient.create() // Create an Image Annotator
-        val img = Image.newBuilder().setContent(imgProto).build()
-        val feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build() // Image builder
-        val request = AnnotateImageRequest.newBuilder()
-                .addFeatures(feat)
-                .setImage(img)
-                .build()
 
-        requests.add(request)
+        // Create an Image using named arguments (outside of the request DSL)
+        val img = image(content = ByteString.copyFrom(file.readBytes()))
+        // Create a Feature using unnamed arguments (outside of the request DSL)
+        val feat = feature(Feature.Type.LABEL_DETECTION)
+        // Create an AnnotateImageRequest using a typesafe DSL
+        val request = annotateImageRequest {
+            // Add a Feature and supply two named arguments
+            feature(type = Feature.Type.LANDMARK_DETECTION, maxresults = 2)
+            // Add a Feature using a typesafe DSL
+            feature {
+                type = Feature.Type.FACE_DETECTION
+                maxResults = 2
+            }
+            // Add an existing Feature variable using a Builder function
+            addFeatures(feat)
+            // Assign an existing Image variable to the request as a property
+            image = img
+        }
 
         // Performs label detection on the image file
-        val response = vision.batchAnnotateImages(requests)
+        val response = vision.batchAnnotateImages(listOf(request))
         val responses = response.responsesList
 
         for (resp in responses) {
