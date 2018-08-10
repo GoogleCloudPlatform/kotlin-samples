@@ -25,7 +25,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-class EmojifyApplication: SpringBootServletInitializer() {
+class EmojifyApplication : SpringBootServletInitializer() {
     @Bean
     fun storageBean(): Storage = StorageOptions.getDefaultInstance().service
 

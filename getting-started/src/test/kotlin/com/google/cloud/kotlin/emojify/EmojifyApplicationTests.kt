@@ -108,5 +108,4 @@ class EmojifyApplicationTests {
         assertThat(emojifiedImage).isNotNull()
         assertThat(blob.delete()).isTrue()
     }
-
 }
