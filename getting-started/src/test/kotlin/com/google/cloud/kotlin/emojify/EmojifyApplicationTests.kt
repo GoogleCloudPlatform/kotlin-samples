@@ -33,7 +33,8 @@ import java.net.URL
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EmojifyApplicationTests {
 
-    @Value("\${storage.bucket.name}") lateinit var bucketName: String
+    @Value("\${storage.bucket.name}")
+    lateinit var bucketName: String
 
     @Autowired
     lateinit var storage: Storage
@@ -97,10 +98,10 @@ class EmojifyApplicationTests {
     @Test
     fun `source image processed and emojified image is public`() {
         val publicImage = URL("https://lh3.googleusercontent.com/2ONX_nVMyhMt62GrKOJj9yf6SHvD6T7QEGidCg4P3YeAh5m4nyKbbg3lUr_TR3GA09PVP5xjF_cfaOwj4mYGgg=w1614").readBytes()
-        val blob = storage.get(bucketName).create("google-diversity-2", publicImage, "image/png")
+        val blob = storage.get(bucketName).create("google-diversity", publicImage, "image/png")
         assertThat(blob).isNotNull
 
-        val response = testRestTemplate.getForEntity("/emojify?objectName=google-diversity-2", EmojifyResponse::class.java)
+        val response = testRestTemplate.getForEntity("/emojify?objectName=google-diversity", EmojifyResponse::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response?.body?.statusCode).isEqualTo(HttpStatus.OK)
 
