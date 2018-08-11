@@ -33,7 +33,7 @@ import java.net.URL
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EmojifyApplicationTests {
 
-	@Value("\${storage.bucket.name}") lateinit var bucketName: String
+    @Value("\${storage.bucket.name}") lateinit var bucketName: String
 
     @Autowired
     lateinit var storage: Storage
@@ -41,10 +41,10 @@ class EmojifyApplicationTests {
     @Autowired
     lateinit var testRestTemplate: TestRestTemplate
 
-	@Test
-	fun contextLoads() {
+    @Test
+    fun contextLoads() {
         println(bucketName)
-	}
+    }
 
     @Test
     fun `bad uri`() {
