@@ -20,8 +20,8 @@ Having a frontend app is however totally optional as one can directly call the b
 
 ## Emojify Backend:
 This folder contains the source code of Emojify backend. When deployed on App Engine, the backend acts as a cloud endpoint:
-* Input: **objectName** (String). A path correspoinding to an object in your bucket.
-* Output: object of class **[EmojifyResponse](src/main/kotlin/com/google/cloud/kotlin/emojify/EmojifyController.kt)**
+* Input: path to image in configured bucket (see setup)
+* Output: object of class [EmojifyResponse](src/main/kotlin/com/google/cloud/kotlin/emojify/EmojifyController.kt)
 
 ## Live demo
 
