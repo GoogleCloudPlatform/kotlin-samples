@@ -7,8 +7,8 @@ This is a sample application to demonstrate a Kotlin backend which communicates 
 frontend. The backend emojifies people faces in an input image by swapping faces detected on the image with emojis corresponding to predicted emotions. The sample is called **Emojify**.
 
 The app integrates two Google Cloud Client Libraries:
-* [Google Cloud Storage](https://cloud.google.com/storage): hosts input images.
-* [Google Cloud Vision](https://cloud.google.com/vision): used to perform face detection on input image.
+* [Google Cloud Storage](https://cloud.google.com/storage): hosts input images
+* [Google Cloud Vision](https://cloud.google.com/vision): used to perform face detection on input image
 
 Ideal workflow:
 * User takes a picture via the frontend app
