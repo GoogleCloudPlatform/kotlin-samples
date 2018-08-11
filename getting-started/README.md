@@ -6,9 +6,9 @@ Getting Started with Kotlin on Server Side: Sample App
 This is a sample application to demonstrate a Kotlin backend which communicates with a mobile
 frontend. The backend emojifies people faces in an input image by swapping faces detected on the image with emojis corresponding to predicted emotions. The sample is called **Emojify**.
 
-The app integrates two Google Cloud products:
+The app integrates two Google Cloud Client Libraries:
 * [Google Cloud Storage](https://cloud.google.com/storage): hosts input images.
-* [Cloud Vision API](https://cloud.google.com/vision): used to perform face detection on input image.
+* [Google Cloud Vision](https://cloud.google.com/vision): used to perform face detection on input image.
 
 Ideal workflow:
 * User takes a picture via the frontend app
