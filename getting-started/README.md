@@ -13,7 +13,7 @@ The app integrates two Google Cloud Client Libraries:
 Ideal workflow:
 * User takes a picture with frontend app
 * Frontend sends picture to Google Cloud Storage
-* Frontend calls Emojify backend and specifies path of input image in Google Cloud Storage
+* Frontend calls Emojify backend and specifies path to picture in Google Cloud Storage
 * Backend emojifies image and returns a response containing public url of emojified image
 
 Having a frontend app is however totally optional as one can directly call the backend with a path to an image in Google Cloud Storage.
