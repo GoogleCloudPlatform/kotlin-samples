@@ -18,15 +18,6 @@ Ideal workflow:
 
 Having a frontend app is however totally optional as one can directly call the backend with a path to an image in Google Cloud Storage.
 
-See the [Google App Engine standard environment documentation][ae-docs] for more
-detailed instructions.
-
-[ae-docs]: https://cloud.google.com/appengine/docs/java/
-
-* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Maven](https://maven.apache.org/download.cgi) (at least 3.5)
-* [Google Cloud SDK](https://cloud.google.com/sdk/) (aka gcloud command line tool)
-
 ## Emojify Backend:
 This folder contains the source code of Emojify backend. When deployed on App Engine, the backend acts as a cloud endpoint:
 * Input: **objectName** (String). A path correspoinding to an object in your bucket.
@@ -56,6 +47,15 @@ Sample responses:
 * Create file **application.properties** in **src/main/resources**.
 
 * Create a Google Cloud bucket and add this line to application.properties: `storage.bucket.name = [your-bucket]`.
+
+See the [Google App Engine standard environment documentation][ae-docs] for more
+detailed instructions.
+
+[ae-docs]: https://cloud.google.com/appengine/docs/java/
+
+* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [Maven](https://maven.apache.org/download.cgi) (at least 3.5)
+* [Google Cloud SDK](https://cloud.google.com/sdk/) (aka gcloud command line tool)
 
 ## Maven
 ### Running locally
