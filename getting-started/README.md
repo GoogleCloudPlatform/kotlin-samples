@@ -11,7 +11,7 @@ The app integrates two Google Cloud Client Libraries:
 * [Google Cloud Vision](https://cloud.google.com/vision): used to perform face detection on input image
 
 Ideal workflow:
-* User takes a picture via frontend app
+* User takes a picture with frontend app
 * Frontend sends picture to Google Cloud Storage
 * Frontend calls Emojify backend and specifies path of input image in Google Cloud Storage
 * Backend emojifies image and returns a response containing public url of emojified image
