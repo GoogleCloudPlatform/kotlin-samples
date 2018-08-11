@@ -1,4 +1,4 @@
-Getting Started with Kotlin on Server Side: Emojify Demo
+Getting Started with Kotlin on Server Side: A Sample App
 ===
 
 ## Sample SpringBoot application written in Kotlin for use with App Engine Java8 Standard.
