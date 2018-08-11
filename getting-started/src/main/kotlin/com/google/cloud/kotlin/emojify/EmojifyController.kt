@@ -147,6 +147,7 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
             // Draws emoji on detected face
             gfx.drawImage(imgEmoji, poly.xpoints[0], poly.ypoints[1], height, width, null)
         }
+
         // Writing emojified image to OutputStream
         val outputStream = ByteArrayOutputStream()
         ImageIO.write(imgBuff, imgType, outputStream)
@@ -157,6 +158,7 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
             outputStream.toByteArray(),
             Bucket.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ)
         )
+
         // Everything went well!
         return EmojifyResponse(
             objectPath = "emojified/emojified-$objectName",
