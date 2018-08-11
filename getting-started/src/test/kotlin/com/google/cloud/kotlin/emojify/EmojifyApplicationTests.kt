@@ -105,7 +105,7 @@ class EmojifyApplicationTests {
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response?.body?.statusCode).isEqualTo(HttpStatus.OK)
 
-        val emojifiedImage = URL(response?.body?.emojifiedUrl).readBytes()
+        val emojifiedImage = URL(response?.body?.emojifiedUrl).readBytes() // if successful then emojifiedImage is public
         assertThat(emojifiedImage).isNotNull()
         assertThat(blob.delete()).isTrue()
     }
