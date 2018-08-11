@@ -4,7 +4,19 @@ Getting Started with Kotlin on Server Side: Sample App
 ## Sample SpringBoot application written in Kotlin for use with App Engine Java8 Standard.
 
 This is a sample application to demonstrate a Kotlin backend which communicates with a mobile
-frontend.
+frontend. The backend emojifies people faces in an input image by swapping faces detected on the image with emojis corresponding to predicted emotions. The sample is called **Emojify**.
+
+The app integrates two Google Cloud products:
+* [Google Cloud Storage](https://cloud.google.com/storage): input images are hosted on Google Coud Storage.
+* [Cloud Vision API](https://cloud.google.com/vision): used to perform face detection on input image.
+
+Ideal workflow:
+* User takes a picture via the frontend app
+* Frontend sends picture to Google Cloud Storage
+* Frontend calls Emojify backend and specifies path of input image in Google Cloud Storage
+* Backend emojifies image and returns a response containing public url of emojified image
+
+Having a frontend app is however totally optional as one can directly call the backend with a path to an image in Google Cloud Storage.
 
 See the [Google App Engine standard environment documentation][ae-docs] for more
 detailed instructions.
@@ -15,11 +27,8 @@ detailed instructions.
 * [Maven](https://maven.apache.org/download.cgi) (at least 3.5)
 * [Google Cloud SDK](https://cloud.google.com/sdk/) (aka gcloud command line tool)
 
-## About the sample: Emojify Backend
-This sample app emojifies people faces in an input image (stored in the cloud via [Google Cloud Storage](https://cloud.google.com/storage)) by swapping faces detected on the image with emojis corresponding to predicted emotions. Face dectection is performed via [Cloud Vision API](https://cloud.google.com/vision).
-
-When deployed on App Engine, the backend acts as a cloud endpoint:
-
+## Emojify Backend:
+This folder contains the source code of Emojify backend. When deployed on App Engine, the backend acts as a cloud endpoint:
 * Input: **objectName** (String). A path correspoinding to an object in your bucket.
 * Output: object of class **[EmojifyResponse](src/main/kotlin/com/google/cloud/kotlin/emojify/EmojifyController.kt)**
 
@@ -28,7 +37,7 @@ When deployed on App Engine, the backend acts as a cloud endpoint:
 Backend endpoint: [https://cloud-kotlin-samples.appspot.com/emojify](https://cloud-kotlin-samples.appspot.com/emojify)
 
 Sample calls: 
-* https://cloud-kotlin-samples.appspot.com/emojify?objectName=engineers.png or 
+* https://cloud-kotlin-samples.appspot.com/emojify?objectName=engineers.png 
 * https://cloud-kotlin-samples.appspot.com/emojify?objectName=for-the-people.jpeg
 
 Sample responses:
@@ -55,7 +64,7 @@ Sample responses:
 
 To use visit: http://localhost:8080/
 
-### Deploying on App Engine
+### Deploying to App Engine
 
 `mvn appengine:deploy`
 
