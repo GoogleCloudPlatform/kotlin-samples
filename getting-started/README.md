@@ -48,15 +48,6 @@ Sample responses:
 
 * Create a Google Cloud bucket and add this line to application.properties: `storage.bucket.name = [your-bucket]`.
 
-See the [Google App Engine standard environment documentation][ae-docs] for more
-detailed instructions.
-
-[ae-docs]: https://cloud.google.com/appengine/docs/java/
-
-* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Maven](https://maven.apache.org/download.cgi) (at least 3.5)
-* [Google Cloud SDK](https://cloud.google.com/sdk/) (aka gcloud command line tool)
-
 ## Maven
 ### Running locally
 
@@ -69,6 +60,15 @@ To use visit: http://localhost:8080/
 `mvn appengine:deploy`
 
 To use visit:  https://YOUR-PROJECT-ID.appspot.com
+
+See the [Google App Engine standard environment documentation][ae-docs] for more
+detailed instructions.
+
+[ae-docs]: https://cloud.google.com/appengine/docs/java/
+
+* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [Maven](https://maven.apache.org/download.cgi) (at least 3.5)
+* [Google Cloud SDK](https://cloud.google.com/sdk/) (aka gcloud command line tool)
 
 ## Testing
 
