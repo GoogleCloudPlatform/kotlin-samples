@@ -15,7 +15,7 @@ detailed instructions.
 * [Maven](https://maven.apache.org/download.cgi) (at least 3.5)
 * [Google Cloud SDK](https://cloud.google.com/sdk/) (aka gcloud command line tool)
 
-## About the sample
+## About the sample: Emojify Backend
 This sample app emojifies people faces in an input image (stored in the cloud via [Google Cloud Storage](https://cloud.google.com/storage)) by swapping faces detected on the image with emojis corresponding to predicted emotions. Face dectection is performed via [Cloud Vision API](https://cloud.google.com/vision).
 
 When deployed on App Engine, the backend acts as a cloud endpoint:
