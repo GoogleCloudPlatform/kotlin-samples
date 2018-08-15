@@ -27,10 +27,10 @@ import org.springframework.context.annotation.Bean
 @SpringBootApplication
 class EmojifyApplication : SpringBootServletInitializer() {
     @Bean
-    fun storageBean(): Storage = StorageOptions.getDefaultInstance().service
+    fun storage(): Storage = StorageOptions.getDefaultInstance().service
 
     @Bean
-    fun visionBean(): ImageAnnotatorClient = ImageAnnotatorClient.create()
+    fun vision(): ImageAnnotatorClient = ImageAnnotatorClient.create()
 }
 
 fun main(args: Array<String>) {
