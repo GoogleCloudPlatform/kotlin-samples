@@ -137,7 +137,7 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
         val imgBuff = stream(objectName)
         val gfx = imgBuff.createGraphics()
 
-        if(resp.faceAnnotationsList.size == 0) return errorResponse(HttpStatus.BAD_REQUEST, 107)
+        if (resp.faceAnnotationsList.size == 0) return errorResponse(HttpStatus.BAD_REQUEST, 107)
 
         for (annotation in resp.faceAnnotationsList) {
             val imgEmoji = emojiBufferedImage[bestEmoji(annotation)]
