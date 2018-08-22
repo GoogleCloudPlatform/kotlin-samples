@@ -109,8 +109,7 @@ class ImageActivity : AppCompatActivity() {
                             tv_message.text = response["errorMessage"].toString()
                         }
                         Log.i("backend response", "${response["statusCode"]}, ${response["errorCode"]}")
-                    }
-                    else {
+                    } else {
                         updateUI {
                             show("Yay!")
                             tv_message.text = getString(R.string.waiting_over)
@@ -149,7 +148,7 @@ class ImageActivity : AppCompatActivity() {
                     updateUI { tv_message.text = getString(R.string.waiting_msg_2) }
                     callEmojifyBackend()
                 }
-                .addOnFailureListener { err -> 
+                .addOnFailureListener { err ->
                     updateUI {
                         show("Cloud Storage error!")
                         tv_message.text = getString(R.string.storage_error)
