@@ -1,6 +1,5 @@
 /target/
 google-services.json
-!Backend/.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
 .apt_generated
