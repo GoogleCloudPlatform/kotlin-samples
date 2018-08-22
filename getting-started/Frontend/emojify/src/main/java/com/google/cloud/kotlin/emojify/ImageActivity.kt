@@ -82,9 +82,9 @@ class ImageActivity : AppCompatActivity() {
         recycler_view.adapter = adapter
 
         val properties = Properties()
-        properties.load(assets.open("app.properties"))
+        properties.load(assets.open("application.properties"))
         if (properties["storage.bucket.name"] == null)
-            throw NoSuchPropertyException("property 'storage.bucket.name' doesn't exist in app.properties!")
+            throw NoSuchPropertyException("property 'storage.bucket.name' doesn't exist in application.properties!")
 
         backendUrl = "https://${properties["storage.bucket.name"]}"
         selectImage()
