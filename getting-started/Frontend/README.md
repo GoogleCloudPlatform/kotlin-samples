@@ -1,4 +1,4 @@
-Emojify frontend
+Emojify Frontend
 ===
 
 ## Description
