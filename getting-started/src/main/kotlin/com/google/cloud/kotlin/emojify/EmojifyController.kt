@@ -50,7 +50,8 @@ val errorMessage = mapOf(
     103 to "Blob specified doesn't exist in bucket.",
     104 to "blob ContentType is null.",
     105 to "Size of responsesList is not 1.",
-    106 to "objectName is null."
+    106 to "objectName is null.",
+    107 to "We couldn't detect faces in your image."
 )
 
 // Returns best emoji based on detected emotions likelihoods
@@ -135,6 +136,8 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
         // Writing source image to InputStream
         val imgBuff = stream(objectName)
         val gfx = imgBuff.createGraphics()
+
+        if(resp.faceAnnotationsList.size == 0) return errorResponse(HttpStatus.BAD_REQUEST, 107)
 
         for (annotation in resp.faceAnnotationsList) {
             val imgEmoji = emojiBufferedImage[bestEmoji(annotation)]
