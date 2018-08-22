@@ -12,11 +12,11 @@ The app integrates two Google Cloud Client Libraries:
 
 Ideal workflow:
 * User takes a picture with frontend app
-* Frontend sends picture to Google Cloud Storage
-* Frontend calls Emojify backend and specifies path to picture in Google Cloud Storage
+* Frontend sends picture to a bucket in Google Cloud Storage
+* Frontend calls Emojify backend and specifies path to picture in bucket
 * Backend emojifies image and returns a response containing public url of emojified image
 
-Having a frontend app is however totally optional as one can directly call the backend with a path to an image in Google Cloud Storage.
+Having a frontend app is however totally optional as one can directly call the backend with a path to an image in a Storage bucket.
 
 ## Emojify Backend:
 This folder contains the source code of Emojify backend. When deployed on App Engine, the backend acts as a cloud endpoint:
@@ -44,9 +44,8 @@ Sample responses:
 * Create an App Engine app within the current Google Cloud Project
 
     `gcloud app create`
-* Create file **application.properties** in **src/main/resources**.
 
-* Create a Google Cloud bucket and add this line to application.properties: `storage.bucket.name = [your-bucket]`.
+* In **application.properties**, replace this value with your bucket name: `storage.bucket.name = REPLACE_THIS_WITH_YOUR_BUCKET`.
 
 ## Maven
 ### Running locally
