@@ -83,7 +83,7 @@ class ImageActivity : AppCompatActivity() {
 
         val properties = Properties()
         properties.load(assets.open("app.properties"))
-        if(properties["storage.bucket.name"] == null)
+        if (properties["storage.bucket.name"] == null)
             throw NoSuchPropertyException("property 'storage.bucket.name' doesn't exist in app.properties!")
 
         backendUrl = "https://${properties["storage.bucket.name"]}"
@@ -98,18 +98,17 @@ class ImageActivity : AppCompatActivity() {
 
     private fun callEmojifyBackend() {
         val queue = Volley.newRequestQueue(this)
-        val url = "${this.backendUrl}/emojify?objectName=${imageId}"
+        val url = "${this.backendUrl}/emojify?objectName=$imageId"
         updateUI { show("Image uploaded to Storage!") }
         val request = JsonObjectRequest(Request.Method.GET, url, null,
                 Response.Listener { response ->
                     val statusCode = response["statusCode"]
-                    if(statusCode != "OK") {
+                    if (statusCode != "OK") {
                         updateUI {
                             show("Oops!")
                             tv_message.text = response["errorMessage"].toString()
                         }
                         Log.i("backend response", "${response["statusCode"]}, ${response["errorCode"]}")
-
                     }
                     else {
                         updateUI {
@@ -139,7 +138,7 @@ class ImageActivity : AppCompatActivity() {
 
     private fun uploadImage(path: String) {
         val file = Uri.fromFile(File(path))
-        imageId = System.currentTimeMillis().toString()+".jpg"
+        imageId = System.currentTimeMillis().toString() + ".jpg"
         val imgRef = storageRef.child(imageId)
         updateUI {
             image_view.visibility = View.GONE
@@ -195,7 +194,7 @@ class ImageActivity : AppCompatActivity() {
             .onResult { result ->
                 albumFiles = result
                 tv_message.visibility = View.VISIBLE
-                if(result.size > 0) load(result[0].path)
+                if (result.size > 0) load(result[0].path)
             }
             .onCancel {
                 finish()
