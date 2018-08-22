@@ -13,5 +13,5 @@ Android app written in Kotlin. The app prompts user to select a picture after wh
 This app uses Firebase. You will need to:
 * Configure Firebase for your Google Cloud Project. Note that it is **REQUIRED** that your android app and the backend are connected to the same Google Cloud Project and that you deploy the backend first! 
 * Make sure your Firebase configuration file (google-services.json) is downloaded to Frontend/emojify/
-* Edit *storage.bucket.name* in **app.properties** (src/main/assets): `storage.bucket.name = REPLACE_THIS_WITH_YOUR_BUCKET`
+* Edit value of *storage.bucket.name* in **app.properties** (src/main/assets): `storage.bucket.name = REPLACE_THIS_WITH_YOUR_BUCKET`
 * You're all set!
