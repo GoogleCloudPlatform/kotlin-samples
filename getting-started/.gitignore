@@ -1,4 +1,5 @@
 /target/
+google-services.json
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
