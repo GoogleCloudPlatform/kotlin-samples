@@ -69,15 +69,18 @@ cd kotlin-samples/firestore
 
 ### Running the sample!
 
-Replace `YOUR_COLLECTION_ID` below with your Dataset ID.
+Replace `YOUR_COLLECTION_ID` below with your Collection ID.
 
 ```sh
-# Store an arbitrary key/value in your dataset
+# Store an arbitrary key/value in a document in your collection
 java -jar build/libs/firestore.jar YOUR_COLLECTION_ID key value
-# Retrieve the value for a given key in your dataset
+# Retrieve the value for a given key in a document in your collection
 java -jar build/libs/firestore.jar YOUR_COLLECTION_ID key
-
 ```
+
+> **Note**: The sample automatically creates a document called `samples`
+and sets the key/value in there. See [the sample](src/Firestore.kt) for
+context.
 
 ## Using IntelliJ IDE
 
