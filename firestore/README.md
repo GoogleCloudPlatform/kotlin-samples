@@ -71,16 +71,17 @@ cd kotlin-samples/firestore
 
 Replace `YOUR_COLLECTION_ID` below with your Collection ID.
 
+> **Note**: This sample uses a document named `samples` and sets the key/value
+in there. See [the sample](src/Firestore.kt) for context.
+
 ```sh
 # Store an arbitrary key/value in a document in your collection
 java -jar build/libs/firestore.jar YOUR_COLLECTION_ID key value
 # Retrieve the value for a given key in a document in your collection
 java -jar build/libs/firestore.jar YOUR_COLLECTION_ID key
+# Retrieve all keys/values from a document
+java -jar build/libs/firestore.jar YOUR_COLLECTION_ID
 ```
-
-> **Note**: The sample automatically creates a document called `samples`
-and sets the key/value in there. See [the sample](src/Firestore.kt) for
-context.
 
 ## Using IntelliJ IDE
 

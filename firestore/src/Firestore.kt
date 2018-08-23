@@ -17,8 +17,8 @@ import com.google.cloud.firestore.FirestoreOptions
 
 fun main(args: Array<String>) {
     // validate the arguments
-    if (args.size < 2 || args.size > 3) {
-        throw Exception("Usage: firestore.jar YOUR_COLLECTION_ID KEY [VALUE]")
+    if (args.size < 1 || args.size > 3) {
+        throw Exception("Usage: firestore.jar YOUR_COLLECTION_ID [KEY] [VALUE]")
     }
 
     // create the client
@@ -41,7 +41,9 @@ fun main(args: Array<String>) {
     }
 
     // Fetch the key if no value is submitted. Set the key to the value otherwise
-    if (args.size == 2) {
+    if (args.size == 1) {
+        data.forEach { key, value -> println("$key: $value") }
+    } else if (args.size == 2) {
         val value = data.get(args[1])
         println("${args[1]}: " + if (value == null) "not found" else value)
     } else {

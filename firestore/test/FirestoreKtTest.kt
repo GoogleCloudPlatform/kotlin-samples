@@ -11,7 +11,10 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
-import org.junit.*
+import org.junit.Test
+import org.junit.Before
+import org.junit.After
+import org.junit.Assert
 import com.google.kotlinfirestore.main
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
@@ -19,7 +22,7 @@ import java.io.PrintStream
 internal class FirestoreKtTest {
 
     var outContent = ByteArrayOutputStream()
-    val originalOut = System.out;
+    val originalOut = System.out
     val collection = System.getenv("FIRESTORE_COLLECTION")
 
     @Before
@@ -36,20 +39,18 @@ internal class FirestoreKtTest {
 
     @After
     fun restoreStreams() {
-        System.setOut(originalOut);
+        System.setOut(originalOut)
     }
 
     @Test
     fun fetchNonExistantTest() {
-        val args = arrayOf(collection, "nonexistant")
-        main(args)
+        main(arrayOf(collection, "nonexistant"))
         Assert.assertEquals("nonexistant: not found\n", outContent.toString())
     }
 
     @Test
     fun fetchExistantTest() {
-        val args = arrayOf(collection, "foo")
-        main(args)
+        main(arrayOf(collection, "foo"))
         Assert.assertEquals("foo: bar\n", outContent.toString())
     }
 
@@ -60,7 +61,7 @@ internal class FirestoreKtTest {
 
         // ensure key doesn't currently exist
         main(arrayOf(collection, key))
-        Assert.assertEquals("${key}: not found\n", outContent.toString())
+        Assert.assertEquals("$key: not found\n", outContent.toString())
 
         // set the key to "some value"
         main(arrayOf(collection, key, "some value"))
@@ -69,7 +70,13 @@ internal class FirestoreKtTest {
         outContent = ByteArrayOutputStream()
         System.setOut(PrintStream(outContent))
         main(arrayOf(collection, key))
-        Assert.assertEquals("${key}: some value\n", outContent.toString())
+        Assert.assertEquals("$key: some value\n", outContent.toString())
+    }
+
+    @Test
+    fun fetchAllTest() {
+        main(arrayOf(collection))
+        Assert.assertEquals("foo: bar", outContent.toString().substringBefore("\n"))
     }
 
     @Test(expected = Exception::class)
