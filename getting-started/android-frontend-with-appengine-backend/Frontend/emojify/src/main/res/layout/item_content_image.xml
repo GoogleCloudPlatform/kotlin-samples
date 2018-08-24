@@ -12,7 +12,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <com.yanzhenjie.album.widget.SquareImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/iv_album_content_image"
+    android:id="@+id/ivAlbumContentImage"
     style="@style/Album.MatchParent"
     android:contentDescription="@string/album_title"
     android:scaleType="centerCrop" />

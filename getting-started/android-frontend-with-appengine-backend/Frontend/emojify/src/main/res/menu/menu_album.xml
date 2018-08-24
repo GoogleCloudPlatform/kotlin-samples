@@ -22,13 +22,13 @@ limitations under the License.
         android:icon="@drawable/ic_eye_white"
         android:orderInCategory="100"
         android:title="@string/eye_option_preview"
-        app:showAsAction="ifRoom|withText"/>
+        app:showAsAction="ifRoom|withText" />
 
     <item
         android:id="@+id/menu_album"
         android:icon="@drawable/ic_logo_white"
         android:orderInCategory="100"
         android:title="@string/menu_album_select"
-        app:showAsAction="ifRoom|withText"/>
+        app:showAsAction="ifRoom|withText" />
 
 </menu>

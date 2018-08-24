@@ -20,6 +20,6 @@ limitations under the License.
         android:icon="@drawable/ic_eye_white"
         android:orderInCategory="100"
         android:title="@string/eye_option_preview"
-        app:showAsAction="ifRoom|withText"/>
+        app:showAsAction="ifRoom|withText" />
 
 </menu>

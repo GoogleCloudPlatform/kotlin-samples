@@ -24,7 +24,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile
-import kotlinx.android.synthetic.main.item_content_image.view.iv_album_content_image as my_content_image
+import kotlinx.android.synthetic.main.item_content_image.view.ivAlbumContentImage
 
 class AlbumFileDiffCallback : DiffUtil.ItemCallback<AlbumFile>() {
 
@@ -49,7 +49,7 @@ class Adapter(private val clickListener: (AlbumFile) -> Unit) : ListAdapter<Albu
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(albumFile: AlbumFile, clickListener: (AlbumFile) -> Unit) {
-            Album.getAlbumConfig().albumLoader.load(itemView.my_content_image, albumFile)
+            Album.getAlbumConfig().albumLoader.load(itemView.ivAlbumContentImage, albumFile)
             itemView.setOnClickListener { clickListener(albumFile) }
         }
     }

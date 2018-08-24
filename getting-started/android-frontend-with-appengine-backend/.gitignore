@@ -1,5 +1,7 @@
 /target/
+/*/local.properties
 google-services.json
+
 
 ### STS ###
 .apt_generated

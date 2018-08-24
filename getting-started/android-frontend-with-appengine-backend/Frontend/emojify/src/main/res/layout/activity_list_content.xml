@@ -18,21 +18,21 @@ limitations under the License.
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
-        android:id="@+id/tv_message"
+        android:id="@+id/tvMessage"
         style="@style/Album.WrapContent"
         android:layout_margin="@dimen/album_dp_10"
         android:text="@string/eye_option_preview"
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/image_view"
+        android:id="@+id/imageView"
         style="@style/Album.WrapContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/image_view" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recyclerView"
         style="@style/Album.WrapContent.WidthMatchParent"
         android:layout_marginTop="@dimen/album_dp_10" />
 </LinearLayout>

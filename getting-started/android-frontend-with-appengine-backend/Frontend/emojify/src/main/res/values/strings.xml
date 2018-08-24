@@ -13,7 +13,6 @@ limitations under the License.
 -->
 <resources>
     <string name="app_name">Emojify</string>
-
     <string name="btn_plus">+</string>
     <string name="title_album_select">Media Album</string>
     <string name="menu_album_select">Album</string>
