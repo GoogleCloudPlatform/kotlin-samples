@@ -21,7 +21,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.NoSuchPropertyException
 import android.view.Menu
@@ -41,7 +40,6 @@ import com.bumptech.glide.signature.ObjectKey
 import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile
 import com.yanzhenjie.album.api.widget.Widget
-import com.yanzhenjie.album.impl.OnItemClickListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
@@ -60,33 +58,31 @@ import java.util.Properties
 class ImageActivity : AppCompatActivity() {
 
     private lateinit var backendUrl: String
-    private var adapter: Adapter? = null
-    private var albumFiles: ArrayList<AlbumFile>? = null
+    private lateinit var adapter: Adapter
+    private val albumFiles: MutableList<AlbumFile> = mutableListOf()
     private val job = Job()
-
-    companion object {
-        private var emjojifiedUrl: String = ""
-        private var imageId: String = ""
-        private val storageRef: StorageReference = FirebaseStorage.getInstance().reference
-    }
+    private var emjojifiedUrl: String = ""
+    private var imageId: String = ""
+    private val storageRef: StorageReference = FirebaseStorage.getInstance().reference
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        show("First, select picture to emojify!")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_album)
         setSupportActionBar(toolbar)
-        recycler_view.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager
-        val divider = Api21ItemDivider(Color.TRANSPARENT, 10, 10)
-        recycler_view.addItemDecoration(divider)
-        adapter = Adapter(this, OnItemClickListener { _, position -> previewImage(position) })
-        recycler_view.adapter = adapter
+
+        recycler_view.apply {
+            layoutManager = GridLayoutManager(this@ImageActivity, 3)
+            adapter = Adapter({ _ -> previewImage(0) })
+            val divider = Api21ItemDivider(Color.TRANSPARENT, 10, 10)
+            addItemDecoration(divider)
+        }
 
         val properties = Properties()
         properties.load(assets.open("application.properties"))
-        if (properties["storage.bucket.name"] == null)
+        val bucketName = properties["storage.bucket.name"] ?:
             throw NoSuchPropertyException("property 'storage.bucket.name' doesn't exist in application.properties!")
-
-        backendUrl = "https://${properties["storage.bucket.name"]}"
+        backendUrl = "https://$bucketName"
+        show("First, select picture to emojify!")
         selectImage()
     }
 
@@ -191,7 +187,8 @@ class ImageActivity : AppCompatActivity() {
                     .build()
             )
             .onResult { result ->
-                albumFiles = result
+                albumFiles.clear()
+                albumFiles.addAll(result)
                 tv_message.visibility = View.VISIBLE
                 if (result.size > 0) load(result[0].path)
             }
@@ -202,11 +199,11 @@ class ImageActivity : AppCompatActivity() {
     }
 
     private fun previewImage(position: Int) {
-        if (albumFiles == null || albumFiles!!.size == 0) Toast.makeText(this, R.string.no_selected, Toast.LENGTH_LONG).show()
+        if (albumFiles.isEmpty()) Toast.makeText(this, R.string.no_selected, Toast.LENGTH_LONG).show()
         else {
             Album.galleryAlbum(this)
                 .checkable(false)
-                .checkedList(albumFiles)
+                .checkedList(albumFiles as ArrayList<AlbumFile>)
                 .currentPosition(position)
                 .widget(
                     Widget.newDarkBuilder(this)
@@ -214,8 +211,9 @@ class ImageActivity : AppCompatActivity() {
                         .build()
                 )
                 .onResult { result ->
-                    albumFiles = result
-                    adapter!!.notifyDataSetChanged(albumFiles!!)
+                    albumFiles.clear()
+                    albumFiles.addAll(result)
+                    adapter.submitList(albumFiles)
                     tv_message.visibility = if (result.size > 0) View.VISIBLE else View.GONE
                 }
                 .start()
@@ -236,8 +234,5 @@ class ImageActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onBackPressed() {
-        println("CALLED!")
-        selectImage()
-    }
+    override fun onBackPressed() = selectImage()
 }

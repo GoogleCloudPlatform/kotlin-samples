@@ -22,19 +22,12 @@ import java.util.Locale
 
 class Application : android.app.Application() {
 
-    companion object {
-        var instance: Application? = null
-    }
-
     override fun onCreate() {
         super.onCreate()
-        if (instance == null) {
-            instance = this
-            Album.initialize(AlbumConfig.newBuilder(this)
-                    .setAlbumLoader(MediaLoader())
-                    .setLocale(Locale.getDefault())
-                    .build()
-            )
-        }
+        Album.initialize(AlbumConfig.newBuilder(this)
+                .setAlbumLoader(MediaLoader())
+                .setLocale(Locale.getDefault())
+                .build()
+        )
     }
 }
