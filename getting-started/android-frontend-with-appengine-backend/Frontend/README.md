@@ -8,6 +8,10 @@ Android app written in Kotlin. The app prompts user to select a picture after wh
 * Processes backend response (parses emojified image public url)
 * Downloads and draws emojified image
 
+A few screenshots:
+
+<image src="../screenshots/welcome.png" width="210px"/> <<image src="../screenshots/placeholder-image-1.png" width="210px"/>
+<image src="../screenshots/placeholder-image-2.png" width="210px"/> <<image src="../screenshots/result.png" width="210px"/>
 ## Setup
 
 This app uses Firebase. You will need to:
