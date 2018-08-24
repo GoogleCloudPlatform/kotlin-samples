@@ -27,6 +27,7 @@ import com.yanzhenjie.album.AlbumFile
 import kotlinx.android.synthetic.main.item_content_image.view.iv_album_content_image as my_content_image
 
 class AlbumFileDiffCallback : DiffUtil.ItemCallback<AlbumFile>() {
+
     override fun areItemsTheSame(oldItem: AlbumFile, newItem: AlbumFile): Boolean {
         return oldItem.path == newItem.path
     }
@@ -38,10 +39,8 @@ class AlbumFileDiffCallback : DiffUtil.ItemCallback<AlbumFile>() {
 
 class Adapter(private val clickListener: (AlbumFile) -> Unit) : ListAdapter<AlbumFile, Adapter.ViewHolder>(AlbumFileDiffCallback()) {
 
-    private lateinit var inflater: LayoutInflater
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        inflater = LayoutInflater.from(parent.context)
+        val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(inflater.inflate(R.layout.item_content_image, parent, false))
     }
 
