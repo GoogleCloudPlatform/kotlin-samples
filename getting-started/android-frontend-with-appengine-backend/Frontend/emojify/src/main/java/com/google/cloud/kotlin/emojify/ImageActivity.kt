@@ -79,8 +79,7 @@ class ImageActivity : AppCompatActivity() {
 
         val properties = Properties()
         properties.load(assets.open("application.properties"))
-        val bucketName = properties["storage.bucket.name"] ?:
-            throw NoSuchPropertyException("property 'storage.bucket.name' doesn't exist in application.properties!")
+        val bucketName = properties["storage.bucket.name"] ?: throw NoSuchPropertyException("property 'storage.bucket.name' doesn't exist in application.properties!")
         backendUrl = "https://$bucketName"
         show("First, select picture to emojify!")
         selectImage()
