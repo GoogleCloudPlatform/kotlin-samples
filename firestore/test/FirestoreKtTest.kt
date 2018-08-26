@@ -15,6 +15,7 @@ import org.junit.Test
 import org.junit.Before
 import org.junit.After
 import org.junit.Assert
+import org.hamcrest.CoreMatchers.containsString;
 import com.google.kotlinfirestore.main
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
@@ -65,6 +66,7 @@ internal class FirestoreKtTest {
 
         // set the key to "some value"
         main(arrayOf(collection, key, "some value"))
+        Assert.assertThat(outContent.toString(), containsString("Updated collection: "))
 
         // ensure key exists now (and reset the output stream)
         outContent = ByteArrayOutputStream()
@@ -76,7 +78,7 @@ internal class FirestoreKtTest {
     @Test
     fun fetchAllTest() {
         main(arrayOf(collection))
-        Assert.assertEquals("foo: bar", outContent.toString().substringBefore("\n"))
+        Assert.assertThat(outContent.toString(), containsString("foo: bar"))
     }
 
     @Test(expected = Exception::class)
