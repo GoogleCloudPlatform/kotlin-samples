@@ -27,12 +27,11 @@ fun quickstart(bucketName: String) {
     // [START storage_quickstart]
     // import com.google.cloud.storage.StorageOptions
     val storage = StorageOptions.getDefaultInstance().service
-    val bucket = storage.get(bucketName)
-            ?: error("Bucket $bucketName does not exist.")
+    val bucket = storage.get(bucketName) ?: error("Bucket $bucketName does not exist.")
 
-    println("Listing all blobs in bucket $bucketName: \n")
-    for (blob in bucket.list().iterateAll()) {
-        println("Name: ${blob.name} \t Content Type: ${blob.contentType} \t Size: ${blob.size}")
+    println("Listing all blobs in bucket $bucketName:")
+    bucket.list().iterateAll().forEach { blob ->
+        println("${blob.name} (content-type: ${blob.contentType}, size: ${blob.size})")
     }
     // [END storage_quickstart]
 }
