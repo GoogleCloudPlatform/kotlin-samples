@@ -16,11 +16,11 @@ import org.junit.Before
 import org.junit.After
 import org.junit.Assert
 import org.hamcrest.CoreMatchers.containsString
-import com.google.kotlinfirestore.main
+import com.google.firestore.main
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
-internal class FirestoreKtTest {
+internal class FirestoreTest {
 
     var outContent = ByteArrayOutputStream()
     val originalOut = System.out

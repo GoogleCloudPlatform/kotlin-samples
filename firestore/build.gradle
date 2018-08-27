@@ -46,7 +46,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.google.kotlinfirestore.FirestoreKt'
+        attributes 'Main-Class': 'com.google.firestore.FirestoreKt'
     }
 
     // This line of code recursively collects and copies all of a project's files

@@ -11,7 +11,7 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
-package com.google.kotlinfirestore
+package com.google.firestore
 
 import com.google.cloud.firestore.FirestoreOptions
 
@@ -32,7 +32,7 @@ fun main(args: Array<String>) {
     var data = docRef
         .get() // future
         .get() // snapshot
-        .getData()
+        .getData() // MutableMap
 
     // initialize document with empty data object if it doesn't exist
     if (data == null) {
@@ -40,14 +40,15 @@ fun main(args: Array<String>) {
         docRef.set(data)
     }
 
-    // Fetch the key if no value is submitted. Set the key to the value otherwise
-    if (args.size == 1) {
-        data.forEach { key, value -> println("$key: $value") }
-    } else if (args.size == 2) {
-        val value = data.get(args[1])
-        println("${args[1]}: " + if (value == null) "not found" else value)
-    } else {
-        val future = docRef.update(args[1], args[2])
-        println("Updated collection: ${future.get()}")
+    // If no arguments are supplied, call the quickstart. Fetch the key value if
+    // only one argument is supplied. Set the key to the supplied value if two
+    // arguments are supplied.
+    when {
+        args.size == 1 -> quickstart(args[0], "samples")
+        args.size == 2 -> println("${args[1]}: " + (data.get(args[1]) ?: "not found"))
+        else -> {
+            val future = docRef.update(args[1], args[2])
+            println("Updated collection: ${future.get()}")
+        }
     }
 }
