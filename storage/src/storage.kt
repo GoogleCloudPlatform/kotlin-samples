@@ -53,6 +53,7 @@ val actions = mapOf(
 const val usage = """
 The input to the program can be any of the below commands:
 
+-  quickstart <bucket> |
 -  create <bucket> |
 -  info [<bucket>] |
 -  upload <localFilePath> <bucket> [<blob>] |
@@ -166,6 +167,8 @@ fun main(vararg args: String) {
         args.isEmpty() -> error("Command incomplete: please provide the action to execute and its arguments! \n $usage")
 
         args[0] == "usage" -> println(usage)
+
+        args.size == 2 && args[0] == "quickstart" -> quickstart(args[1])
 
         !actions.containsKey(args[0]) -> error("Bad command: action not found! \n $usage")
 
