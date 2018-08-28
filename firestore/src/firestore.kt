@@ -43,9 +43,9 @@ fun main(args: Array<String>) {
     // If no arguments are supplied, call the quickstart. Fetch the key value if
     // only one argument is supplied. Set the key to the supplied value if two
     // arguments are supplied.
-    when {
-        args.size == 1 -> quickstart(args[0], "samples")
-        args.size == 2 -> println("${args[1]}: " + (data.get(args[1]) ?: "not found"))
+    when (args.size) {
+        1 -> quickstart(args[0], "samples")
+        2 -> println("${args[1]}: " + (data.get(args[1]) ?: "not found"))
         else -> {
             val future = docRef.update(args[1], args[2])
             println("Updated collection: ${future.get()}")
