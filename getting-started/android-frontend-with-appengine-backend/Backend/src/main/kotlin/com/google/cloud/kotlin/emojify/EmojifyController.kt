@@ -28,6 +28,7 @@ import com.google.cloud.vision.v1.Feature
 import com.google.cloud.vision.v1.Feature.Type
 import org.springframework.http.HttpStatus
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.ClassPathResource
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -87,12 +88,16 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
     }
 
     val emojiBufferedImage = mapOf(
-        Emoji.JOY to stream("emojis/joy.png"),
-        Emoji.ANGER to stream("emojis/anger.png"),
-        Emoji.SURPRISE to stream("emojis/surprise.png"),
-        Emoji.SORROW to stream("emojis/sorrow.png"),
-        Emoji.NONE to stream("emojis/none.png")
+        Emoji.JOY to retrieveEmoji("joy.png"),
+        Emoji.ANGER to retrieveEmoji("anger.png"),
+        Emoji.SURPRISE to retrieveEmoji("surprise.png"),
+        Emoji.SORROW to retrieveEmoji("sorrow.png"),
+        Emoji.NONE to retrieveEmoji("none.png")
     )
+
+    private final fun retrieveEmoji(name: String): BufferedImage {
+        return ImageIO.read(ClassPathResource("emojis/$name").inputStream)
+    }
 
     fun stream(blobName: String): BufferedImage {
         val strm: InputStream = Channels.newInputStream(storage.reader(bucketName, blobName))
