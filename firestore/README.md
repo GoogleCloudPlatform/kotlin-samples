@@ -72,7 +72,7 @@ cd kotlin-samples/firestore
 Replace `YOUR_COLLECTION_ID` below with your Collection ID.
 
 > **Note**: This sample uses a document named `samples` and sets the key/value
-in there. See [the sample](src/Firestore.kt) for context.
+in there. See [the sample](src/firestore.kt) for context.
 
 ```sh
 # Store an arbitrary key/value in a document in your collection
