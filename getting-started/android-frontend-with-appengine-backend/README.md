@@ -7,7 +7,7 @@ frontend. The backend emojifies people faces in an input image by overlaying on 
 Example of source and emojified images:
 
 <image src="screenshots/meetup.jpg" width="430px"/> <<image src="screenshots/emojified-meetup.jpg" width="430px"/>
-These pictures were taken at [DroidCon NYC Extended](https://dcnyc-extended-2018.splashthat.com/) in NYC.
+These pictures were taken at [DroidCon NYC Extended](https://dcnyc-extended-2018.splashthat.com/).
             
 ## Cloud Client Libraries
 The app integrates two Google Cloud Client Libraries:
