@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2018 Google LLC.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ import com.google.cloud.firestore.FirestoreOptions
 
 fun quickstart(collectionName: String, documentName: String) {
     // [START firestore_quickstart]
-    // import com.google.cloud.firestore.FirestoreOptions
     // Create the client.
     val db = FirestoreOptions.newBuilder()
         .setTimestampsInSnapshotsEnabled(true)
@@ -26,12 +25,10 @@ fun quickstart(collectionName: String, documentName: String) {
 
     // Fetch the document reference and data object.
     val docRef = db.collection(collectionName).document(documentName)
-    var data = docRef
-        .get() // future
-        .get() // snapshot
-        .getData() // MutableMap
-
-    if (data == null) error("Document $collectionName:$documentName not found")
+    val data = docRef
+            .get() // future
+            .get() // snapshot
+            .data ?: error("Document $collectionName:$documentName not found") // MutableMap
 
     // Print the retrieved data.
     data.forEach { key, value -> println("$key: $value") }

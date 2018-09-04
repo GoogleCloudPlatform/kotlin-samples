@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2018 Google LLC.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ import com.google.cloud.firestore.FirestoreOptions
 
 fun main(args: Array<String>) {
     // validate the arguments
-    if (args.size < 1 || args.size > 3) {
+    if (args.isEmpty() || args.size > 3) {
         throw Exception("Usage: firestore.jar YOUR_COLLECTION_ID [KEY] [VALUE]")
     }
 
@@ -32,7 +32,7 @@ fun main(args: Array<String>) {
     var data = docRef
         .get() // future
         .get() // snapshot
-        .getData() // MutableMap
+        .data // MutableMap
 
     // initialize document with empty data object if it doesn't exist
     if (data == null) {
@@ -40,12 +40,11 @@ fun main(args: Array<String>) {
         docRef.set(data)
     }
 
-    // If no arguments are supplied, call the quickstart. Fetch the key value if
-    // only one argument is supplied. Set the key to the supplied value if two
-    // arguments are supplied.
+    // If no arguments are supplied, call the quickstart. Fetch the key value if only one argument is supplied.
+    // Set the key to the supplied value if two arguments are supplied.
     when (args.size) {
         1 -> quickstart(args[0], "samples")
-        2 -> println("${args[1]}: " + (data.get(args[1]) ?: "not found"))
+        2 -> println("${args[1]}: ${data[args[1]] ?: "not found"}")
         else -> {
             val future = docRef.update(args[1], args[2])
             println("Updated collection: ${future.get()}")

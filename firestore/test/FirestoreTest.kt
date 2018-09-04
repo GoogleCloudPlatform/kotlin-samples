@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2018 Google LLC.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@ import java.io.PrintStream
 
 internal class FirestoreTest {
 
-    var outContent = ByteArrayOutputStream()
-    val originalOut = System.out
-    val collection = System.getenv("FIRESTORE_COLLECTION")
+    private var outContent = ByteArrayOutputStream()
+    private val originalOut = System.out!!
+    private val collection = System.getenv("FIRESTORE_COLLECTION")!!
 
     @Before
     fun setUpStreams() {
@@ -32,31 +32,31 @@ internal class FirestoreTest {
     }
 
     @Before
-    fun verifyCollection() {
-        if (collection.isNullOrEmpty()) {
+    fun `verify collection`() {
+        if (collection.isEmpty()) {
             throw Exception("Set the FIRESTORE_COLLECTION env var")
         }
     }
 
     @After
-    fun restoreStreams() {
+    fun `restore streams`() {
         System.setOut(originalOut)
     }
 
     @Test
-    fun fetchNonExistantTest() {
-        main(arrayOf(collection, "nonexistant"))
-        Assert.assertEquals("nonexistant: not found\n", outContent.toString())
+    fun `fetch non-existing`() {
+        main(arrayOf(collection, "non-existing"))
+        Assert.assertEquals("non-existing: not found\n", outContent.toString())
     }
 
     @Test
-    fun fetchExistantTest() {
+    fun `fetch existing`() {
         main(arrayOf(collection, "foo"))
         Assert.assertEquals("foo: bar\n", outContent.toString())
     }
 
     @Test
-    fun setValueTest() {
+    fun `set value`() {
         // Generate a key based on the current time (so it shouldn't exist)
         val key = System.currentTimeMillis().toString()
 
@@ -76,19 +76,19 @@ internal class FirestoreTest {
     }
 
     @Test
-    fun fetchAllTest() {
+    fun `fetch all`() {
         main(arrayOf(collection))
         Assert.assertThat(outContent.toString(), containsString("foo: bar"))
     }
 
     @Test(expected = Exception::class)
-    fun tooFewArgumentsTest() {
+    fun `too few arguments`() {
         val args = arrayOf<String>()
         main(args)
     }
 
     @Test(expected = Exception::class)
-    fun tooManyArgumentsTest() {
+    fun `too many arguments`() {
         val args = arrayOf("arg1", "arg2", "arg3", "arg4")
         main(args)
     }
