@@ -46,7 +46,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.google.kotlinvision.ClassificationKt'
+        attributes 'Main-Class': 'com.google.vision.QuickstartKt'
     }
 
     // This line of code recursively collects and copies all of a project's files
