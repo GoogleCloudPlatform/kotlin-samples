@@ -99,7 +99,7 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
         return ImageIO.read(ClassPathResource("emojis/$name").inputStream)
     }
 
-    fun stream(blobName: String): BufferedImage {
+    fun streamFromGCS(blobName: String): BufferedImage {
         val strm: InputStream = Channels.newInputStream(storage.reader(bucketName, blobName))
         return ImageIO.read(strm)
     }
@@ -126,7 +126,7 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
         // Setting up image annotation request
         val source = ImageSource.newBuilder().setGcsImageUri("gs://$bucketName/$objectName").build()
         val img = Image.newBuilder().setSource(source).build()
-        val feat = Feature.newBuilder().setType(Type.FACE_DETECTION).build()
+        val feat = Feature.newBuilder().setMaxResults(100).setType(Type.FACE_DETECTION).build()
         val request = AnnotateImageRequest.newBuilder()
             .addFeatures(feat)
             .setImage(img)
@@ -139,7 +139,7 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
         if (resp.hasError()) return errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, 100, resp.error.message)
 
         // Writing source image to InputStream
-        val imgBuff = stream(objectName)
+        val imgBuff = streamFromGCS(objectName)
         val gfx = imgBuff.createGraphics()
 
         if (resp.faceAnnotationsList.size == 0) return errorResponse(HttpStatus.BAD_REQUEST, 107)
