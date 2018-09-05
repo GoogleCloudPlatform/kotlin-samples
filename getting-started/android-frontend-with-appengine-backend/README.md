@@ -3,8 +3,7 @@ Serverless Kotlin: Getting Started App
 
 This is a sample application to demonstrate a Kotlin backend which communicates with a mobile frontend.
 
-The backend receives an image and:
-* finds faces in the image
+The backend receives an image and for each face detected:
 * predicts emotion from facial expression
 * overlays emoji corresponding to predicted emotion
 
