@@ -21,6 +21,7 @@ Code in this repository is licensed under the Apache 2.0. See [LICENSE](LICENSE)
 |[appengine](appengine)|**Samples**: Examples for deploying Kotlin applications to [App Engine for Java 8][appengine].|
 |[storage](storage)|**Samples**: Basic examples for using [Google Cloud Storage API][storage-api].|
 |[vision](vision)|**Samples**: Basic examples for using [Google Cloud Vision API][vision-api].|
+|[Emojify](getting-started/android-frontend-with-appengine-backend)|**Demo**: Getting started with Server side Kotlin? This app demonstrates an Android frontend written in Kotlin that communicates with a Kotlin backend running on [App Engine for Java 8][appengine].|
 
 [appengine]: https://cloud.google.com/appengine/docs/standard/java/runtime-java8
 [storage-api]: https://cloud.google.com/storage/
