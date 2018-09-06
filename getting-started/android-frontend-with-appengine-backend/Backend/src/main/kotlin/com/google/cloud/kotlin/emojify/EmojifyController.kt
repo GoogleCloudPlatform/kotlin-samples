@@ -28,6 +28,7 @@ import com.google.cloud.vision.v1.Feature
 import com.google.cloud.vision.v1.Feature.Type
 import org.springframework.http.HttpStatus
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.ClassPathResource
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -87,14 +88,18 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
     }
 
     val emojiBufferedImage = mapOf(
-        Emoji.JOY to stream("emojis/joy.png"),
-        Emoji.ANGER to stream("emojis/anger.png"),
-        Emoji.SURPRISE to stream("emojis/surprise.png"),
-        Emoji.SORROW to stream("emojis/sorrow.png"),
-        Emoji.NONE to stream("emojis/none.png")
+        Emoji.JOY to retrieveEmoji("joy.png"),
+        Emoji.ANGER to retrieveEmoji("anger.png"),
+        Emoji.SURPRISE to retrieveEmoji("surprise.png"),
+        Emoji.SORROW to retrieveEmoji("sorrow.png"),
+        Emoji.NONE to retrieveEmoji("none.png")
     )
 
-    fun stream(blobName: String): BufferedImage {
+    private final fun retrieveEmoji(name: String): BufferedImage {
+        return ImageIO.read(ClassPathResource("emojis/$name").inputStream)
+    }
+
+    fun streamFromGCS(blobName: String): BufferedImage {
         val strm: InputStream = Channels.newInputStream(storage.reader(bucketName, blobName))
         return ImageIO.read(strm)
     }
@@ -121,7 +126,7 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
         // Setting up image annotation request
         val source = ImageSource.newBuilder().setGcsImageUri("gs://$bucketName/$objectName").build()
         val img = Image.newBuilder().setSource(source).build()
-        val feat = Feature.newBuilder().setType(Type.FACE_DETECTION).build()
+        val feat = Feature.newBuilder().setMaxResults(100).setType(Type.FACE_DETECTION).build()
         val request = AnnotateImageRequest.newBuilder()
             .addFeatures(feat)
             .setImage(img)
@@ -134,7 +139,7 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
         if (resp.hasError()) return errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, 100, resp.error.message)
 
         // Writing source image to InputStream
-        val imgBuff = stream(objectName)
+        val imgBuff = streamFromGCS(objectName)
         val gfx = imgBuff.createGraphics()
 
         if (resp.faceAnnotationsList.size == 0) return errorResponse(HttpStatus.BAD_REQUEST, 107)

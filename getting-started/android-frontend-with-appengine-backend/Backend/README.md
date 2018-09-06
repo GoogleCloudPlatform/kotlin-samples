@@ -11,12 +11,12 @@ This folder contains the source code of Emojify backend. When deployed on App En
 Backend endpoint: [https://cloud-kotlin-samples.appspot.com/emojify](https://cloud-kotlin-samples.appspot.com/emojify)
 
 Sample calls: 
-* https://cloud-kotlin-samples.appspot.com/emojify?objectName=engineers.png 
-* https://cloud-kotlin-samples.appspot.com/emojify?objectName=for-the-people.jpeg
+* https://cloud-kotlin-samples.appspot.com/emojify?objectName=friends.png 
+* https://cloud-kotlin-samples.appspot.com/emojify?objectName=droidcon-meetup.jpg
 
 Sample responses:
-* {"objectPath":"emojified/emojified-engineers.png","emojifiedUrl":"https://storage.googleapis.com/cloud-kotlin-samples/emojified/emojified-engineers.png","statusCode":"OK","errorCode":null,"errorMessage":null}
-* {"objectPath":"emojified/emojified-for-the-people.jpeg","emojifiedUrl":"https://storage.googleapis.com/cloud-kotlin-samples/emojified/emojified-for-the-people.jpeg","statusCode":"OK","errorCode":null,"errorMessage":null}
+* {"objectPath":"emojified/emojified-engineers.png","emojifiedUrl":"https://storage.googleapis.com/cloud-kotlin-samples/emojified/emojified-friends.png","statusCode":"OK","errorCode":null,"errorMessage":null}
+* {"objectPath":"emojified/emojified-for-the-people.jpeg","emojifiedUrl":"https://storage.googleapis.com/cloud-kotlin-samples/emojified/emojified-droidcon-meetup.jpg","statusCode":"OK","errorCode":null,"errorMessage":null}
 
 ## Setup
 

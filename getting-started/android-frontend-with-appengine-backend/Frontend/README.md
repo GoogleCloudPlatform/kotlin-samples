@@ -4,7 +4,7 @@ Emojify Frontend
 ## Description
 Android app written in Kotlin. The app prompts user to select a picture after which it:
 * Uploads image to bucket in Cloud Storage (see Setup for how to configure bucket)
-* Makes a url call to Emojify backend (https://YOUR-PROJECT-ID.appspot.com/emojify?objectName=PATH_TO_IMAGE)
+* Makes a url call to Emojify backend (https://YOUR-PROJECT-ID.appspot.com/emojify?objectName=IMAGE_NAME)
 * Processes backend response (parses emojified image public url)
 * Downloads and draws emojified image
 

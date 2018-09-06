@@ -132,7 +132,7 @@ class ImageActivity : AppCompatActivity() {
 
     private fun uploadImage(path: String) {
         val file = Uri.fromFile(File(path))
-        imageId = System.currentTimeMillis().toString() + ".jpg"
+        imageId = "${System.currentTimeMillis()}.jpg"
         val imgRef = storageRef.child(imageId)
         updateUI {
             imageView.visibility = View.GONE

@@ -1,12 +1,18 @@
 Serverless Kotlin: Getting Started App
 ===
 
-This is a sample application to demonstrate a Kotlin backend which communicates with a mobile
-frontend. The backend emojifies people faces in an input image by swapping faces detected on the image with emojis corresponding to predicted emotions. The sample is called **Emojify**.
+This is a sample application to demonstrate a Kotlin backend which communicates with a mobile frontend.
+
+The backend receives an image and for each face detected:
+* predicts emotion from facial expression
+* overlays emoji corresponding to predicted emotion
+
+The sample is called **Emojify**.
 
 Example of source and emojified images:
 
-<image src="screenshots/engineers.png" width="425px"/> <<image src="screenshots/emojified-engineers.png" width="425px"/>
+<image src="screenshots/meetup.jpg" width="430px"/> <<image src="screenshots/emojified-meetup.jpg" width="430px"/>
+These pictures were taken at [DroidCon NYC Extended](https://dcnyc-extended-2018.splashthat.com/).
             
 ## Cloud Client Libraries
 The app integrates two Google Cloud Client Libraries:
