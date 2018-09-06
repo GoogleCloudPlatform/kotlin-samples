@@ -2,7 +2,7 @@
 
 [![Open in Cloud Shell][shell_img]][shell_link]
 
-[shell_img]: http://gstatic.com/cloudssh/images/open-btn.png
+[shell_img]: http://gstatic.com/cloudssh/images/open-btn.svg
 [shell_link]: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googlecloudplatform/kotlin-samples&page=editor&working_dir=vision
 
 ## Description
@@ -15,59 +15,24 @@ Example:
 java -jar build/libs/vision.jar ./resources/doggo.jpg
 ```
 
+## Quickstart
 
-## Build and Run
+#### Setup
+- [Enable][enable-vision-api] Cloud Vision API.
+- Set up [authentication](https://cloud.google.com/docs/authentication/getting-started).
 
-### Enabling Cloud Vision API
-
-Follow this **[link][enable-vision-api]** to enable the **Cloud Vision API** within an existing Google Cloud project or in a new project.
-
-### Setting up authentication
-
-For the [Google
-Cloud Vision API][vision-api-docs] to work, you must first setup **[authentication](https://cloud.google.com/docs/authentication/production)** by creating a service account key.
-
-1. After enabling the Cloud Vision API, [Go to credentials][create-creds] and click **Create credentials**.
-2. From the **Create credentials** drop-down list, select **Service account key**.
-3. From the **Service account** drop-down list, select **New service account**.
-4. Choose a name for your Service account.
-4. No role is required to access this service unless your project has specific requirements. In this case, select the role type that best fits your needs. Otherwise, do not select any role.
-5. Select **JSON** Key type and click **Create**. Note: if you didn't select any role, a warning will appear; click **Create without role**.
-6. A JSON file that contains your credentials will be **downloaded to your computer**.
-
-### Setting GOOGLE_APPLICATION_CREDENTIALS
-
-Set the environment variable **GOOGLE_APPLICATION_CREDENTIALS** to the path of the JSON file downloaded previously.
-**Note:** This variable only applies to your current shell session, so if you open a new session, set the variable again.
-
-* Linux or macOS: 
-```sh
-export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account_key.json
-```
-* Windows: 
-
-   With command prompt:
-   ```sh
-   set GOOGLE_APPLICATION_CREDENTIALS= /path/to/service_account_key.json
-   ```
-   With PowerShell:
-   ```sh
-   $env:GOOGLE_APPLICATION_CREDENTIALS= '/path/to/service_account_key.json'
-   ```
-### Cloning the repository
+#### Build
+- Clone the repository
 ```sh
 git clone https://github.com/GoogleCloudPlatform/kotlin-samples
 cd kotlin-samples/vision
 ```
-### Installing dependencies with Gradle
-
-**Build the project** using the gradle build command:
+- Build the project with Gradle Wrapper:
 ```sh
 # run with "-info" flag to print potential errors
 ./gradlew build -info
 ```
-
-### Running the sample!
+#### Running the sample!
 
 ```sh
 # Call the Vision API with the default image file in "resources/doggo.jpg"
@@ -82,7 +47,7 @@ This sample can be run in IntelliJ. You will need to install the
 [Cloud Tools for IntelliJ][cloud-tools-intellij] plugin and open the gradle
 project.
 
-## The client library
+## About The Client Library
 
 This sample uses the [Google Cloud Client Library for Java][google-cloud-java].
 You can read the documentation for more details on API usage and use GitHub
