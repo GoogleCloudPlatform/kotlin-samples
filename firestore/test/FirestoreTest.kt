@@ -27,7 +27,7 @@ internal class FirestoreTest {
     private val collection = System.getenv("FIRESTORE_COLLECTION")!!
 
     @Before
-    fun setUpStreams() {
+    fun `setup streams`() {
         System.setOut(PrintStream(outContent))
     }
 
