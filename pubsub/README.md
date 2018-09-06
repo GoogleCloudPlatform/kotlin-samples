@@ -2,11 +2,7 @@
 
 [![Open in Cloud Shell][shell_img]][shell_link]
 
-<<<<<<< HEAD
-[shell_img]: http://gstatic.com/cloudssh/images/open-btn.png
-=======
 [shell_img]: http://gstatic.com/cloudssh/images/open-btn.svg
->>>>>>> a1f3c22d2611d466ea7e8d896e37cc35b6f056cb
 [shell_link]: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googlecloudplatform/kotlin-samples&page=editor&working_dir=pubsub
 
 ## Description
