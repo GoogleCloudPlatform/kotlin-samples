@@ -43,9 +43,7 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 
-
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -162,7 +160,6 @@ class FanControlActivity : Activity() {
                 } catch (e: IOException) {
                     Log.e(TAG, "Error setting display", e)
                 }
-
             }
 
             try {
@@ -182,7 +179,6 @@ class FanControlActivity : Activity() {
             } else {
                 mHandler.postDelayed(this, FRAME_DELAY_MS.toLong()) // Normal delay
             }
-
         }
     }
 
@@ -202,7 +198,6 @@ class FanControlActivity : Activity() {
         } catch (iee: UnsupportedEncodingException) {
             Log.e(TAG, "Could not decode configuration message", iee)
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -215,7 +210,6 @@ class FanControlActivity : Activity() {
 
         val activeNetwork = cm.activeNetworkInfo
         mIsConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
-
 
         setContentView(R.layout.activity_main)
 
@@ -317,7 +311,6 @@ class FanControlActivity : Activity() {
             true
         } else super.onKeyUp(keyCode, event)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

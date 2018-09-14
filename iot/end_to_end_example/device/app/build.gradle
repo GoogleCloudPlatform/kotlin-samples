@@ -34,10 +34,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "PROJECT_ID", '"YOUR_PROJECT_ID"'
-            buildConfigField "String", "REGISTRY_ID", '"YOUR_REGISTRY_ID"'
-            buildConfigField "String", "DEVICE_ID", '"YOUR_DEVICE_ID"'
-            buildConfigField "String", "ZONE", '"us-central-1"'
+            buildConfigField "String", "PROJECT_ID", '"kotlin-conf-2018"'
+            buildConfigField "String", "REGISTRY_ID", '"rainbow-hat"'
+            buildConfigField "String", "DEVICE_ID", '"rainbow-hat-1"'
+            buildConfigField "String", "ZONE", '"us-central1"'
         }
         release {
             initWith(buildTypes.debug)
