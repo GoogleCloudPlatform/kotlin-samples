@@ -9,11 +9,8 @@
 
 This simple command-line application demonstrates how to talk to
 [Firestore][firestore-docs] with Kotlin. The sample calls the Firestore API.
-
-Example:
-```sh
-java -jar build/libs/firestore.jar YOUR_COLLECTION_ID key value
-```
+**Check out the sample code in [src/quickstart.kt](src/quickstart.kt) and 
+[src/firestore.kt](src/firestore.kt)**
 
 ## Build and Run
 
