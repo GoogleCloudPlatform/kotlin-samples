@@ -9,8 +9,8 @@
 
 This simple command-line application demonstrates how invoke the Google [Cloud Firestore API][firestore-api] from a Kotlin application.
 
-**Check out the sample code in [quickstart.kt](src/main/quickstart.kt) and 
-[firestore.kt](src/main/firestore.kt)**
+**Check out the sample code in** [quickstart.kt](src/main/quickstart.kt) **and**
+[firestore.kt](src/main/firestore.kt).
 
 ## Quickstart
 
