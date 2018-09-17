@@ -11,31 +11,26 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
+
+package com.google.firestore
+
 import org.junit.Test
 import org.junit.Before
 import org.junit.After
 import org.junit.Assert
 import org.hamcrest.CoreMatchers.containsString
-import com.google.firestore.main
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
 internal class FirestoreTest {
 
-    private var outContent = ByteArrayOutputStream()
+    private val outContent = ByteArrayOutputStream()
     private val originalOut = System.out!!
-    private val collection = System.getenv("FIRESTORE_COLLECTION")!!
+    private val collection = "test-collection"
 
     @Before
     fun `setup streams`() {
         System.setOut(PrintStream(outContent))
-    }
-
-    @Before
-    fun `verify collection`() {
-        if (collection.isEmpty()) {
-            throw Exception("Set the FIRESTORE_COLLECTION env var")
-        }
     }
 
     @After
@@ -45,51 +40,36 @@ internal class FirestoreTest {
 
     @Test
     fun `fetch non-existing`() {
-        main(arrayOf(collection, "non-existing"))
+        main(collection, "non-existing")
         Assert.assertEquals("non-existing: not found\n", outContent.toString())
     }
 
     @Test
-    fun `fetch existing`() {
-        main(arrayOf(collection, "foo"))
-        Assert.assertEquals("foo: bar\n", outContent.toString())
-    }
-
-    @Test
-    fun `set value`() {
+    fun `set and fetch value`() {
         // Generate a key based on the current time (so it shouldn't exist)
         val key = System.currentTimeMillis().toString()
 
         // ensure key doesn't currently exist
-        main(arrayOf(collection, key))
+        main(collection, key)
         Assert.assertEquals("$key: not found\n", outContent.toString())
 
         // set the key to "some value"
-        main(arrayOf(collection, key, "some value"))
+        main(collection, key, "some value")
         Assert.assertThat(outContent.toString(), containsString("Updated collection: "))
 
         // ensure key exists now (and reset the output stream)
-        outContent = ByteArrayOutputStream()
-        System.setOut(PrintStream(outContent))
-        main(arrayOf(collection, key))
+        outContent.reset()
+        main(collection, key)
         Assert.assertEquals("$key: some value\n", outContent.toString())
-    }
-
-    @Test
-    fun `fetch all`() {
-        main(arrayOf(collection))
-        Assert.assertThat(outContent.toString(), containsString("foo: bar"))
     }
 
     @Test(expected = Exception::class)
     fun `too few arguments`() {
-        val args = arrayOf<String>()
-        main(args)
+        main()
     }
 
     @Test(expected = Exception::class)
     fun `too many arguments`() {
-        val args = arrayOf("arg1", "arg2", "arg3", "arg4")
-        main(args)
+        main("arg1", "arg2", "arg3", "arg4")
     }
 }
