@@ -11,14 +11,15 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
+
 package com.google.firestore
 
 import com.google.cloud.firestore.FirestoreOptions
 
-fun main(args: Array<String>) {
+fun main(vararg args: String) {
     // validate the arguments
     if (args.isEmpty() || args.size > 3) {
-        throw Exception("Usage: firestore.jar YOUR_COLLECTION_ID [KEY] [VALUE]")
+        throw Exception("Usage: java -jar firestore.jar YOUR_COLLECTION_ID [KEY] [VALUE]")
     }
 
     // create the client
