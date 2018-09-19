@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
+package com.google.storage
+
 import org.junit.Test
-import com.google.storage.quickstart
 
 internal class QuickstartTest {
     @Test
