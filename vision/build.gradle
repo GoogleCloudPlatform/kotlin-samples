@@ -29,8 +29,8 @@ plugins {
 }
 
 sourceSets {
-    main.java.srcDirs += 'src'
-    test.java.srcDirs += 'test'
+    main.java.srcDirs += 'src/main'
+    test.java.srcDirs += 'src/test'
 }
 
 repositories {
@@ -39,9 +39,9 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
-    compile group: 'com.google.cloud', name: 'google-cloud-vision', version: '1.35.0'
+    compile "com.google.cloud:google-cloud-vision:1.35.0"
     testCompile 'junit:junit:4.12'
-    // testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
 
 jar {
