@@ -1,12 +1,11 @@
 Kotlin Samples for App Engine
 =============================
 
-There are several samples for deploying Kotlin applications to
-[App Engine for Java 8](https://cloud.google.com/appengine/docs/standard/java/runtime-java8).
+These sample Kotlin applications demonstrate how to deploy Kotlin backends to [App Engine for Java 8](https://cloud.google.com/appengine/docs/standard/java/runtime-java8).
 
 |Link|Description|
 |---|---|
-|[Simple Kotlin App](https://github.com/GoogleCloudPlatform/getting-started-java/tree/master/appengine-standard-java8/kotlin-appengine-standard)|Deploy a basic Kotlin application to App Engine for Java 8. This sample does not use a framework|
-|[Kotlin on Spring Boot](springboot)|Deploy a Kotlin application built with Spring Boot to App Engine for Java 8|
-|[Kotlin on Spark](https://github.com/GoogleCloudPlatform/getting-started-java/tree/master/appengine-standard-java8/kotlin-spark-appengine-standard)|Deploy a Kotlin application built with Spark to App Engine for Java 8|
-|[Android App with Kotlin Backend](https://github.com/GoogleCloudPlatform/kotlin-samples/tree/master/getting-started/android-frontend-with-appengine-backend)|Sample of an Android application using Kotlin running on App Engine as a backend. The Kotlin application is built on Spring Boot and uses App Engine for Java 8|
+|[Simple Kotlin app - no framework](https://github.com/GoogleCloudPlatform/getting-started-java/tree/master/appengine-standard-java8/kotlin-appengine-standard)|Deploy a basic Kotlin application to App Engine for Java 8. This sample does not use any framework|
+|[Kotlin Spring Boot Sample](springboot)|Deploy a Kotlin application built with Spring Boot to App Engine for Java 8|
+|[Kotlin Spark Sample](https://github.com/GoogleCloudPlatform/getting-started-java/tree/master/appengine-standard-java8/kotlin-spark-appengine-standard)|Deploy a Kotlin application built with Spark to App Engine for Java 8|
+|[Android app with Kotlin Backend](https://github.com/GoogleCloudPlatform/kotlin-samples/tree/master/getting-started/android-with-appengine)|Sample of a Kotlin Spring Boot backend that runs on App Engine Standard for Java8 and communicates with an Android app written in Kotlin.|

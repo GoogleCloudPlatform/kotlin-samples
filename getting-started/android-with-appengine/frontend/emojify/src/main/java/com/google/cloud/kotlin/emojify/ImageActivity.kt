@@ -79,8 +79,8 @@ class ImageActivity : AppCompatActivity() {
 
         val properties = Properties()
         properties.load(assets.open("application.properties"))
-        val bucketName = properties["storage.bucket.name"] ?: throw NoSuchPropertyException("property 'storage.bucket.name' doesn't exist in application.properties!")
-        backendUrl = "https://$bucketName"
+        val projectId = properties["cloud.project.id"] ?: throw NoSuchPropertyException("property 'cloud.project.id' doesn't exist in application.properties!")
+        backendUrl = "https://$projectId.appspot.com"
         show("First, select picture to emojify!")
         selectImage()
     }
@@ -119,7 +119,7 @@ class ImageActivity : AppCompatActivity() {
                         show("Error calling backend!")
                         tvMessage.text = getString(R.string.backend_error)
                     }
-                    Log.e("backend", err.message)
+                    Log.e("backend", err?.message)
                     deleteSourceImage()
                 })
         request.retryPolicy = DefaultRetryPolicy(50000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
