@@ -19,6 +19,6 @@ A few screenshots:
 
 This app uses Firebase. You will need to:
 * Configure Firebase for your Google Cloud Project. Note that it is **REQUIRED** that your android app and the backend are connected to the same Google Cloud Project and that you deploy the backend first! 
-* Connect the app to Firebase ([Android Studio](https://developer.android.com/studio/write/firebase) [Manually](https://firebase.google.com/docs/android/setup#manually_add_firebase)). After this step, you should have your Firebase configuration file (google-services.json) present at `frontend/emojify/`
+* Connect the app to Firebase ([Android Studio](https://developer.android.com/studio/write/firebase); [Manually](https://firebase.google.com/docs/android/setup#manually_add_firebase)). After this step, you should have your Firebase configuration file (google-services.json) present at `frontend/emojify/`
 * Edit value of `cloud.project.id` in `application.properties` (src/main/assets): `cloud.project.id = REPLACE_THIS_WITH_YOUR_PROJECT_ID`
 * You're all set!
