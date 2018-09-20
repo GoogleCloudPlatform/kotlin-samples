@@ -32,44 +32,30 @@ the [Google Cloud Client Library for Java][google-cloud-java].
   ./gradlew build -info
   ```
 You should now have a **'pubsub.jar'** file under **build/libs/**
-```
 
 #### Create a new topic
-```
-  java -jar build/libs/pubsub.jar create <topic>
-```
+`java -jar build/libs/pubsub.jar create <topic>`
 
 #### Create a subscription
-```
-  java -jar build/libs/pubsub.jar sub <topic> <subscription>
-```
+`java -jar build/libs/pubsub.jar sub <topic> <subscription>`
 
 #### Publish messages
-```
-  java -jar build/libs/pubsub.jar pub <topic> <count> 
-```
+`java -jar build/libs/pubsub.jar pub <topic> <count>`
 
 #### Receive messages
-```
-  java -jar build/libs/pubsub.jar listen <subscription>
-```
+`java -jar build/libs/pubsub.jar listen <subscription>`
+
 Subscriber will continue to listen on the topic for 5 minutes and print out message id and data as messages are received.
 
 #### Delete topic
-```
-  java -jar build/libs/pubsub.jar del-topic <topic>
-```
+`java -jar build/libs/pubsub.jar del-topic <topic>`
 
 #### Delete subscription
-```
-  java -jar build/libs/pubsub.jar del-sub <subscription>
-```
+`java -jar build/libs/pubsub.jar del-sub <subscription>`
 
 #### Testing
 Run the test with Gradle Wrapper.
-```
-  ./gradlew test
-```
+`./gradlew test`
 ## Contributing changes
 
 * See [CONTRIBUTING.md](../CONTRIBUTING.md)
