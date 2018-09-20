@@ -18,10 +18,7 @@ The samples use the [Google Cloud Client Library for Java][google-cloud-java].
 
 ## Contributing changes.
 
-Entirely new samples are not accepted. Bug fixes are welcome, either as pull
-requests or as GitHub issues.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute.
+Entirely new samples and bug fixes are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute.
 
 ## Licensing
 
