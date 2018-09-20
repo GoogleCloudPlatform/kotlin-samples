@@ -16,7 +16,7 @@ Picture taken at [DroidCon NYC Extended](https://dcnyc-extended-2018.splashthat.
 
 # Tutorial
 
-This [codelab](https://g.co/codelabs/emojify) walks you through how to build and deploy Emojify.
+**This [codelab](https://g.co/codelabs/emojify) walks you through how to build and deploy Emojify.**
 
 ### Emojify workflow:
 * User takes a picture with frontend app
