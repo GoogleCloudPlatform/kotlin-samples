@@ -104,13 +104,6 @@ Deletes a bucket or a blob
   
 Head to [storageTest.kt][storage-sample-test] to see actual tests.
 
-## About the Client Library
-
-This sample uses the [Google Cloud Client Library for Java][google-cloud-java].
-You can read the documentation for more details on API usage and use GitHub
-to [browse the source][google-cloud-java-source] and
-[report issues][google-cloud-java-issues].
-
 [storage-sample-test]: test/storageTest.kt
 [storage-api-docs]: https://cloud.google.com/storage/
 [enable-storage-api]: https://console.cloud.google.com/flows/enableapi?apiid=storage-api.googleapis.com
