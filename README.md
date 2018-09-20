@@ -8,7 +8,7 @@ Cloud Platform.
 |Path|Description|
 |---|---|
 |[appengine](appengine)|Basic examples for deploying Kotlin applications to [App Engine for Java 8][appengine].|
-|[firestore](firestore)|This sample demonstrates the [Google Cloud Vision API][firestore-api].|
+|[firestore](firestore)|This sample demonstrates the [Google Cloud Firestore API][firestore-api].|
 |[pubsub](pubsub)|This sample demonstrates the [Google Cloud Pub/Sub API][pubsub-api].|
 |[storage](storage)|This sample demonstrates the [Google Cloud Storage API][storage-api].|
 |[vision](vision)|This sample demonstrates the [Google Cloud Vision API][vision-api].|
