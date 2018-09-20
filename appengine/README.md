@@ -1,7 +1,7 @@
 Kotlin Samples for App Engine
 =============================
 
-These are sample Kotlin applications that demonstrate how to deploy Kotlin backends to [App Engine for Java 8](https://cloud.google.com/appengine/docs/standard/java/runtime-java8).
+These sample Kotlin applications demonstrate how to deploy Kotlin backends to [App Engine for Java 8](https://cloud.google.com/appengine/docs/standard/java/runtime-java8).
 
 |Link|Description|
 |---|---|
