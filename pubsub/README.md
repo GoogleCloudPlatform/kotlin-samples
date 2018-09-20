@@ -10,6 +10,10 @@
 [Google Cloud Pub/Sub][pubsub] is a fully-managed real-time messaging service that allows you to send and receive messages between independent applications. This simple Kotlin command-line application demonstrates how to access the Pub/Sub API using
 the [Google Cloud Client Library for Java][google-cloud-java].
 
+[pubsub]: https://cloud.google.com/pubsub/
+[google-cloud-java]: https://github.com/GoogleCloudPlatform/google-cloud-java
+
+
 ## Quickstart
 
 #### Setup
@@ -73,6 +77,3 @@ Run the test with Gradle Wrapper.
 ## Licensing
 
 * See [LICENSE](../LICENSE)
-
-[pubsub]: https://cloud.google.com/pubsub/
-[google-cloud-java]: https://github.com/GoogleCloudPlatform/google-cloud-java
