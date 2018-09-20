@@ -7,12 +7,12 @@ Cloud Platform.
 
 |Path|Description|
 |---|---|
-|[appengine](appengine)|**Samples**: Basic examples for deploying Kotlin applications to [App Engine for Java 8][appengine].|
-|[firestore](firestore)|**Sample**: This sample demonstrates the [Google Cloud Vision API][firestore-api].|
-|[pubsub](pubsub)|**Sample**: This sample demonstrates the [Google Cloud Pub/Sub API][pub-sub-api].|
-|[storage](storage)|**Sample**: This sample demonstrates the [Google Cloud Storage API][storage-api].|
-|[vision](vision)|**Sample**: This sample demonstrates the [Google Cloud Vision API][vision-api].|
-|[emojify](getting-started/android-with-appengine)|**Demo**: Getting started with Server side Kotlin? This app demonstrates an Android frontend written in Kotlin that communicates with a Kotlin backend running on [App Engine for Java 8][appengine].|
+|[appengine](appengine)|Basic examples for deploying Kotlin applications to [App Engine for Java 8][appengine].|
+|[firestore](firestore)|This sample demonstrates the [Google Cloud Vision API][firestore-api].|
+|[pubsub](pubsub)|This sample demonstrates the [Google Cloud Pub/Sub API][pub-sub-api].|
+|[storage](storage)|This sample demonstrates the [Google Cloud Storage API][storage-api].|
+|[vision](vision)|This sample demonstrates the [Google Cloud Vision API][vision-api].|
+|[emojify](getting-started/android-with-appengine)|Getting started with Server side Kotlin? This app demonstrates an Android frontend written in Kotlin that communicates with a Kotlin backend running on [App Engine for Java 8][appengine].|
 
 The samples use the [Google Cloud Client Library for Java][google-cloud-java].
 
