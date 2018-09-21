@@ -26,8 +26,8 @@ repositories {
 }
 
 sourceSets {
-    main.java.srcDirs += 'src'
-    test.java.srcDirs += 'test'
+    main.java.srcDirs += 'src/main'
+    test.java.srcDirs += 'src/test'
 }
 
 dependencies {

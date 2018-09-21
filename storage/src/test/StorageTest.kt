@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
+package com.google.storage
+
 import com.google.cloud.Timestamp
 import org.junit.Test
-import com.google.storage.main
 import org.junit.FixMethodOrder
 import org.junit.runners.MethodSorters
 

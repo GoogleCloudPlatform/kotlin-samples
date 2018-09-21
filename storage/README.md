@@ -30,7 +30,7 @@ java -jar build/libs/storage.jar upload resources/upload/dog.jpg my_awesome_buck
 ## Quickstart
 
 #### Setup
-- [Enable][enable-storage-api] Pub/Sub API.
+- [Enable][enable-storage-api] Storage API.
 - Set up [authentication](https://cloud.google.com/docs/authentication/getting-started).
 
 #### Build
@@ -104,33 +104,9 @@ Deletes a bucket or a blob
   
 Head to [storageTest.kt][storage-sample-test] to see actual tests.
 
-## Using IntelliJ IDE
-You can simply **open** the project in IntelliJ.
-
-## About the Client Library
-
-This sample uses the [Google Cloud Client Library for Java][google-cloud-java].
-You can read the documentation for more details on API usage and use GitHub
-to [browse the source][google-cloud-java-source] and
-[report issues][google-cloud-java-issues].
-
-## Troubleshooting
- * **"Failed to detect whether we are running on Google ComputeEngine"**; **"The Application Default Credentials are not available"**: If you get these errors, make sure you set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to a path to your service account credentials. If you don't already have service account credentials, you will need to
-[create them][create-creds]. 
-
- * If you get any **"Permission denied"** error, make sure you enabled billing for your Google Cloud project. 
- 
- * **IntelliJ:** If you get this error: *"...the provided plugin org.jetbrains.kotlin.scripting.compiler.plugin.Scripting CompilerConfiguration ComponentRegistrar is not compatible with this version of compiler"*, **manually update your IDE Kotlin Plugin**.
-
 [storage-sample-test]: test/storageTest.kt
 [storage-api-docs]: https://cloud.google.com/storage/
-[enable-storage-api]: https://console.cloud.google.com/flows/enableapi?apiid=storage.googleapis.com
-[gradle]: https://docs.gradle.org/current/userguide/installation.html
-[create-creds]: https://console.cloud.google.com/apis/credentials
-[cloud-tools-intellij]: https://cloud.google.com/tools/intellij/docs/
-[google-cloud-java]: https://googlecloudplatform.github.io/google-cloud-java
-[google-cloud-java-source]: https://github.com/GoogleCloudPlatform/google-cloud-java
-[google-cloud-java-issues]: https://github.com/GoogleCloudPlatform/google-cloud-java/issues
+[enable-storage-api]: https://console.cloud.google.com/flows/enableapi?apiid=storage-api.googleapis.com
 
 ## Contributing changes
 

@@ -7,52 +7,67 @@
 
 ## Description
 
-This simple Kotlin command-line application demonstrates how to access the Pub/Sub API using
+[Google Cloud Pub/Sub][pubsub] is a fully-managed real-time messaging service that allows you to send and receive messages between independent applications. This simple Kotlin command-line application demonstrates how to access the Pub/Sub API using
 the [Google Cloud Client Library for Java][google-cloud-java].
-
-[Google Cloud Pub/Sub][pubsub] is a fully-managed real-time messaging service that allows you to
-send and receive messages between independent applications.
 
 [pubsub]: https://cloud.google.com/pubsub/
 [google-cloud-java]: https://github.com/GoogleCloudPlatform/google-cloud-java
 
+
 ## Quickstart
 
 #### Setup
-- Install [Maven](http://maven.apache.org/).
 - [Enable](https://console.cloud.google.com/apis/api/pubsub.googleapis.com/overview) Pub/Sub API.
 - Set up [authentication](https://cloud.google.com/docs/authentication/getting-started).
 
 #### Build
-- Build your project with:
-```
-  mvn clean package -DskipTests
-```
+- Clone the repository
+  ```sh
+  git clone https://github.com/GoogleCloudPlatform/kotlin-samples
+  cd kotlin-samples/pubsub
+  ```
+- Build the project with Gradle Wrapper:
+  ```sh
+  # run with "-info" flag to print potential errors
+  ./gradlew build -info
+  ```
+You should now have a **'pubsub.jar'** file under **build/libs/**
 
 #### Create a new topic
-```
-  mvn exec:java -Dexec.args="create my-topic"
-```
+
+`java -jar build/libs/pubsub.jar create <topic>`
 
 #### Create a subscription
-```
-  mvn exec:java -Dexec.args="sub my-topic my-sub"
-```
+
+`java -jar build/libs/pubsub.jar sub <topic> <subscription>`
 
 #### Publish messages
-```
-  mvn exec:java -Dexec.args="pub my-topic 5"
-```
-Publishes 5 messages to the topic `my-topic`.
+
+`java -jar build/libs/pubsub.jar pub <topic> <count>`
 
 #### Receive messages
-```
-   mvn exec:java -Dexec.args="listen my-sub"
-```
+
+`java -jar build/libs/pubsub.jar listen <subscription>`
+
 Subscriber will continue to listen on the topic for 5 minutes and print out message id and data as messages are received.
 
+#### Delete a topic
+
+`java -jar build/libs/pubsub.jar del-topic <topic>`
+
+#### Delete a subscription
+
+`java -jar build/libs/pubsub.jar del-sub <subscription>`
+
 #### Testing
-Run the test with Maven.
-```
-  mvn verify
-```
+Run the test with Gradle Wrapper
+
+`./gradlew test`
+
+## Contributing changes
+
+* See [CONTRIBUTING.md](../CONTRIBUTING.md)
+
+## Licensing
+
+* See [LICENSE](../LICENSE)
