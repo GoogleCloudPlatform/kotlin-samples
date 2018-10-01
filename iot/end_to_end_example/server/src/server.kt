@@ -85,11 +85,11 @@ fun handle_pubsub_message(message: PubsubMessage) {
     // Get the registry id and device id from the attributes. These are
     // automatically supplied by IoT, and allow the server to determine which
     // device sent the event.
-    val deviceId = message.attributes.get("deviceId")
+    val deviceId = message.attributesMap["deviceId"]
     val deviceName = DeviceName.format(
-        message.attributes.get("projectId"),
-        message.attributes.get("deviceRegistryLocation"),
-        message.attributes.get("deviceRegistryId"),
+        message.attributesMap["projectId"],
+        message.attributesMap["deviceRegistryLocation"],
+        message.attributesMap["deviceRegistryId"],
         deviceId
     )
 

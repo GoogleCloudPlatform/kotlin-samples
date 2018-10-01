@@ -43,6 +43,8 @@ dependencies {
     compile group: 'com.google.cloud', name: 'google-cloud-iot', version: '0.62.0-beta'
     compile "com.beust:klaxon:3.0.4"
     testCompile 'junit:junit:4.12'
+    testCompile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.24.0'
+    testCompile group: 'com.google.truth', name: 'truth', version:'0.42'
     // testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
 
@@ -55,4 +57,10 @@ jar {
     // and adds them to the JAR itself. One can extend this task, to skip certain
     // files or particular types at will
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
