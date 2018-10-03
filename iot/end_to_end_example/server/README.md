@@ -1,4 +1,4 @@
-# Google Cloud Vision Kotlin Sample
+# Google Cloud IoT Sample for Kotlin
 
 [![Open in Cloud Shell][shell_img]][shell_link]
 
@@ -14,10 +14,10 @@ authorization.
 
 Example:
 ```sh
-java -jar build/libs/server.jar
+java -jar build/libs/server.jar YOUR_PROJECT_ID YOUR_SUBSCRIPTION_NAME
 ```
 
-[iot_core]: https://cloud.google.com/iot/docs
+[iot_core]: https://cloud.google.com/iot-core
 
 ## Quickstart
 
@@ -44,8 +44,12 @@ cd kotlin-samples/iot/end_to_end_example/server
 #### Running the server
 
 ```sh
-java -jar build/libs/server.jar
+java -jar build/libs/server.jar YOUR_PROJECT_ID YOUR_SUBSCRIPTION_NAME
+
 ```
+
+Where the subscription name is the subscription linked to the IoT device registry
+you set up in the [device](../device) portion of this sample.
 
 ## Using IntelliJ IDE
 
@@ -81,8 +85,8 @@ to [browse the source][google-cloud-java-source] and
 
 ## Contributing changes
 
-* See [CONTRIBUTING.md](../CONTRIBUTING.md)
+* See [CONTRIBUTING.md](../../../CONTRIBUTING.md)
 
 ## Licensing
 
-* See [LICENSE](../LICENSE)
+* See [LICENSE](../../../LICENSE)
