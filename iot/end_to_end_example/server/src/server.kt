@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
     val subscriptionId = args[1]
     val messages = LinkedBlockingDeque<PubsubMessage>()
 
-    class MessageReceiverExample : MessageReceiver {
+    class IotMessageReceiver : MessageReceiver {
         override fun receiveMessage(message: PubsubMessage, consumer: AckReplyConsumer) {
             messages.offer(message)
             consumer.ack()
@@ -56,7 +56,7 @@ fun main(args: Array<String>) {
     val subscriptionName = ProjectSubscriptionName.of(projectId, subscriptionId)
 
     val subscriber = Subscriber
-        .newBuilder(subscriptionName, MessageReceiverExample()).build()
+        .newBuilder(subscriptionName, IotMessageReceiver()).build()
 
     try {
         // Create a subscriber bound to the asynchronous message receiver
