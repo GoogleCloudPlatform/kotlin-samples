@@ -34,7 +34,7 @@ import com.beust.klaxon.JsonObject
 
 private val iot = DeviceManagerClient.create()
 
-data class IotData(val temperature: Int)
+data class CoffeeData(val temperature: Int)
 
 // The main loop. Consumes messages from the Pub/Sub subscription.
 fun main(args: Array<String>) {
@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
     val subscriptionId = args[1]
     val messages = LinkedBlockingDeque<PubsubMessage>()
 
-    class IotMessageReceiver : MessageReceiver {
+    class CoffeeMessageReceiver : MessageReceiver {
         override fun receiveMessage(message: PubsubMessage, consumer: AckReplyConsumer) {
             messages.offer(message)
             consumer.ack()
@@ -56,7 +56,7 @@ fun main(args: Array<String>) {
     val subscriptionName = ProjectSubscriptionName.of(projectId, subscriptionId)
 
     val subscriber = Subscriber
-        .newBuilder(subscriptionName, IotMessageReceiver()).build()
+        .newBuilder(subscriptionName, CoffeeMessageReceiver()).build()
 
     try {
         // Create a subscriber bound to the asynchronous message receiver
@@ -76,7 +76,7 @@ fun main(args: Array<String>) {
 fun handlePubsubMessage(message: PubsubMessage) {
     println("Message Id: ${message.messageId} Data: ${message.data.toStringUtf8()}")
 
-    val data = Klaxon().parse<IotData>(message.data.toStringUtf8())
+    val data = Klaxon().parse<CoffeeData>(message.data.toStringUtf8())
         ?: return println("Loading JSON payload failed.")
 
     // Get the registry id and device id from the attributes. These are
@@ -93,19 +93,19 @@ fun handlePubsubMessage(message: PubsubMessage) {
     println("The device ($deviceId) has a temperature of ${data.temperature}")
 
     if (data.temperature < 0) {
-        // Turn off the fan.
-        updateDeviceConfig(deviceName, fanOn = false)
-        println("Setting fan state for device $deviceId to off.")
+        // Turn on the heater.
+        updateDeviceConfig(deviceName, heaterOn = true)
+        println("Setting heater state for device $deviceId to on.")
     } else if (data.temperature > 10) {
-        // Turn on the fan
-        updateDeviceConfig(deviceName, fanOn = true)
-        println("Setting fan state for device $deviceId to on.")
+        // Turn off the heater
+        updateDeviceConfig(deviceName, heaterOn = false)
+        println("Setting heater state for device $deviceId to off.")
     }
 }
 
 // Push the data to the given device as configuration.
-fun updateDeviceConfig(deviceName: String, fanOn: Boolean) {
-    val json = JsonObject(mapOf("fan_on" to fanOn)).toJsonString()
+fun updateDeviceConfig(deviceName: String, heaterOn: Boolean) {
+    val json = JsonObject(mapOf("heater_on" to heaterOn)).toJsonString()
 
     val req = ModifyCloudToDeviceConfigRequest.newBuilder()
         .setName(deviceName)

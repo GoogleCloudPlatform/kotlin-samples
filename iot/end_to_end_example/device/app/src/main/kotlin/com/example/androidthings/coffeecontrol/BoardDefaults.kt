@@ -28,7 +28,7 @@
  * limitations under the License.
  */
 
-package com.example.androidthings.fancontrol
+package com.example.androidthings.coffeecontrol
 
 import android.os.Build
 

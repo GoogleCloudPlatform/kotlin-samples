@@ -22,7 +22,7 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "com.example.androidthings.fancontrol"
+        applicationId "com.example.androidthings.coffeecontrol"
         minSdkVersion 27
         targetSdkVersion 27
         versionCode 1

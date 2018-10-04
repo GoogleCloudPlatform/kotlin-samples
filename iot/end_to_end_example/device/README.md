@@ -1,11 +1,11 @@
-# Android Things Fan Control - Optional Device Portion
+# Android Things Coffee Control - Optional Device Portion
 
 This sample shows you how to go from a virtual, simulated device to a
 physical real-world device.
 
 ## Screenshots
 
-![Fan demo][demo-gif]
+![Coffee demo][demo-gif]
 
 ## Pre-requisites
 
@@ -37,8 +37,8 @@ adb shell am start com.example.androidthings.weatherstation/.WeatherStationActiv
 ```
 
 If you have everything set up correctly:
-- The segment display will show the current "temperature" which will increase with the fan off and decrease with the fan on.
-- If a APA102 RGB Led strip is connected, it will display a rainbow of 7 pixels indicating the "fan" state.
+- The segment display will show the current "temperature" which will increase with the heater on and decrease with the heater off.
+- If a APA102 RGB Led strip is connected, it will display a rainbow of 7 pixels indicating the "heater" state.
 
 ## Next steps
 

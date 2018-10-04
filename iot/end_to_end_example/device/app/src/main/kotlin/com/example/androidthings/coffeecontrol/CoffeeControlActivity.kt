@@ -28,7 +28,7 @@
  * limitations under the License.
  */
 
-package com.example.androidthings.fancontrol
+package com.example.androidthings.coffeecontrol
 
 import android.app.Activity
 import android.content.Context
@@ -69,14 +69,14 @@ import com.beust.klaxon.KlaxonException
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Json
 
-data class FanControlConfig(
-    @Json(name = "fan_on")
-    val fanOn: Boolean
+data class CoffeeControlConfig(
+    @Json(name = "heater_on")
+    val heaterOn: Boolean
 )
 
-class FanControlActivity : Activity() {
+class CoffeeControlActivity : Activity() {
 
-    private var fanOn = false
+    private var heaterOn = true
     private var currTemp = 0.0f
     private val FRAME_DELAY_MS = 100
 
@@ -105,10 +105,14 @@ class FanControlActivity : Activity() {
 
     private val mTempReportRunnable = object : Runnable {
         override fun run() {
+
             Log.d(TAG, "Publishing telemetry event")
 
-            val payload = JsonObject(mapOf("temperature" to currTemp.toInt())).toJsonString()
-            val event = TelemetryEvent(payload.toByteArray(), null, TelemetryEvent.QOS_AT_LEAST_ONCE)
+            val payload = JsonObject(mapOf("temperature" to currTemp.toInt()))
+                .toJsonString()
+            val event = TelemetryEvent(
+                payload.toByteArray(), null, TelemetryEvent.QOS_AT_LEAST_ONCE)
+
             client.publishTelemetry(event)
 
             mHandler.postDelayed(this, 2000) // Delay 2 secs, repost temp
@@ -122,13 +126,13 @@ class FanControlActivity : Activity() {
             if (mIsSimulated) {
                 // For testing
                 if (currTemp > 40) {
-                    fanOn = true
+                    heaterOn = false
                 }
                 if (currTemp < 10) {
-                    fanOn = false
+                    heaterOn = true
                 }
             } else {
-                // Configuration messages are used to set fan state in another runnable.
+                // Configuration messages are used to set heater state in another runnable.
             }
 
             if (!mIsConnected) {
@@ -144,18 +148,18 @@ class FanControlActivity : Activity() {
                     currTemp = -999f
                 }
             } else {
-                if (fanOn) {
-                    currTemp -= .03f
-                    for (i in colors.indices) {
-                        val a = alphaTweak + i * (255 / 7)
-                        colors[6 - i] = Color.rgb(0, 0, a % 255)
-                    }
-                } else {
+                if (heaterOn) {
                     alphaTweak += 255 / 7
                     currTemp += .03f
                     for (i in colors.indices) {
                         val a = alphaTweak + i * (255 / 7)
                         colors[i] = Color.rgb(a % 255, 0, 0)
+                    }
+                } else {
+                    currTemp -= .03f
+                    for (i in colors.indices) {
+                        val a = alphaTweak + i * (255 / 7)
+                        colors[6 - i] = Color.rgb(0, 0, a % 255)
                     }
                 }
             }
@@ -195,9 +199,9 @@ class FanControlActivity : Activity() {
         }
 
         try {
-            val config = Klaxon().parse<FanControlConfig>(bytes.toString(UTF_8))
+            val config = Klaxon().parse<CoffeeControlConfig>(bytes.toString(UTF_8))
             if (config != null) {
-                fanOn = config!!.fanOn
+                heaterOn = config.heaterOn
                 Log.d(TAG, "Config: ${bytes.toString(UTF_8)}")
             } else {
                 Log.d(TAG, "Invalid JSON string")
@@ -209,7 +213,7 @@ class FanControlActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "Started Fan Control Station")
+        Log.d(TAG, "Started Heater Control Station")
 
         val cm = applicationContext.getSystemService(
             Context.CONNECTIVITY_SERVICE
@@ -364,7 +368,7 @@ class FanControlActivity : Activity() {
 
     companion object {
 
-        private val TAG = FanControlActivity::class.java.getSimpleName()
+        private val TAG = CoffeeControlActivity::class.java.getSimpleName()
         private val LEDSTRIP_BRIGHTNESS = 1
 
         private val MSG_UPDATE_BAROMETER_UI = 1
