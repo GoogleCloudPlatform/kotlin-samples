@@ -66,21 +66,18 @@ fun main(args: Array<String>) {
         println("Listening to messages on $subscriptionId:")
         while (true) {
             val message = messages.take()
-            handle_pubsub_message(message)
+            handlePubsubMessage(message)
         }
     } finally {
         subscriber.stopAsync()
     }
 }
 
-fun handle_pubsub_message(message: PubsubMessage) {
+fun handlePubsubMessage(message: PubsubMessage) {
     println("Message Id: ${message.messageId} Data: ${message.data.toStringUtf8()}")
 
-    val data: IotData? = Klaxon().parse<IotData>(message.data.toStringUtf8())
-    if (data == null) {
-        println("Loading JSON payload failed.")
-        return
-    }
+    val data = Klaxon().parse<IotData>(message.data.toStringUtf8())
+        ?: return println("Loading JSON payload failed.")
 
     // Get the registry id and device id from the attributes. These are
     // automatically supplied by IoT, and allow the server to determine which
@@ -97,18 +94,18 @@ fun handle_pubsub_message(message: PubsubMessage) {
 
     if (data.temperature < 0) {
         // Turn off the fan.
-        update_device_config(deviceName, fanOn = false)
+        updateDeviceConfig(deviceName, fanOn = false)
         println("Setting fan state for device $deviceId to off.")
     } else if (data.temperature > 10) {
         // Turn on the fan
-        update_device_config(deviceName, fanOn = true)
+        updateDeviceConfig(deviceName, fanOn = true)
         println("Setting fan state for device $deviceId to on.")
     }
 }
 
 // Push the data to the given device as configuration.
-fun update_device_config(deviceName: String, fanOn: Boolean) {
-    val json = JsonObject(map = mapOf("fan_on" to fanOn)).toJsonString()
+fun updateDeviceConfig(deviceName: String, fanOn: Boolean) {
+    val json = JsonObject(mapOf("fan_on" to fanOn)).toJsonString()
 
     val req = ModifyCloudToDeviceConfigRequest.newBuilder()
         .setName(deviceName)

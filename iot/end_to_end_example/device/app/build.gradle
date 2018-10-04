@@ -67,7 +67,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
+    implementation "com.beust:klaxon:3.0.4"
 }
 repositories {
     mavenCentral()

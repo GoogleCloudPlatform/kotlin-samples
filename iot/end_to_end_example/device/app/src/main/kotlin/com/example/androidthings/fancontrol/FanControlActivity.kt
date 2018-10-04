@@ -57,10 +57,6 @@ import com.google.android.things.iotcore.IotCoreClient
 import com.google.android.things.iotcore.OnConfigurationListener
 import com.google.android.things.iotcore.TelemetryEvent
 
-import org.json.JSONException
-import org.json.JSONObject
-
-import java.io.UnsupportedEncodingException
 import java.security.KeyFactory
 import java.security.KeyPair
 import java.security.NoSuchAlgorithmException
@@ -68,10 +64,20 @@ import java.security.spec.InvalidKeySpecException
 import java.security.spec.PKCS8EncodedKeySpec
 import kotlin.text.Charsets.UTF_8
 
+import com.beust.klaxon.Klaxon
+import com.beust.klaxon.KlaxonException
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.Json
+
+data class FanControlConfig(
+    @Json(name = "fan_on")
+    val fanOn: Boolean
+)
+
 class FanControlActivity : Activity() {
 
-    private var m_fanOn = false
-    private var m_currTemp = 0.0f
+    private var fanOn = false
+    private var currTemp = 0.0f
     private val FRAME_DELAY_MS = 100
 
     private var mButtonInputDriver: ButtonInputDriver? = null
@@ -83,10 +89,10 @@ class FanControlActivity : Activity() {
     private var mLed: Gpio? = null
     private var alphaTweak = 0
     private var animCounter = 0
-    private var mIsConnected: Boolean = false
+    private var mIsConnected = false
     private val mIsSimulated = false
 
-    private var client: IotCoreClient? = null
+    private lateinit var client: IotCoreClient
 
     private val mHandler = object : Handler() {
         override fun handleMessage(msg: Message) {
@@ -101,9 +107,9 @@ class FanControlActivity : Activity() {
         override fun run() {
             Log.d(TAG, "Publishing telemetry event")
 
-            val payload = String.format("{\"temperature\": %d}", m_currTemp.toInt())
+            val payload = JsonObject(mapOf("temperature" to currTemp.toInt())).toJsonString()
             val event = TelemetryEvent(payload.toByteArray(), null, TelemetryEvent.QOS_AT_LEAST_ONCE)
-            client!!.publishTelemetry(event)
+            client.publishTelemetry(event)
 
             mHandler.postDelayed(this, 2000) // Delay 2 secs, repost temp
         }
@@ -115,11 +121,11 @@ class FanControlActivity : Activity() {
 
             if (mIsSimulated) {
                 // For testing
-                if (m_currTemp > 40) {
-                    m_fanOn = true
+                if (currTemp > 40) {
+                    fanOn = true
                 }
-                if (m_currTemp < 10) {
-                    m_fanOn = false
+                if (currTemp < 10) {
+                    fanOn = false
                 }
             } else {
                 // Configuration messages are used to set fan state in another runnable.
@@ -130,23 +136,23 @@ class FanControlActivity : Activity() {
                     for (i in colors.indices) {
                         colors[6 - i] = Color.rgb(0, 0, 0)
                     }
-                    m_currTemp = 0f
+                    currTemp = 0f
                 } else {
                     for (i in colors.indices) {
                         colors[6 - i] = Color.rgb(0, 255, 0)
                     }
-                    m_currTemp = -999f
+                    currTemp = -999f
                 }
             } else {
-                if (m_fanOn) {
-                    m_currTemp -= .03f
+                if (fanOn) {
+                    currTemp -= .03f
                     for (i in colors.indices) {
                         val a = alphaTweak + i * (255 / 7)
                         colors[6 - i] = Color.rgb(0, 0, a % 255)
                     }
                 } else {
                     alphaTweak += 255 / 7
-                    m_currTemp += .03f
+                    currTemp += .03f
                     for (i in colors.indices) {
                         val a = alphaTweak + i * (255 / 7)
                         colors[i] = Color.rgb(a % 255, 0, 0)
@@ -156,7 +162,7 @@ class FanControlActivity : Activity() {
 
             if (mDisplay != null) {
                 try {
-                    mDisplay!!.display(m_currTemp.toDouble())
+                    mDisplay!!.display(currTemp.toDouble())
                 } catch (e: IOException) {
                     Log.e(TAG, "Error setting display", e)
                 }
@@ -189,14 +195,15 @@ class FanControlActivity : Activity() {
         }
 
         try {
-            val message = JSONObject(String(bytes, UTF_8))
-            m_fanOn = message.getBoolean("fan_on")
-            Log.d(TAG, String.format("Config: %s", String(bytes, UTF_8
-                    )))
-        } catch (je: JSONException) {
-            Log.d(TAG, "Could not decode JSON body for config", je)
-        } catch (iee: UnsupportedEncodingException) {
-            Log.e(TAG, "Could not decode configuration message", iee)
+            val config = Klaxon().parse<FanControlConfig>(bytes.toString(UTF_8))
+            if (config != null) {
+                fanOn = config!!.fanOn
+                Log.d(TAG, "Config: ${bytes.toString(UTF_8)}")
+            } else {
+                Log.d(TAG, "Invalid JSON string")
+            }
+        } catch (ke: KlaxonException) {
+            Log.d(TAG, "Could not decode JSON body for config", ke)
         }
     }
 
@@ -281,11 +288,13 @@ class FanControlActivity : Activity() {
                 client = IotCoreClient.Builder()
                         .setConnectionParams(connectionParams)
                         .setKeyPair(keys)
-                        .setOnConfigurationListener(OnConfigurationListener { this.onConfigurationReceived(it) })
+                        .setOnConfigurationListener(OnConfigurationListener {
+                            this.onConfigurationReceived(it)
+                        })
                         .build()
 
                 // Connect to Cloud IoT Core
-                client!!.connect()
+                client.connect()
 
                 mHandler.post(mTempReportRunnable)
             }
@@ -313,7 +322,6 @@ class FanControlActivity : Activity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         if (mButtonInputDriver != null) {
             try {
                 mButtonInputDriver!!.close()
@@ -348,9 +356,10 @@ class FanControlActivity : Activity() {
         }
 
         // clean up Cloud publisher.
-        if (client != null && client!!.isConnected) {
-            client!!.disconnect()
+        if (client.isConnected) {
+            client.disconnect()
         }
+        super.onDestroy()
     }
 
     companion object {
