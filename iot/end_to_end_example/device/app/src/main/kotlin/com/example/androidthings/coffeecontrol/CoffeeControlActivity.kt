@@ -115,7 +115,7 @@ class CoffeeControlActivity : Activity() {
 
             client.publishTelemetry(event)
 
-            mHandler.postDelayed(this, 2000) // Delay 2 secs, repost temp
+            mHandler.postDelayed(this, 2_000) // Delay 2 secs, repost temp
         }
     }
     private val mAnimateRunnable = object : Runnable {
