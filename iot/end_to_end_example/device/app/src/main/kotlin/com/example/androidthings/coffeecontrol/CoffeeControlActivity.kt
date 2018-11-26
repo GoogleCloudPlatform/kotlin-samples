@@ -76,16 +76,14 @@ data class CoffeeControlConfig(
 
 class CoffeeControlActivity : Activity() {
 
-    private val FRAME_DELAY_MS = 100
-    private var heaterOn = true
     private var currTemp = 0.0f
 
     private lateinit var deviceButtonInputDriver: ButtonInputDriver
     private lateinit var deviceLed: Gpio
+    private var deviceLedstrip: Apa102? = null // deviceLedstrip is optional
+    private var deviceDisplay: AlphanumericDisplay? = null // deviceDisplay is optional
     private val deviceRainbow = IntArray(7)
-    // deviceLedstrip and deviceDisplay are optional
-    private var deviceLedstrip: Apa102? = null
-    private var deviceDisplay: AlphanumericDisplay? = null
+    private var deviceHeaterOn = true
 
     private var alphaTweak = 0
     private var animCounter = 0
@@ -126,10 +124,10 @@ class CoffeeControlActivity : Activity() {
             if (deviceIsSimulated) {
                 // For testing
                 if (currTemp > 40) {
-                    heaterOn = false
+                    deviceHeaterOn = false
                 }
                 if (currTemp < 10) {
-                    heaterOn = true
+                    deviceHeaterOn = true
                 }
             } else {
                 // Configuration messages are used to set heater state in another runnable.
@@ -148,7 +146,7 @@ class CoffeeControlActivity : Activity() {
                     currTemp = -999f
                 }
             } else {
-                if (heaterOn) {
+                if (deviceHeaterOn) {
                     alphaTweak += 255 / 7
                     currTemp += .03f
                     for (i in colors.indices) {
@@ -190,7 +188,7 @@ class CoffeeControlActivity : Activity() {
         try {
             val config = Klaxon().parse<CoffeeControlConfig>(bytes.toString(UTF_8))
             if (config != null) {
-                heaterOn = config.heaterOn
+                deviceHeaterOn = config.heaterOn
                 Log.d(TAG, "Config: ${bytes.toString(UTF_8)}")
             } else {
                 Log.d(TAG, "Invalid JSON string")
@@ -247,7 +245,7 @@ class CoffeeControlActivity : Activity() {
             if (pkId != 0) {
                 val privateKey = applicationContext
                         .resources.openRawResource(pkId)
-                val keyBytes = inputStreamToBytes(privateKey)
+                val keyBytes = privateKey.readBytes()
 
                 val spec = PKCS8EncodedKeySpec(keyBytes)
                 val kf = KeyFactory.getInstance("RSA")
@@ -319,25 +317,9 @@ class CoffeeControlActivity : Activity() {
 
     companion object {
 
+        private val FRAME_DELAY_MS = 100
         private val TAG = CoffeeControlActivity::class.java.getSimpleName()
         private val LEDSTRIP_BRIGHTNESS = 1
-
         private val MSG_UPDATE_BAROMETER_UI = 1
-
-        @Throws(IOException::class)
-        private fun inputStreamToBytes(inputStream: InputStream): ByteArray {
-            val buffer = ByteArrayOutputStream()
-            var nRead: Int
-            val data = ByteArray(16384)
-
-            do {
-                nRead = inputStream.read(data, 0, data.size)
-                if (nRead > 0)
-                    buffer.write(data, 0, nRead)
-            } while (nRead != -1)
-
-            buffer.flush()
-            return buffer.toByteArray()
-        }
     }
 }
