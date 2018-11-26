@@ -119,5 +119,6 @@ fun updateDeviceConfig(deviceName: String, heaterOn: Boolean) {
         // If the server responds with an Exception, log it here, but continue
         // so that the message does not stay NACK'ed on the pubsub channel.
         println("Error executing ModifyCloudToDeviceConfig: ${e.message}")
+        e.printStackTrace()
     }
 }

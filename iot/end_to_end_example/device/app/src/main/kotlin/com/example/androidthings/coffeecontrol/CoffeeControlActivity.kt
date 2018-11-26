@@ -77,6 +77,8 @@ data class CoffeeControlConfig(
 class CoffeeControlActivity : Activity() {
 
     private var currTemp = 0.0f
+    private var alphaTweak = 0
+    private var animCounter = 0
 
     private lateinit var deviceButtonInputDriver: ButtonInputDriver
     private lateinit var deviceLed: Gpio
@@ -84,9 +86,6 @@ class CoffeeControlActivity : Activity() {
     private var deviceDisplay: AlphanumericDisplay? = null // deviceDisplay is optional
     private val deviceRainbow = IntArray(7)
     private var deviceHeaterOn = true
-
-    private var alphaTweak = 0
-    private var animCounter = 0
     private var deviceIsConnected = false
     private val deviceIsSimulated = false
 
@@ -253,19 +252,19 @@ class CoffeeControlActivity : Activity() {
 
                 // Configure Cloud IoT Core project information
                 val connectionParams = ConnectionParams.Builder()
-                        .setProjectId(BuildConfig.PROJECT_ID)
-                        .setRegistry(BuildConfig.REGISTRY_ID, BuildConfig.ZONE)
-                        .setDeviceId(BuildConfig.DEVICE_ID)
-                        .build()
+                    .setProjectId(BuildConfig.PROJECT_ID)
+                    .setRegistry(BuildConfig.REGISTRY_ID, BuildConfig.ZONE)
+                    .setDeviceId(BuildConfig.DEVICE_ID)
+                    .build()
 
                 // Initialize the IoT Core client
                 client = IotCoreClient.Builder()
-                        .setConnectionParams(connectionParams)
-                        .setKeyPair(keys)
-                        .setOnConfigurationListener(OnConfigurationListener {
-                            this.onConfigurationReceived(it)
-                        })
-                        .build()
+                    .setConnectionParams(connectionParams)
+                    .setKeyPair(keys)
+                    .setOnConfigurationListener(OnConfigurationListener {
+                        this.onConfigurationReceived(it)
+                    })
+                    .build()
 
                 // Connect to Cloud IoT Core
                 client.connect()
