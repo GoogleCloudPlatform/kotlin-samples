@@ -76,25 +76,25 @@ data class CoffeeControlConfig(
 
 class CoffeeControlActivity : Activity() {
 
+    private val FRAME_DELAY_MS = 100
     private var heaterOn = true
     private var currTemp = 0.0f
-    private val FRAME_DELAY_MS = 100
 
-    private var mButtonInputDriver: ButtonInputDriver? = null
-    private var mDisplay: AlphanumericDisplay? = null
+    private lateinit var deviceButtonInputDriver: ButtonInputDriver
+    private lateinit var deviceLed: Gpio
+    private val deviceRainbow = IntArray(7)
+    // deviceLedstrip and deviceDisplay are optional
+    private var deviceLedstrip: Apa102? = null
+    private var deviceDisplay: AlphanumericDisplay? = null
 
-    private var mLedstrip: Apa102? = null
-    private val mRainbow = IntArray(7)
-
-    private var mLed: Gpio? = null
     private var alphaTweak = 0
     private var animCounter = 0
-    private var mIsConnected = false
-    private val mIsSimulated = false
+    private var deviceIsConnected = false
+    private val deviceIsSimulated = false
 
     private lateinit var client: IotCoreClient
 
-    private val mHandler = object : Handler() {
+    private val deviceHandler = object : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 MSG_UPDATE_BAROMETER_UI -> {
@@ -103,7 +103,7 @@ class CoffeeControlActivity : Activity() {
         }
     }
 
-    private val mTempReportRunnable = object : Runnable {
+    private val devieTempReportRunnable = object : Runnable {
         override fun run() {
 
             Log.d(TAG, "Publishing telemetry event")
@@ -115,15 +115,15 @@ class CoffeeControlActivity : Activity() {
 
             client.publishTelemetry(event)
 
-            mHandler.postDelayed(this, 2_000) // Delay 2 secs, repost temp
+            deviceHandler.postDelayed(this, 2_000) // Delay 2 secs, repost temp
         }
     }
-    private val mAnimateRunnable = object : Runnable {
+    private val deviceAnimateRunnable = object : Runnable {
         override fun run() {
-            val colors = IntArray(mRainbow.size)
+            val colors = IntArray(deviceRainbow.size)
             animCounter = animCounter + 1
 
-            if (mIsSimulated) {
+            if (deviceIsSimulated) {
                 // For testing
                 if (currTemp > 40) {
                     heaterOn = false
@@ -135,7 +135,7 @@ class CoffeeControlActivity : Activity() {
                 // Configuration messages are used to set heater state in another runnable.
             }
 
-            if (!mIsConnected) {
+            if (!deviceIsConnected) {
                 if (animCounter and 1 == 0) {
                     for (i in colors.indices) {
                         colors[6 - i] = Color.rgb(0, 0, 0)
@@ -164,30 +164,19 @@ class CoffeeControlActivity : Activity() {
                 }
             }
 
-            if (mDisplay != null) {
-                try {
-                    mDisplay!!.display(currTemp.toDouble())
-                } catch (e: IOException) {
-                    Log.e(TAG, "Error setting display", e)
-                }
-            }
-
-            try {
-                mLedstrip!!.write(colors)
-            } catch (e: IOException) {
-                Log.e(TAG, "Error setting ledstrip", e)
-            }
+            deviceDisplay?.display(currTemp.toDouble())
+            deviceLedstrip?.write(colors)
 
             // Trigger loop again in future.
-            if (!mIsConnected) {
+            if (!deviceIsConnected) {
                 if (animCounter < 6) { // Green blink animation
-                    mHandler.postDelayed(this, 250)
+                    deviceHandler.postDelayed(this, 250)
                 } else {
                     animCounter = 0
-                    mHandler.postDelayed(this, 1000)
+                    deviceHandler.postDelayed(this, 1000)
                 }
             } else {
-                mHandler.postDelayed(this, FRAME_DELAY_MS.toLong()) // Normal delay
+                deviceHandler.postDelayed(this, FRAME_DELAY_MS.toLong()) // Normal delay
             }
         }
     }
@@ -220,54 +209,37 @@ class CoffeeControlActivity : Activity() {
         ) as ConnectivityManager
 
         val activeNetwork = cm.activeNetworkInfo
-        mIsConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
+        deviceIsConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
 
         setContentView(R.layout.activity_main)
 
         // GPIO button that generates 'A' keypresses (handled by onKeyUp method)
-        try {
-            mButtonInputDriver = ButtonInputDriver(BoardDefaults.buttonGpioPin,
-                    Button.LogicState.PRESSED_WHEN_LOW, KeyEvent.KEYCODE_A)
-            mButtonInputDriver!!.register()
-            Log.d(TAG, "Initialized GPIO Button that generates a keypress with KEYCODE_A")
-        } catch (e: IOException) {
-            throw RuntimeException("Error initializing GPIO button", e)
+        deviceButtonInputDriver = ButtonInputDriver(BoardDefaults.buttonGpioPin,
+            Button.LogicState.PRESSED_WHEN_LOW, KeyEvent.KEYCODE_A)
+        deviceButtonInputDriver.register()
+        Log.d(TAG, "Initialized GPIO Button that generates a keypress with KEYCODE_A")
+
+        deviceDisplay = AlphanumericDisplay(BoardDefaults.i2cBus)
+        Log.d(TAG, if (deviceDisplay != null) "Initialized I2C Display" else "Error initializing display")
+        deviceDisplay?.setEnabled(true)
+        deviceDisplay?.clear()
+
+        // SPI ledstrip (optional)
+        deviceLedstrip = Apa102(BoardDefaults.spiBus, Apa102.Mode.BGR)
+        Log.d(TAG, if (deviceDisplay != null) "Initialized LED strip" else "Error initializing LED strip")
+        deviceLedstrip?.brightness = LEDSTRIP_BRIGHTNESS
+        for (i in deviceRainbow.indices) {
+            deviceRainbow[i] = Color.rgb(0, 0, 0)
         }
 
-        try {
-            mDisplay = AlphanumericDisplay(BoardDefaults.i2cBus)
-            mDisplay!!.setEnabled(true)
-            mDisplay!!.clear()
-            Log.d(TAG, "Initialized I2C Display")
-        } catch (e: IOException) {
-            Log.e(TAG, "Error initializing display", e)
-            Log.d(TAG, "Display disabled")
-            mDisplay = null
-        }
-
-        // SPI ledstrip
-        try {
-            mLedstrip = Apa102(BoardDefaults.spiBus, Apa102.Mode.BGR)
-            mLedstrip!!.brightness = LEDSTRIP_BRIGHTNESS
-            for (i in mRainbow.indices) {
-                mRainbow[i] = Color.rgb(0, 0, 0)
-            }
-        } catch (e: IOException) {
-            mLedstrip = null // Led strip is optional.
-        }
-
-        mHandler.post(mAnimateRunnable)
+        deviceHandler.post(deviceAnimateRunnable)
 
         // GPIO led
-        try {
-            val pioManager = PeripheralManager.getInstance()
-            mLed = pioManager.openGpio(BoardDefaults.ledGpioPin)
-            mLed!!.setEdgeTriggerType(Gpio.EDGE_NONE)
-            mLed!!.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW)
-            mLed!!.setActiveType(Gpio.ACTIVE_HIGH)
-        } catch (e: IOException) {
-            throw RuntimeException("Error initializing led", e)
-        }
+        val pioManager = PeripheralManager.getInstance()
+        deviceLed = pioManager.openGpio(BoardDefaults.ledGpioPin)
+        deviceLed.setEdgeTriggerType(Gpio.EDGE_NONE)
+        deviceLed.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW)
+        deviceLed.setActiveType(Gpio.ACTIVE_HIGH)
 
         // Configure the Cloud IoT Connector --
         val pkId = resources.getIdentifier("privatekey", "raw", packageName)
@@ -300,7 +272,7 @@ class CoffeeControlActivity : Activity() {
                 // Connect to Cloud IoT Core
                 client.connect()
 
-                mHandler.post(mTempReportRunnable)
+                deviceHandler.post(devieTempReportRunnable)
             }
         } catch (ikse: InvalidKeySpecException) {
             Log.e(TAG, "INVALID Key spec", ikse)
@@ -326,38 +298,17 @@ class CoffeeControlActivity : Activity() {
     }
 
     override fun onDestroy() {
-        if (mButtonInputDriver != null) {
-            try {
-                mButtonInputDriver!!.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+        deviceButtonInputDriver.close()
 
-            mButtonInputDriver = null
+        // deviceLedstrip is optional
+        if (deviceLedstrip != null) {
+            deviceLedstrip?.brightness = 0
+            deviceLedstrip?.write(IntArray(7))
+            deviceLedstrip?.close()
         }
 
-        if (mLedstrip != null) {
-            try {
-                mLedstrip!!.brightness = 0
-                mLedstrip!!.write(IntArray(7))
-                mLedstrip!!.close()
-            } catch (e: IOException) {
-                Log.e(TAG, "Error disabling ledstrip", e)
-            } finally {
-                mLedstrip = null
-            }
-        }
-
-        if (mLed != null) {
-            try {
-                mLed!!.value = false
-                mLed!!.close()
-            } catch (e: IOException) {
-                Log.e(TAG, "Error disabling led", e)
-            } finally {
-                mLed = null
-            }
-        }
+        deviceLed.value = false
+        deviceLed.close()
 
         // clean up Cloud publisher.
         if (client.isConnected) {
