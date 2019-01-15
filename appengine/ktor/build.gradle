@@ -13,6 +13,9 @@ buildscript {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:$appengine_plugin_version"
     }
 }
+plugins {
+    id("de.fayard.buildSrcVersions") version "0.3.2"
+}
 
 apply plugin: 'kotlin'
 apply plugin: 'war'
