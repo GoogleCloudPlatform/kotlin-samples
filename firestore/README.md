@@ -15,7 +15,8 @@ This simple command-line application demonstrates how invoke the Google [Cloud F
 ## Quickstart
 
 #### Setup
-- [Enable][enable-firestore-api] Cloud Firestore API inside your Google Cloud project.
+- Configure your project to use [Cloud Firestore](https://console.cloud.google.com/firestore) in Native mode.
+- [Enable Cloud Firestore API][enable-firestore-api] inside your Google Cloud project.
 - Set up [authentication](https://cloud.google.com/docs/authentication/getting-started).
 
 #### Build
@@ -33,7 +34,11 @@ You should now have a **'firestore.jar'** file under **build/libs/**
 
 #### Running the sample
 
-Usage: ```java -jar firestore.jar YOUR_COLLECTION_NAME [KEY] [VALUE]```
+Usage: ```java -jar build/libs/firestore.jar YOUR_COLLECTION_NAME [KEY] [VALUE]```
+
+* Running with a collection name will print all keys and values in the collection.
+* Running with a collection name and key will print the key/value pair.
+* Running with a collection name, key, and value will set the key to that value.
 
 ## Contributing changes
 
