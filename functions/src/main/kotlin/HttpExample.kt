@@ -1,4 +1,5 @@
-import javax.servlet.http.*
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 class HttpExample {
     fun helloWorld(req: HttpServletRequest, resp: HttpServletResponse) {

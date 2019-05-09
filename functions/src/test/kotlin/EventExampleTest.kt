@@ -14,17 +14,19 @@
 
 import java.util.logging.Logger
 import org.junit.Test
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 
 internal class EventExampleTest {
 
     @Test
     fun `pubsub trigger`() {
         val message = PubSubMessage(
-            data="SGVsbG8sIFB1Yi9TdWIh",
-            messageId="",
-            publishTime="",
-            attributes=mapOf("" to "")
+            data = "SGVsbG8sIFB1Yi9TdWIh",
+            messageId = "",
+            publishTime = "",
+            attributes = mapOf("" to "")
         )
 
         val log = mock(Logger::class.java)
