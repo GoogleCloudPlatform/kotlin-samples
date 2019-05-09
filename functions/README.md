@@ -33,6 +33,14 @@ $ curl "https://[YOUR_ZONE]-[YOUR_PROJECT_ID].cloudfunctions.net/http-example"
 Hello, World!
 ```
 
+You can see the URL for your function by running the following:
+
+```sh
+gcloud functions describe http-example | grep url
+```
+
+Where "jar-example" is the name of your Cloud Function.
+
 ### Pub/Sub Trigger
 
 An example function for Pub/Sub resides in [`src/main/kotlin/EventExample.kt`](src/main/kotlin/EventExample.kt). Before you deploy it, you need to create a Pub/Sub topic. This example uses
