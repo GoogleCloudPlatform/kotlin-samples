@@ -26,7 +26,7 @@ internal class EventExampleTest {
             data = "SGVsbG8sIFB1Yi9TdWIh",
             messageId = "",
             publishTime = "",
-            attributes = mapOf("" to "")
+            attributes = mapOf<String, String>()
         )
 
         val log = mock(Logger::class.java)
