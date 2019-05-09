@@ -68,24 +68,25 @@ NAME            EXECUTION_ID  TIME_UTC                 LOG
 pubsub-example  wss5cki38tkb  2019-05-08 21:24:28.061  INFO: Hello, Pub/Sub!
 ```
 
-### Deploy a JAR (for building with Gradle)
+### Deploy a JAR (required for building with Gradle)
 
-Google Cloud Functions does not deploying functions with Gradle. However,
-it does support deploying pre-built JARs. In order to deploy a project built
-with Gradle, you must build a Fat JAR using the `shadowJar` command. Add
-the following to `build.gradle` to enable the `shadowJar` task:
+Google Cloud Functions support deploying pre-built fat JARs. This is especially
+useful when building functions with Gradle, as Cloud Functions does not
+currently support building from Gradle automatically. A fat JAR is built
+automatically using the `shadowJar` task when you run `gradle build`:
 
 ```
 apply plugin: 'com.github.johnrengelman.shadow'
+tasks.build.dependsOn tasks.shadowJar
 ```
 
 Now you can build a fat JAR file:
 
 ```sh
-./gradlew shadowJar
+./gradlew build
 ```
 
-In order to deploy the JAR, it must be in directory by itself:
+To deploy the JAR, it must be in directory by itself:
 
 ```sh
 mkdir jar-deployment
@@ -98,7 +99,7 @@ your JAR resides in as the source:
 ```sh
 gcloud functions deploy jar-example \
     --runtime=java8 \
-    --entry-point=Example.helloHttp \
+    --entry-point=HttpExample.helloWorld \
     --trigger-http \
     --source=jar-deployment/
 ```
