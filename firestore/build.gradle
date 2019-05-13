@@ -40,7 +40,7 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
     compile "com.google.cloud:google-cloud-firestore:0.60.0-beta"
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:4.12"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
 
