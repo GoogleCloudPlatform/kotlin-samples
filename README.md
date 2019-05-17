@@ -9,6 +9,7 @@ Cloud Platform.
 |---|---|
 |[appengine](appengine)|Basic examples for deploying Kotlin applications to [App Engine for Java 8][appengine].|
 |[firestore](firestore)|This sample demonstrates the [Google Cloud Firestore API][firestore-api].|
+|[functions](functions)|This sample demonstrates deploying to [Google Cloud Functions][functions].|
 |[pubsub](pubsub)|This sample demonstrates the [Google Cloud Pub/Sub API][pubsub-api].|
 |[run](run)|Basic examples for deploying Kotlin applications to [Cloud Run][run].|
 |[storage](storage)|This sample demonstrates the [Google Cloud Storage API][storage-api].|
@@ -31,4 +32,5 @@ Code in this repository is licensed under the Apache 2.0. See [LICENSE](LICENSE)
 [pubsub-api]: https://cloud.google.com/pubsub/
 [run]: https://cloud.google.com/run/
 [firestore-api]: https://cloud.google.com/firestore/
+[functions]: https://cloud.google.com/functions/
 [google-cloud-java]: https://googlecloudplatform.github.io/google-cloud-java
