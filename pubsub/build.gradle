@@ -33,7 +33,7 @@ apply plugin: 'kotlin'
 apply plugin: 'application'
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 
-mainClassName = 'com.example.pubsub.PubSubExampleKt'
+mainClassName = 'com.example.pubsub.PubsubKt'
 
 defaultTasks 'run'
 
@@ -61,7 +61,7 @@ task wrapper(type: Wrapper) {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.example.pubsub.PubSubExampleKt'
+        attributes 'Main-Class': 'com.example.pubsub.PubsubKt'
     }
 
     // This line of code recursively collects and copies all of a project's files
