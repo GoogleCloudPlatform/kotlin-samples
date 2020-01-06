@@ -1,3 +1,4 @@
+// [START functions_helloworld_get]
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -8,3 +9,4 @@ class HttpExample {
         }
     }
 }
+// [END functions_helloworld_get]
