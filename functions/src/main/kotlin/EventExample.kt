@@ -1,3 +1,4 @@
+// [START functions_helloworld_pubsub]
 import java.util.Base64
 import java.util.logging.Logger
 
@@ -18,3 +19,4 @@ data class PubSubMessage(
     val publishTime: String,
     val attributes: Map<String, String>
 )
+// [END functions_helloworld_pubsub]
