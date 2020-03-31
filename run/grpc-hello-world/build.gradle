@@ -5,6 +5,9 @@ buildscript {
   ext.protobuf_version = "3.11.1"
 
   repositories {
+    maven {
+      url uri("${projectDir}/libs")
+    }
     mavenCentral()
   }
   dependencies {
@@ -44,7 +47,7 @@ dependencies {
   // Grpc and Protobuf
   implementation "com.google.protobuf:protobuf-gradle-plugin:0.8.11"
   implementation "com.google.protobuf:protobuf-java:${protobuf_version}"
-  implementation "com.google.protobuf:protobuf-java-util:3.11.1"
+  implementation "com.google.protobuf:protobuf-java-util:${protobuf_version}"
   implementation "io.grpc:grpc-netty-shaded:${grpc_version}"
   implementation "io.grpc:grpc-protobuf:${grpc_version}"
   implementation "io.grpc:grpc-stub:${grpc_version}"
@@ -57,7 +60,7 @@ dependencies {
 }
 
 protobuf {
-    protoc { artifact = "com.google.protobuf:protoc:3.11.0" }
+    protoc { artifact = "com.google.protobuf:protoc:${protobuf_version}" }
     plugins {
         // Specify protoc to generate using kotlin protobuf plugin
         grpc {
