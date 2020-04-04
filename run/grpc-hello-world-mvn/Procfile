@@ -1,1 +1,1 @@
-web: build/install/grpc-cloud-run-example-kotlin/bin/grpc-cloud-run-example-kotlin
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* io.grpc.examples.helloworld.HelloWorldServerKt
