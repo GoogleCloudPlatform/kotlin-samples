@@ -55,7 +55,7 @@ fun main(args: Array<String>) {
 
   Executors.newFixedThreadPool(10).asCoroutineDispatcher().use { dispatcher ->
     val builder = if (isRemote)
-      ManagedChannelBuilder.forTarget(args[0] + ":443").useTransportSecurity()
+      ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
     else
       ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
 
