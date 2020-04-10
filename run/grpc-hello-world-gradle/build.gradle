@@ -14,12 +14,6 @@ buildscript {
 }
 
 repositories {
-  maven {
-      url "https://oss.sonatype.org/content/repositories/iogrpc-1197"
-  }
-  maven {
-      url "https://oss.sonatype.org/content/repositories/iogrpc-1196"
-  }
   mavenLocal()
   google()
   jcenter()

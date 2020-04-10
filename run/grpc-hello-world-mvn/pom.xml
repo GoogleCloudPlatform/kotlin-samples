@@ -17,17 +17,6 @@
     <protobuf.version>3.11.4</protobuf.version>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>protoc-gen-grpc-kotlin-staging</id>
-      <url>https://oss.sonatype.org/content/repositories/iogrpc-1197/</url>
-    </repository>
-    <repository>
-      <id>grpc-kotlin-stub-staging</id>
-      <url>https://oss.sonatype.org/content/repositories/iogrpc-1196</url>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
