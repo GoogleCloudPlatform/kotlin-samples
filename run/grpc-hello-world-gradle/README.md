@@ -19,8 +19,9 @@ Deploy on Cloud Run:
 
     *This will take a few minutes to build and deploy.*
 
-1. Run the client against the service  on Cloud Run:
+1. Run the client against the service on Cloud Run, from in Cloud Shell:
     ```
+    cd kotlin-samples/run/grpc-hello-world-gradle
     ./gradlew HelloWorldClient --args=YOUR_CLOUD_RUN_DOMAIN_NAME
     ```
 
