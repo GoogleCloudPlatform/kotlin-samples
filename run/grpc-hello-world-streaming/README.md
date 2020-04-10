@@ -25,4 +25,4 @@ Deploy on Cloud Run:
     ./gradlew HelloWorldClient --args=YOUR_CLOUD_RUN_DOMAIN_NAME
     ```
 
-   You should see output like: `Greeter client received: Hello YOUR_CLOUD_RUN_DOMAIN_NAME`
+   You should continually see output like: `Greeter client received: Hello YOUR_CLOUD_RUN_DOMAIN_NAME`
