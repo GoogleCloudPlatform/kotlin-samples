@@ -1,1 +1,2 @@
 web: build/install/grpc-hello-world-gradle/bin/grpc-hello-world-gradle
+client: build/install/grpc-hello-world-gradle/bin/HelloWorldClientKt $HOST
