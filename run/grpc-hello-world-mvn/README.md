@@ -19,10 +19,9 @@ Deploy on Cloud Run:
 
     *This will take a few minutes to build and deploy.*
 
-1. Run the client against the service on Cloud Run, from in Cloud Shell:
-    ```
-    cd kotlin-samples/run/grpc-hello-world-mvn
-    ./mvnw compile exec:java -Dexec.mainClass="io.grpc.examples.helloworld.HelloWorldClientKt" -Dexec.args="YOUR_CLOUD_RUN_DOMAIN_NAME"
-    ```
+1. From within Cloud Shell, run the client against the service you just deployed on Cloud Run, replacing `YOUR_CLOUD_RUN_DOMAIN_NAME` with your service's domain name and replacing `PROJECT_ID` with your GCP project:
+   ```
+   docker run -it -eHOST=YOUR_CLOUD_RUN_DOMAIN_NAME gcr.io/PROJECT_ID/grpc-hello-world-mvn client
+   ```
 
    You should see output like: `Greeter client received: Hello YOUR_CLOUD_RUN_DOMAIN_NAME`
