@@ -88,4 +88,13 @@ task(HelloWorldClient, dependsOn: "classes", type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task(otherStartScripts, type: CreateStartScripts) {
+    mainClassName = "io.grpc.examples.helloworld.HelloWorldClientKt"
+    applicationName = "HelloWorldClientKt"
+    outputDir = startScripts.outputDir
+    classpath = startScripts.classpath
+}
+
+startScripts.dependsOn(otherStartScripts)
+
 task(stage, dependsOn: "installDist")
