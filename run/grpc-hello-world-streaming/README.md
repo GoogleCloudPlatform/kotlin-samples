@@ -1,4 +1,4 @@
-gRPC Kotlin Streaming Cloud Run Example
+gRPC Kotlin Server Streaming Cloud Run Example
 ---------------------------------------
 
 Run Locally:
