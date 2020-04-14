@@ -121,14 +121,6 @@
             <goals>
               <goal>compile</goal>
             </goals>
-            <configuration>
-              <sourceDirs>
-                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-                <sourceDir>${project.basedir}/target/generated-sources/protobuf/grpc-kotlin</sourceDir>
-                <sourceDir>${project.basedir}/target/generated-sources/protobuf/grpc-java</sourceDir>
-                <sourceDir>${project.basedir}/target/generated-sources/protobuf/java</sourceDir>
-              </sourceDirs>
-            </configuration>
           </execution>
         </executions>
       </plugin>
