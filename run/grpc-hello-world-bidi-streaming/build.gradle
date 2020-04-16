@@ -1,0 +1,100 @@
+buildscript {
+  ext.kotlin_version = "1.3.61"
+  ext.coroutines_version = "1.3.3"
+  ext.grpc_version = "1.26.0"
+  ext.protobuf_version = "3.11.1"
+
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.12"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+
+repositories {
+  mavenLocal()
+  google()
+  jcenter()
+  mavenCentral()
+}
+
+apply plugin: "kotlin"
+apply plugin: "com.google.protobuf"
+
+// Generate IntelliJ IDEA"s .idea & .iml project files.
+// protobuf-gradle-plugin automatically registers *.proto and the gen output files
+// to IntelliJ as sources.
+// For best results, install the Protobuf and Kotlin plugins for IntelliJ.
+apply plugin: "idea"
+apply plugin: "application"
+
+dependencies {
+  implementation "io.grpc:grpc-kotlin-stub:0.1.1"
+
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61"
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}"
+
+  // Grpc and Protobuf
+  implementation "com.google.protobuf:protobuf-gradle-plugin:0.8.11"
+  implementation "com.google.protobuf:protobuf-java:${protobuf_version}"
+  implementation "com.google.protobuf:protobuf-java-util:${protobuf_version}"
+  implementation "io.grpc:grpc-netty-shaded:${grpc_version}"
+  implementation "io.grpc:grpc-protobuf:${grpc_version}"
+  implementation "io.grpc:grpc-stub:${grpc_version}"
+
+  // Java
+  compileOnly "javax.annotation:javax.annotation-api:1.2"
+
+  // Google
+  implementation "com.google.guava:guava:28.2-jre"
+}
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:${protobuf_version}" }
+    plugins {
+        // Specify protoc to generate using kotlin protobuf plugin
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.27.0"
+        }
+        // Specify protoc to generate using our grpc kotlin plugin
+        grpckt {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:0.1.1"
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                // Generate Java gRPC classes
+                grpc { }
+                // Generate Kotlin gRPC using the custom plugin from library
+                grpckt { }
+            }
+        }
+    }
+}
+
+tasks.compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+application {
+    mainClassName = "io.grpc.examples.helloworld.HelloWorldServerKt"
+}
+
+task(HelloWorldClient, dependsOn: "classes", type: JavaExec) {
+    main = "io.grpc.examples.helloworld.HelloWorldClientKt"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(otherStartScripts, type: CreateStartScripts) {
+    mainClassName = "io.grpc.examples.helloworld.HelloWorldClientKt"
+    applicationName = "HelloWorldClientKt"
+    outputDir = startScripts.outputDir
+    classpath = startScripts.classpath
+}
+
+startScripts.dependsOn(otherStartScripts)
+
+task(stage, dependsOn: "installDist")
