@@ -10,6 +10,7 @@ buildscript {
 
 plugins {
     kotlin("jvm") version "1.3.72"
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
 
 // todo: move to subprojects, but how?
@@ -24,6 +25,8 @@ allprojects {
         jcenter()
         google()
     }
+
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }
 
 tasks.replace("assemble").dependsOn(":server:installDist")

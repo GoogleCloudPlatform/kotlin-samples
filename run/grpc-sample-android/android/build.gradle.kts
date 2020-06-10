@@ -25,8 +25,7 @@ android {
         val serverUrl: String? by project
         if (serverUrl != null) {
             resValue("string", "server_url", serverUrl!!)
-        }
-        else {
+        } else {
             resValue("string", "server_url", "http://10.0.2.2:50051/")
         }
     }

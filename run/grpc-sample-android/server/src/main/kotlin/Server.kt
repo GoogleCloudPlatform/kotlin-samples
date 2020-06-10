@@ -1,6 +1,8 @@
 import io.grpc.Server
 import io.grpc.ServerBuilder
-import io.grpc.examples.hello.*
+import io.grpc.examples.hello.GreeterGrpcKt
+import io.grpc.examples.hello.HelloReply
+import io.grpc.examples.hello.HelloRequest
 
 class Server constructor(private val port: Int) {
     val server: Server = ServerBuilder
@@ -28,7 +30,7 @@ class Server constructor(private val port: Int) {
         server.awaitTermination()
     }
 
-    private class HelloWorldService: GreeterGrpcKt.GreeterCoroutineImplBase() {
+    private class HelloWorldService : GreeterGrpcKt.GreeterCoroutineImplBase() {
         override suspend fun sayHello(request: HelloRequest) = HelloReply
                 .newBuilder()
                 .setMessage("hello, ${request.name}")

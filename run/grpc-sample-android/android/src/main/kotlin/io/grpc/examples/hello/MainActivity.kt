@@ -10,15 +10,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
+import java.net.URL
+import java.util.logging.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
-import java.net.URL
 import kotlinx.coroutines.runBlocking
-import java.lang.Exception
-import java.util.logging.Logger
 
 // todo: suspend funs
-class MainActivity: AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     private val logger = Logger.getLogger(this.javaClass.name)
 
     private fun channel(): ManagedChannel {
@@ -30,8 +29,7 @@ class MainActivity: AppCompatActivity() {
         val builder = ManagedChannelBuilder.forAddress(url.host, port)
         if (url.protocol == "https") {
             builder.useTransportSecurity()
-        }
-        else {
+        } else {
             builder.usePlaintext()
         }
 
@@ -48,11 +46,11 @@ class MainActivity: AppCompatActivity() {
         val button = findViewById<Button>(R.id.button)
 
         val nameText = findViewById<EditText>(R.id.name)
-        nameText.addTextChangedListener(object: TextWatcher {
-            override fun onTextChanged(s:CharSequence, start:Int, before:Int, count:Int) {
+        nameText.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 button.isEnabled = s.isNotEmpty()
             }
-            override fun beforeTextChanged(s:CharSequence, start:Int, count:Int, after:Int) { }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
             override fun afterTextChanged(s: Editable) { }
         })
 
@@ -63,8 +61,7 @@ class MainActivity: AppCompatActivity() {
                 val request = HelloRequest.newBuilder().setName(nameText.text.toString()).build()
                 val response = greeter.sayHello(request)
                 responseText.text = "Server says: " + response.getMessage()
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 responseText.text = "Server error: " + e.message
                 e.printStackTrace()
             }
@@ -78,8 +75,7 @@ class MainActivity: AppCompatActivity() {
             if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 sendReq()
                 true
-            }
-            else {
+            } else {
                 false
             }
         }
