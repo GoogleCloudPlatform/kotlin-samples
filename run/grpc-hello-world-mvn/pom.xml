@@ -141,6 +141,7 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
 
@@ -166,6 +167,21 @@
             <id>copy-dependencies</id>
             <phase>package</phase>
             <goals><goal>copy-dependencies</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.github.gantsign.maven</groupId>
+        <artifactId>ktlint-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <executions>
+          <execution>
+            <id>format-and-check</id>
+            <goals>
+              <goal>format</goal>
+              <goal>check</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
