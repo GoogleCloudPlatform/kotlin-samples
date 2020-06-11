@@ -27,41 +27,40 @@ import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 
-class HelloWorldClient(val channel: ManagedChannel): Closeable {
-  private val stub: GreeterCoroutineStub = GreeterCoroutineStub(channel)
+class HelloWorldClient(val channel: ManagedChannel) : Closeable {
+    private val stub: GreeterCoroutineStub = GreeterCoroutineStub(channel)
 
-  fun greet(name: String) = runBlocking {
-    val request = HelloRequest.newBuilder().setName(name).build()
-    val flow = stub.sayHelloStream(request)
-    flow.collect { response ->
-      println(response.message)
+    fun greet(name: String) = runBlocking {
+        val request = HelloRequest.newBuilder().setName(name).build()
+        val flow = stub.sayHelloStream(request)
+        flow.collect { response ->
+            println(response.message)
+        }
     }
-  }
 
-  override fun close() {
-    channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
-  }
+    override fun close() {
+        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
+    }
 }
-
 
 /**
  * Greeter, uses first argument as name to greet if present;
  * greets "world" otherwise.
  */
 fun main(args: Array<String>) {
-  val isRemote = args.size == 1
+    val isRemote = args.size == 1
 
-  Executors.newFixedThreadPool(10).asCoroutineDispatcher().use { dispatcher ->
-    val builder = if (isRemote)
-      ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
-    else
-      ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
+    Executors.newFixedThreadPool(10).asCoroutineDispatcher().use { dispatcher ->
+        val builder = if (isRemote)
+            ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
+        else
+            ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
 
-    HelloWorldClient(
-            builder.executor(dispatcher.asExecutor()).build()
-    ).use {
-      val user = args.singleOrNull() ?: "world"
-      it.greet(user)
+        HelloWorldClient(
+                builder.executor(dispatcher.asExecutor()).build()
+        ).use {
+            val user = args.singleOrNull() ?: "world"
+            it.greet(user)
+        }
     }
-  }
 }
