@@ -1,4 +1,4 @@
-package io.grpc.examples.hello
+package io.grpc.examples.helloworld
 
 import android.os.Bundle
 import android.text.Editable

@@ -1,8 +1,8 @@
 import io.grpc.Server
 import io.grpc.ServerBuilder
-import io.grpc.examples.hello.GreeterGrpcKt
-import io.grpc.examples.hello.HelloReply
-import io.grpc.examples.hello.HelloRequest
+import io.grpc.examples.helloworld.GreeterGrpcKt
+import io.grpc.examples.helloworld.HelloReply
+import io.grpc.examples.helloworld.HelloRequest
 
 class Server constructor(private val port: Int) {
     val server: Server = ServerBuilder

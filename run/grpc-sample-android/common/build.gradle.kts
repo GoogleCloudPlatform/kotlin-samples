@@ -12,7 +12,7 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("javax.annotation:javax.annotation-api:1.2")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
     api("io.grpc:grpc-protobuf-lite:${rootProject.ext["grpcVersion"]}")
     api("io.grpc:grpc-stub:${rootProject.ext["grpcVersion"]}")
     api("io.grpc:grpc-kotlin-stub:${rootProject.ext["grpcKotlinVersion"]}") {
@@ -21,7 +21,7 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_1_7
 }
 
 protobuf {

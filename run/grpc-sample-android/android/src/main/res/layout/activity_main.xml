@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context="io.grpc.examples.hello.MainActivity">
+    tools:context="io.grpc.examples.helloworld.MainActivity">
 
     <EditText android:id="@+id/name"
         android:layout_width="match_parent"
