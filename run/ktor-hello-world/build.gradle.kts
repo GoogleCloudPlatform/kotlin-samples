@@ -35,17 +35,17 @@ tasks.create("dev") {
         fun fork(task: String, vararg args: String): Future<*> {
             return Executors.newSingleThreadExecutor().submit {
                 GradleConnector.newConnector()
-                               .forProjectDirectory(project.projectDir)
-                               .connect()
-                               .use {
-                                   it.newBuild()
-                                     .addArguments(*args)
-                                     .setStandardError(System.err)
-                                     .setStandardInput(System.`in`)
-                                     .setStandardOutput(System.out)
-                                     .forTasks(task)
-                                     .run()
-                               }
+                        .forProjectDirectory(project.projectDir)
+                        .connect()
+                        .use {
+                            it.newBuild()
+                                    .addArguments(*args)
+                                    .setStandardError(System.err)
+                                    .setStandardInput(System.`in`)
+                                    .setStandardOutput(System.out)
+                                    .forTasks(task)
+                                    .run()
+                        }
             }
         }
 
@@ -58,5 +58,7 @@ tasks.create("dev") {
 }
 
 defaultTasks("dev")
+
+tasks.replace("assemble").dependsOn("installDist")
 
 tasks.create("stage").dependsOn("installDist")

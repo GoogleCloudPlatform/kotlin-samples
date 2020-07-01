@@ -1,15 +1,15 @@
-Spring Boot Kotlin Reactive Demo
---------------------------------
+Spring Boot + Kotlin Hello, World
+---------------------------------
 
-Run Locally (dev mode):
+## Run Locally (dev mode):
 1. In one terminal: `./gradlew -t classes`
 1. In another terminal: `./gradlew bootRun`
 1. Open: [localhost:8080](http://localhost:8080)
 
-Deploy on Cloud Run (with a couple clicks):
+## Deploy on Cloud Run (with a couple clicks):
 [![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run)
 
-Run on Google Cloud Run (with the command line):
+## Run on Google Cloud Run (with the command line):
 
 1. Create Docker Image for GCP:
     ```
@@ -26,10 +26,11 @@ Run on Google Cloud Run (with the command line):
 1. Deploy on Google Cloud Run:
     ```
     gcloud run deploy \
-      --image=gcr.io/$PROJECT_ID/springboot-kotlin-reactive-demo \
+      --image=gcr.io/$PROJECT_ID/springboot-hello-world \
       --platform=managed \
       --allow-unauthenticated \
       --project=$PROJECT_ID \
       --region=us-central1 \
+      --memory=1Gi \
       springboot-hello-world
     ```
