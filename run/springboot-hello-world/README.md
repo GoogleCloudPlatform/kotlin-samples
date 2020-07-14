@@ -1,9 +1,9 @@
 Spring Boot + Kotlin Hello, World
 ---------------------------------
 
-## Run Locally (dev mode):
-1. In one terminal: `./gradlew -t classes`
-1. In another terminal: `./gradlew bootRun`
+## Run Locally:
+1. Start the local server: `./gradlew bootRun`
+1. (Optional) To enable auto-reload, in another terminal / shell: `./gradlew -t classes`
 1. Open: [localhost:8080](http://localhost:8080)
 
 ## Deploy on Cloud Run (with a couple clicks):
@@ -11,16 +11,17 @@ Spring Boot + Kotlin Hello, World
 
 ## Run on Google Cloud Run (with the command line):
 
-1. Create Docker Image for GCP:
+1. [Install & setup gcloud](https://cloud.google.com/sdk/install)
+
+1. Enable the Container, Container Registry, Cloud Build, and Cloud Run APIs:
     ```
-    export PROJECT_ID=YOUR_GCP_PROJECT_ID
-    ./gradlew bootBuildImage --imageName=gcr.io/$PROJECT_ID/springboot-hello-world
-    docker push gcr.io/$PROJECT_ID/springboot-hello-world
+    gcloud services enable container.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com run.googleapis.com
     ```
 
-1. Run Docker Image Locally:
+1. Build the container image on Cloud Build using Buildpacks (currently an alpha feature), storing the image on Google Container Registry:
     ```
-    docker run -p8080:8080 gcr.io/$PROJECT_ID/springboot-hello-world
+    export PROJECT_ID=YOUR_GCP_PROJECT_ID
+    gcloud alpha builds submit --pack=image=gcr.io/$PROJECT_ID/springboot-hello-world
     ```
 
 1. Deploy on Google Cloud Run:
@@ -34,3 +35,19 @@ Spring Boot + Kotlin Hello, World
       --memory=1Gi \
       springboot-hello-world
     ```
+
+## Local Docker Build & Run
+
+1. [Install Docker](https://docs.docker.com/get-docker/)
+
+1. Build the image
+    ```
+    ./gradlew bootBuildImage --imageName=springboot-hello-world
+    ```
+
+1. Run image:
+    ```
+    docker run -p8080:8080 springboot-hello-world
+    ```
+
+1. Open: [localhost:8080](http://localhost:8080)
