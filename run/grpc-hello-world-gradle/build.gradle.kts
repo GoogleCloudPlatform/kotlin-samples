@@ -83,4 +83,4 @@ tasks.named("startScripts") {
 
 task("stage").dependsOn("installDist")
 
-tasks.replace("assemble").dependsOn(":server:installDist")
+tasks.replace("assemble").dependsOn(":installDist")
