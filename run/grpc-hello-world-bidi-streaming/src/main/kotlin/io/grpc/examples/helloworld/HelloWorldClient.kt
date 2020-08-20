@@ -40,15 +40,23 @@ class HelloWorldClient(private val channel: ManagedChannel): Closeable {
   }
 }
 
-fun main() = runBlocking {
-  val builder = ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
+fun main(args: Array<String>) = runBlocking {
+  val isRemote = args.size == 1
+
+    val builder = if (isRemote)
+      ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
+    else
+      ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
+
 
   val client = HelloWorldClient(builder.executor(Dispatchers.Default.asExecutor()).build())
+
+  val user = args.singleOrNull() ?: "world"
 
   val helloFlow = flow {
     while(true) {
       delay(1000)
-      emit(HelloRequest.newBuilder().setName("world").build())
+      emit(HelloRequest.newBuilder().setName(user).build())
     }
   }
 
