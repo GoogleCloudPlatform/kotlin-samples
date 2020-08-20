@@ -1,2 +1,2 @@
-web: build/install/grpc-hello-world-streaming/bin/grpc-hello-world-streaming
+web: build/install/grpc-hello-world-bidi-streaming/bin/grpc-hello-world-bidi-streaming
 client: build/install/grpc-hello-world-streaming/bin/HelloWorldClientKt $HOST
