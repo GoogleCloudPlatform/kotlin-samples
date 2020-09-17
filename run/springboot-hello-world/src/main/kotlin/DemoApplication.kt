@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class DemoApplication {
 
-	@GetMapping("/")
-	suspend fun index() = run {
-		delay(10)
-		"hello, world"
-	}
-
+    @GetMapping("/")
+    suspend fun index() = run {
+        delay(10)
+        "hello, world"
+    }
 }
 
 fun main(args: Array<String>) {
-	runApplication<DemoApplication>(*args)
+    runApplication<DemoApplication>(*args)
 }
