@@ -4,10 +4,6 @@ on:
     branches:
       - master
   pull_request:
-env:
-  GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
-  GOOGLE_APPLICATION_CREDENTIALS: ${{ env.HOME }}/credentials.json
-  GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
 jobs:
   gradle:
     strategy:
@@ -15,6 +11,9 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         java: [1.8, 1.11]
     runs-on: ${{ matrix.os }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ env.HOME }}/credentials.json
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-java@v1
@@ -91,6 +90,8 @@ jobs:
 
   maven:
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
     steps:
     - uses: actions/checkout@v1
     - name: Test App Engine (Springboot)
