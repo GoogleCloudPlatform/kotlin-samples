@@ -5,7 +5,6 @@ on:
       - master
   pull_request:
 env:
-  GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
   GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
   GOOGLE_STORAGE_BUCKET: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
 jobs:
@@ -22,7 +21,7 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Set Application Default Credentials
       run: echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::${HOME}/credentials.json"
-    - run: echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
+    - run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
 
     - name: App Engine (Ktor) - Gradle
       uses: eskatos/gradle-command-action@v1
