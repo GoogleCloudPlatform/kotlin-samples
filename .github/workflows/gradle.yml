@@ -1,0 +1,89 @@
+name: Gradle Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  gradle:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        java: [1.8, 1.11]
+    runs-on: ${{ matrix.os }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
+      GOOGLE_APPLICATION_CREDENTIALS: $HOME/credentials.json
+    steps:
+    - uses: actions/checkout@v1
+      run: |
+        echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $HOME/credentials.json
+    - uses: actions/setup-java@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: "Test App Engine (Ktor)"
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: build
+        build-root-directory: appengine/ktor
+        wrapper-directory: appengine/ktor
+    - name: Test Firestore
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: build
+        build-root-directory: firestore
+        wrapper-directory: firestore
+    - name: Test Functions
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: functions
+        wrapper-directory: functions
+    - name: Test Getting Started Android (frontend)
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: getting-started/android-with-appengine/frontend
+        wrapper-directory: getting-started/android-with-appengine/frontend
+    - name: Test Pubsub
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: pubsub
+        wrapper-directory: pubsub
+    - name: Test Cloud Run (gRPC)
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/grpc-hello-world-gradle
+        wrapper-directory: run/grpc-hello-world-gradle
+    - name: Test Cloud Run (gRPC streaming)
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/grpc-hello-world-streaming
+        wrapper-directory: run/grpc-hello-world-streaming
+    - name: Test Cloud Run (Ktor)
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/ktor-hello-world
+        wrapper-directory: run/ktor-hello-world
+    - name: Test Cloud Run (Springboot)
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/springboot-hello-world
+        wrapper-directory: run/springboot-hello-world
+    - name: Test Storage
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: storage
+        wrapper-directory: storage
+    - name: Test Vision
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: vision
+        wrapper-directory: vision

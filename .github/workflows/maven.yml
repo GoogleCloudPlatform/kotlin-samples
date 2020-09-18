@@ -1,0 +1,23 @@
+name: Maven Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  maven:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Test App Engine (Springboot)
+      run: |
+        cd ${GITHUB_WORKSPACE}/appengine/springboot
+        ./mvnw" test
+    - name: Test Getting Started Android (backend)
+      run: |
+        cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend
+        ./mvnw test
+    - name: Test Cloud Run (gRPC)
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-mvn
+        ./mvnw test
