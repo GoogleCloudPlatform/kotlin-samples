@@ -12,7 +12,7 @@ jobs:
     - name: Test App Engine (Springboot)
       run: |
         cd ${GITHUB_WORKSPACE}/appengine/springboot
-        ./mvnw" test
+        ./mvnw test
     - name: Test Getting Started Android (backend)
       run: |
         cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend

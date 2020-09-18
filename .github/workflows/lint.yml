@@ -5,7 +5,7 @@ on:
       - master
   pull_request:
 jobs:
-  maven:
+  lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -17,4 +17,5 @@ jobs:
         chmod +x "${GITHUB_WORKSPACE}/bin/ktlint"
     - name: Run ktlint
       run: |
-        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt
+        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt --version
+        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt --verbose

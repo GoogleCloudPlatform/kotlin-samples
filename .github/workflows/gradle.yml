@@ -16,11 +16,11 @@ jobs:
       GOOGLE_APPLICATION_CREDENTIALS: $HOME/credentials.json
     steps:
     - uses: actions/checkout@v1
-      run: |
-        echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $HOME/credentials.json
     - uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
+    - run: |
+        echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $HOME/credentials.json
     - name: "Test App Engine (Ktor)"
       uses: eskatos/gradle-command-action@v1
       with:
