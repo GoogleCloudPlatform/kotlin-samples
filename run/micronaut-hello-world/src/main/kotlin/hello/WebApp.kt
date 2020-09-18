@@ -32,7 +32,6 @@ fun main(args: Array<String>) {
 
 @Controller
 class WebApp {
-
     @Get("/")
     suspend fun index(): HttpResponse<String> = run {
         // it is silly to use async here, but we do it as an example
@@ -41,5 +40,4 @@ class WebApp {
         }
         futureResponse.await()
     }
-
 }
