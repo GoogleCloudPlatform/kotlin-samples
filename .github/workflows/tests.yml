@@ -98,6 +98,18 @@ jobs:
         build-root-directory: run/ktor-hello-world
         wrapper-directory: run/ktor-hello-world
 
+    - name: Cloud Run (Micronaut) - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/micronaut-hello-world
+        wrapper-directory: run/micronaut-hello-world
+
+    - name: Cloud Run (Quarkus) - Gradle
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/quarkus-hello-world
+        ./mvnw test
+
     - name: Cloud Run (Springboot) - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
