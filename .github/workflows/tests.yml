@@ -5,7 +5,6 @@ on:
       - master
   pull_request:
 env:
-  GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
   GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
   GOOGLE_STORAGE_BUCKET: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
 jobs:
@@ -22,7 +21,7 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Set Application Default Credentials
       run: echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::${HOME}/credentials.json"
-    - run: echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
+    - run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
 
     - name: App Engine (Ktor) - Gradle
       uses: eskatos/gradle-command-action@v1
@@ -34,7 +33,7 @@ jobs:
     - name: App Engine (Springboot) - Maven
       run: |
         cd ${GITHUB_WORKSPACE}/appengine/springboot
-        ./mvnw test
+        ./mvnw test -q
 
     - name: Firestore - Gradle
       uses: eskatos/gradle-command-action@v1
@@ -50,20 +49,17 @@ jobs:
         build-root-directory: functions
         wrapper-directory: functions
 
-    ## This step is not passing because we are missing a valid google-services.json ##
-    ## TODO: fix it
-    # - name: Getting Started Android (frontend) - Gradle
-    #   uses: eskatos/gradle-command-action@v1
-    #   with:
-    #     arguments: test --console=plain --info
-    #     build-root-directory: getting-started/android-with-appengine/frontend
-    #     wrapper-directory: getting-started/android-with-appengine/frontend
+    - name: Getting Started Android (frontend) - Gradle
+      run: |
+        cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend
+        echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> emojify/google-services.json
+        ./gradlew test --console=plain --info
 
     - name: Getting Started Android (backend) - Maven
       run: |
         cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend
         echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> src/main/resources/application.properties
-        ./mvnw test
+        ./mvnw test -q
 
     - name: Pubsub - Gradle
       uses: eskatos/gradle-command-action@v1
@@ -82,7 +78,7 @@ jobs:
     - name: Cloud Run (gRPC) - Maven
       run: |
         cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-mvn
-        ./mvnw test
+        ./mvnw test -q
 
     - name: Cloud Run (gRPC streaming) - Gradle
       uses: eskatos/gradle-command-action@v1
