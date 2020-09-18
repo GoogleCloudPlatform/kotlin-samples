@@ -1,0 +1,21 @@
+name: Lint
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install ktlint
+      run: |
+        curl -sSLO https://github.com/shyiko/ktlint/releases/download/0.24.0/ktlint
+        mkdir -p "${GITHUB_WORKSPACE}/bin/"
+        mv ktlint "${GITHUB_WORKSPACE}/bin/ktlint"
+        chmod +x "${GITHUB_WORKSPACE}/bin/ktlint"
+    - name: Run ktlint
+      run: |
+        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt --version
+        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt --verbose

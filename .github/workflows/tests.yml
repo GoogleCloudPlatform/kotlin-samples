@@ -1,0 +1,121 @@
+name: Unit Tests
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+env:
+  GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
+  GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+  GOOGLE_STORAGE_BUCKET: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+jobs:
+  unit_tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        java: [1.8, 1.11]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-java@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Set Application Default Credentials
+      run: echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::${HOME}/credentials.json"
+    - run: echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
+
+    - name: App Engine (Ktor) - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: build
+        build-root-directory: appengine/ktor
+        wrapper-directory: appengine/ktor
+
+    - name: App Engine (Springboot) - Maven
+      run: |
+        cd ${GITHUB_WORKSPACE}/appengine/springboot
+        ./mvnw test
+
+    - name: Firestore - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: build
+        build-root-directory: firestore
+        wrapper-directory: firestore
+
+    - name: Functions - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: functions
+        wrapper-directory: functions
+
+    ## This step is not passing because we are missing a valid google-services.json ##
+    ## TODO: fix it
+    # - name: Getting Started Android (frontend) - Gradle
+    #   uses: eskatos/gradle-command-action@v1
+    #   with:
+    #     arguments: test --console=plain --info
+    #     build-root-directory: getting-started/android-with-appengine/frontend
+    #     wrapper-directory: getting-started/android-with-appengine/frontend
+
+    - name: Getting Started Android (backend) - Maven
+      run: |
+        cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend
+        echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> src/main/resources/application.properties
+        ./mvnw test
+
+    - name: Pubsub - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: pubsub
+        wrapper-directory: pubsub
+
+    - name: Cloud Run (gRPC) - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/grpc-hello-world-gradle
+        wrapper-directory: run/grpc-hello-world-gradle
+
+    - name: Cloud Run (gRPC) - Maven
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-mvn
+        ./mvnw test
+
+    - name: Cloud Run (gRPC streaming) - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/grpc-hello-world-streaming
+        wrapper-directory: run/grpc-hello-world-streaming
+
+    - name: Cloud Run (Ktor) - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/ktor-hello-world
+        wrapper-directory: run/ktor-hello-world
+
+    - name: Cloud Run (Springboot) - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/springboot-hello-world
+        wrapper-directory: run/springboot-hello-world
+
+    - name: Storage - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: storage
+        wrapper-directory: storage
+
+    - name: Vision - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: vision
+        wrapper-directory: vision
+
