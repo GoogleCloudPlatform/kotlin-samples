@@ -53,7 +53,7 @@ jobs:
     - name: Getting Started Android (frontend) - Gradle
       run: |
         cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend
-        echo $GOOGLE_SERVICES_B64 | base64 --decode >> emojify/google-services.json
+        echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> emojify/google-services.json
         ./gradlew test --console=plain --info
 
     - name: Getting Started Android (backend) - Maven
