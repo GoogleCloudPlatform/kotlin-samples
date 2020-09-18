@@ -5,22 +5,23 @@ on:
       - master
   pull_request:
 jobs:
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
+    GOOGLE_APPLICATION_CREDENTIALS: ${{ env.HOME }}/credentials.json
+    GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
   gradle:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
         java: [1.8, 1.11]
     runs-on: ${{ matrix.os }}
-    env:
-      GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
-      GOOGLE_APPLICATION_CREDENTIALS: $HOME/credentials.json
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
-    - run: echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
     - run: echo $GOOGLE_APPLICATION_CREDENTIALS
+    - run: echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
     - name: "Test App Engine (Ktor)"
       uses: eskatos/gradle-command-action@v1
       with:
@@ -87,3 +88,22 @@ jobs:
         arguments: test --console=plain --info
         build-root-directory: vision
         wrapper-directory: vision
+
+  maven:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Test App Engine (Springboot)
+      run: |
+        cd ${GITHUB_WORKSPACE}/appengine/springboot
+        ./mvnw test
+    - name: Test Getting Started Android (backend)
+      run: |
+        cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend
+        echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> src/main/resources/application.properties
+        ./mvnw test
+    - name: Test Cloud Run (gRPC)
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-mvn
+        ./mvnw test
+
