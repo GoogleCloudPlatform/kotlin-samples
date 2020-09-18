@@ -8,7 +8,7 @@ env:
   GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
   GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
 jobs:
-  gradle:
+  unit_tests:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -19,92 +19,101 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: Set application default credentials
+    - name: Set Application Default Credentials
       run: echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::${HOME}/credentials.json"
     - run: echo $GOOGLE_APPLICATION_CREDENTIALS
     - run: echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
-    - name: "Test App Engine (Ktor)"
+
+    - name: App Engine (Ktor) - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: build
         build-root-directory: appengine/ktor
         wrapper-directory: appengine/ktor
-    - name: Test Firestore
+
+    - name: App Engine (Springboot) - Maven
+      run: |
+        cd ${GITHUB_WORKSPACE}/appengine/springboot
+        ./mvnw test
+
+    - name: Firestore - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: build
         build-root-directory: firestore
         wrapper-directory: firestore
-    - name: Test Functions
+
+    - name: Functions - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
         build-root-directory: functions
         wrapper-directory: functions
-    - name: Test Getting Started Android (frontend)
+
+    - name: Getting Started Android (frontend) - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
         build-root-directory: getting-started/android-with-appengine/frontend
         wrapper-directory: getting-started/android-with-appengine/frontend
-    - name: Test Pubsub
+
+    - name: Getting Started Android (backend) - Maven
+      run: |
+        cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend
+        echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> src/main/resources/application.properties
+        ./mvnw test
+
+    - name: Pubsub - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
         build-root-directory: pubsub
         wrapper-directory: pubsub
-    - name: Test Cloud Run (gRPC)
+
+    - name: Cloud Run (gRPC) - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
         build-root-directory: run/grpc-hello-world-gradle
         wrapper-directory: run/grpc-hello-world-gradle
-    - name: Test Cloud Run (gRPC streaming)
+
+    - name: Cloud Run (gRPC) - Maven
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-mvn
+        ./mvnw test
+
+    - name: Cloud Run (gRPC streaming) - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
         build-root-directory: run/grpc-hello-world-streaming
         wrapper-directory: run/grpc-hello-world-streaming
-    - name: Test Cloud Run (Ktor)
+
+    - name: Cloud Run (Ktor) - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
         build-root-directory: run/ktor-hello-world
         wrapper-directory: run/ktor-hello-world
-    - name: Test Cloud Run (Springboot)
+
+    - name: Cloud Run (Springboot) - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
         build-root-directory: run/springboot-hello-world
         wrapper-directory: run/springboot-hello-world
-    - name: Test Storage
+
+    - name: Storage - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
         build-root-directory: storage
         wrapper-directory: storage
-    - name: Test Vision
+
+    - name: Vision - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
         build-root-directory: vision
         wrapper-directory: vision
-
-  maven:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Test App Engine (Springboot)
-      run: |
-        cd ${GITHUB_WORKSPACE}/appengine/springboot
-        ./mvnw test
-    - name: Test Getting Started Android (backend)
-      run: |
-        cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend
-        echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> src/main/resources/application.properties
-        ./mvnw test
-    - name: Test Cloud Run (gRPC)
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-mvn
-        ./mvnw test
 
