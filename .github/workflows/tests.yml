@@ -6,7 +6,7 @@ on:
   pull_request:
 env:
   GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
-  GOOGLE_APPLICATION_CREDENTIALS: ${HOME}/credentials.json
+  GOOGLE_APPLICATION_CREDENTIALS: `${HOME}/credentials.json`
   GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
 jobs:
   gradle:
