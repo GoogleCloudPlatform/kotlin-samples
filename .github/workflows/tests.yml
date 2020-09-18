@@ -6,7 +6,6 @@ on:
   pull_request:
 env:
   GOOGLE_APPLICATION_CREDENTIALS_B64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }}
-  GOOGLE_APPLICATION_CREDENTIALS: `${HOME}/credentials.json`
   GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
 jobs:
   gradle:
@@ -20,6 +19,8 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
+    - name: Set application default credentials
+      run: echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::${HOME}/credentials.json"
     - run: echo $GOOGLE_APPLICATION_CREDENTIALS
     - run: echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
     - name: "Test App Engine (Ktor)"
