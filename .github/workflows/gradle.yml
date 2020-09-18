@@ -19,8 +19,8 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
-    - run: |
-        echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $HOME/credentials.json
+    - run: echo $GOOGLE_APPLICATION_CREDENTIALS_B64 | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
+    - run: echo $GOOGLE_APPLICATION_CREDENTIALS
     - name: "Test App Engine (Ktor)"
       uses: eskatos/gradle-command-action@v1
       with:
