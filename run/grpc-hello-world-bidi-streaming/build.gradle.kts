@@ -61,7 +61,7 @@ java {
 }
 
 application {
-    mainClassName = "io.grpc.examples.helloworld.HelloWorldServerKt"
+    mainClass.set("io.grpc.examples.helloworld.HelloWorldServerKt")
 }
 
 tasks.register<JavaExec>("HelloWorldClient") {
