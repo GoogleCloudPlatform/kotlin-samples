@@ -22,7 +22,7 @@ Deploy on Cloud Run:
 1. From within Cloud Shell, run the client against the service you just deployed on Cloud Run, replacing `YOUR_CLOUD_RUN_DOMAIN_NAME` with your service's domain name and replacing `YOUR_PROJECT_ID` with your GCP project:
    ```
    export PROJECT_ID=YOUR_PROJECT_ID
-   docker run -it gcr.io/$PROJECT_ID/grpc-hello-world-bidi-streaming \
+   docker run -it --entrypoint=/cnb/lifecycle/launcher gcr.io/$PROJECT_ID/grpc-hello-world-bidi-streaming \
    "build/install/grpc-hello-world-bidi-streaming/bin/HelloWorldClientKt YOUR_CLOUD_RUN_DOMAIN_NAME"
    ```
 
