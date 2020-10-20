@@ -26,4 +26,4 @@ Deploy on Cloud Run:
    "build/install/grpc-hello-world-streaming/bin/HelloWorldClientKt YOUR_CLOUD_RUN_DOMAIN_NAME"
    ```
 
-   You should continually see output like: `Greeter client received: Hello YOUR_CLOUD_RUN_DOMAIN_NAME`
+   You should continually see output like: `hello, YOUR_CLOUD_RUN_DOMAIN_NAME`
