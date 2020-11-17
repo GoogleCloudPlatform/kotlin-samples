@@ -8,7 +8,7 @@ import com.google.protobuf.gradle.protoc
 val grpcVersion = "1.32.1"
 val grpcKotlinVersion = "0.2.1"
 val protobufVersion = "3.13.0"
-val coroutinesVersion = "1.3.9"
+val coroutinesVersion = "1.4.1"
 
 plugins {
     application
