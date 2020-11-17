@@ -6,7 +6,7 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
 val grpcVersion = "1.32.1"
-val grpcKotlinVersion = "0.2.0"
+val grpcKotlinVersion = "0.2.1"
 val protobufVersion = "3.13.0"
 val coroutinesVersion = "1.3.9"
 
@@ -27,8 +27,6 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("javax.annotation:javax.annotation-api:1.2")
-    implementation("io.grpc:grpc-protobuf:$grpcVersion")
-    implementation("io.grpc:grpc-stub:$grpcVersion")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
