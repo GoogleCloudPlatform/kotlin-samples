@@ -17,7 +17,6 @@
 package com.google.storage
 
 import com.google.cloud.Timestamp
-//import kotlin.random.Random
 import java.util.Random
 import org.junit.Test
 import org.junit.FixMethodOrder
