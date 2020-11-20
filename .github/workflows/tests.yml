@@ -20,7 +20,7 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Set Application Default Credentials
-      run: echo "::set-env name=GOOGLE_APPLICATION_CREDENTIALS::${HOME}/credentials.json"
+      run: echo "GOOGLE_APPLICATION_CREDENTIALS=${HOME}/credentials.json" >> $GITHUB_ENV"
     - run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
 
     - name: App Engine (Ktor) - Gradle
