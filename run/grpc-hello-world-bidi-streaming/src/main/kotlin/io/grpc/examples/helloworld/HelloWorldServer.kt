@@ -22,44 +22,44 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class HelloWorldServer(private val port: Int) {
-  val server: Server = ServerBuilder
-          .forPort(port)
-          .addService(HelloWorldService())
-          .build()
+    val server: Server = ServerBuilder
+            .forPort(port)
+            .addService(HelloWorldService())
+            .build()
 
-  fun start() {
-    server.start()
-    println("Server started, listening on $port")
-    Runtime.getRuntime().addShutdownHook(
-            Thread {
-              println("*** shutting down gRPC server since JVM is shutting down")
-              stop()
-              println("*** server shut down")
-            }
-    )
-  }
-
-  private fun stop() {
-    server.shutdown()
-  }
-
-  fun blockUntilShutdown() {
-    server.awaitTermination()
-  }
-
-  private class HelloWorldService : GreeterGrpcKt.GreeterCoroutineImplBase() {
-    override fun sayHelloStream(requests: Flow<HelloRequest>): Flow<HelloReply> {
-      return requests.map { request ->
-        println(request)
-        HelloReply.newBuilder().setMessage("hello, ${request.name}").build()
-      }
+    fun start() {
+        server.start()
+        println("Server started, listening on $port")
+        Runtime.getRuntime().addShutdownHook(
+                Thread {
+                    println("*** shutting down gRPC server since JVM is shutting down")
+                    stop()
+                    println("*** server shut down")
+                }
+        )
     }
-  }
+
+    private fun stop() {
+        server.shutdown()
+    }
+
+    fun blockUntilShutdown() {
+        server.awaitTermination()
+    }
+
+    private class HelloWorldService : GreeterGrpcKt.GreeterCoroutineImplBase() {
+        override fun sayHelloStream(requests: Flow<HelloRequest>): Flow<HelloReply> {
+            return requests.map { request ->
+                println(request)
+                HelloReply.newBuilder().setMessage("hello, ${request.name}").build()
+            }
+        }
+    }
 }
 
 fun main() {
-  val port = System.getenv("PORT")?.toInt() ?: 50051
-  val server = HelloWorldServer(port)
-  server.start()
-  server.blockUntilShutdown()
+    val port = System.getenv("PORT")?.toInt() ?: 50051
+    val server = HelloWorldServer(port)
+    server.start()
+    server.blockUntilShutdown()
 }
