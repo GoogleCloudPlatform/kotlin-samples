@@ -28,7 +28,7 @@ internal class StorageTest {
     companion object {
         val timestamp = Timestamp.now().seconds
         val rand = Random().nextInt(10000)
-        val bucketName = "my_kotlin_sample_bucket_${timestamp}_${rand}"
+        val bucketName = "my_kotlin_sample_bucket_${timestamp}_$rand"
     }
 
     @Test(expected = IllegalStateException::class)
