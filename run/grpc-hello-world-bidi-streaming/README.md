@@ -1,0 +1,31 @@
+gRPC Kotlin BiDi Streaming Cloud Run Example
+--------------------------------------------
+
+NOTE: This example currently requires a Cloud Run pre-release WebSocket feature to be enabled. Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLScNUJb9b18tEnbbsmBmcnJw3rva5oPIFZ-lbipqGrmmTeVW4w/viewform?usp=sf_link) if you'd like to try it.
+
+Run Locally:
+1. In one shell / terminal window, start the server:
+    ```
+    ./gradlew run
+    ```
+1. In another shell / terminal window, run the client:
+    ```
+    ./gradlew HelloWorldClient
+    ```
+
+   You should continually see: `hello, world`
+
+Deploy on Cloud Run:
+
+1. [![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run)
+
+    *This will take a few minutes to build and deploy.*
+
+1. From within Cloud Shell, run the client against the service you just deployed on Cloud Run, replacing `YOUR_CLOUD_RUN_DOMAIN_NAME` with your service's domain name and replacing `YOUR_PROJECT_ID` with your GCP project:
+   ```
+   export PROJECT_ID=YOUR_PROJECT_ID
+   docker run -it --entrypoint=/cnb/lifecycle/launcher gcr.io/$PROJECT_ID/grpc-hello-world-bidi-streaming \
+   "build/install/grpc-hello-world-bidi-streaming/bin/HelloWorldClientKt YOUR_CLOUD_RUN_DOMAIN_NAME"
+   ```
+
+   You should continually see output like: `hello, YOUR_CLOUD_RUN_DOMAIN_NAME`
