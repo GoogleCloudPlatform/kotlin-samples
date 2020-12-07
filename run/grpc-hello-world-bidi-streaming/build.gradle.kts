@@ -6,7 +6,7 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
 val grpcVersion = "1.34.0"
-val grpcKotlinVersion = "0.2.1"
+val grpcKotlinVersion = "1.0.0"
 val protobufVersion = "3.14.0"
 val coroutinesVersion = "1.4.2"
 
