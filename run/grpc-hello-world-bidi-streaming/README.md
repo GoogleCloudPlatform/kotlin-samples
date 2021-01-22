@@ -1,8 +1,6 @@
 gRPC Kotlin BiDi Streaming Cloud Run Example
 --------------------------------------------
 
-NOTE: This example currently requires a Cloud Run pre-release WebSocket feature to be enabled. Fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLScNUJb9b18tEnbbsmBmcnJw3rva5oPIFZ-lbipqGrmmTeVW4w/viewform?usp=sf_link) if you'd like to try it.
-
 Run Locally:
 1. In one shell / terminal window, start the server:
     ```
