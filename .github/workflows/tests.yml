@@ -87,6 +87,13 @@ jobs:
         build-root-directory: run/grpc-hello-world-streaming
         wrapper-directory: run/grpc-hello-world-streaming
 
+    - name: Cloud Run (gRPC bidi-streaming) - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/grpc-hello-world-bidi-streaming
+        wrapper-directory: run/grpc-hello-world-bidi-streaming
+
     - name: Cloud Run (Ktor) - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
@@ -112,6 +119,13 @@ jobs:
         arguments: test --console=plain --info
         build-root-directory: run/springboot-hello-world
         wrapper-directory: run/springboot-hello-world
+
+    - name: Cloud Run (Http4k) - Gradle
+      uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: test --console=plain --info
+        build-root-directory: run/http4k-hello-world
+        wrapper-directory: run/http4k-hello-world
 
     - name: Storage - Gradle
       uses: eskatos/gradle-command-action@v1
