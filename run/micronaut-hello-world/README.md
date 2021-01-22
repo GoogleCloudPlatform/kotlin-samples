@@ -17,10 +17,10 @@ Micronaut + Kotlin Hello, World
     gcloud services enable container.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com run.googleapis.com
     ```
 
-1. Build the container image on Cloud Build using Buildpacks (currently an alpha feature), storing the image on Google Container Registry:
+1. Build the container image on Cloud Build using Buildpacks, storing the image on Google Container Registry:
     ```
     export PROJECT_ID=YOUR_GCP_PROJECT_ID
-    gcloud alpha builds submit --pack=image=gcr.io/$PROJECT_ID/micronaut-hello-world
+    gcloud builds submit --pack=image=gcr.io/$PROJECT_ID/micronaut-hello-world
     ```
 
 1. Deploy on Google Cloud Run:
