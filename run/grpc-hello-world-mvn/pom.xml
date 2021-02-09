@@ -10,7 +10,7 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <kotlin.version>1.4.20</kotlin.version>
+    <kotlin.version>1.4.30</kotlin.version>
     <kotlinx.coroutines.version>1.4.2</kotlinx.coroutines.version>
     <grpc.version>1.34.0</grpc.version>
     <grpc.kotlin.version>1.0.0</grpc.kotlin.version>
