@@ -113,7 +113,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}/run/quarkus-hello-world
         ./mvnw test -q
 
-    - name: Cloud Run (Springboot) - Gradle
+    - name: Cloud Run (Spring Boot) - Gradle
       uses: eskatos/gradle-command-action@v1
       with:
         arguments: test --console=plain --info
@@ -126,6 +126,11 @@ jobs:
         arguments: test --console=plain --info
         build-root-directory: run/http4k-hello-world
         wrapper-directory: run/http4k-hello-world
+
+    - name: Cloud Run (Plain) - Maven
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/plain-hello-world
+        ./mvnw test -q
 
     - name: Storage - Gradle
       uses: eskatos/gradle-command-action@v1
