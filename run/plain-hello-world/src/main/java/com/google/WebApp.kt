@@ -1,8 +1,7 @@
-package com.google;
+package com.google
 
-import com.sun.net.httpserver.HttpServer;
-import java.net.InetSocketAddress;
-
+import com.sun.net.httpserver.HttpServer
+import java.net.InetSocketAddress
 
 fun main() {
     val port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"))
