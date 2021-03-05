@@ -17,18 +17,19 @@
 package com.example.pubsub
 
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
-import org.junit.Before
 import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.runInterruptible
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.withTimeout
 
 @RunWith(JUnit4::class)
 class PubSubExampleTest {
@@ -91,10 +92,15 @@ class PubSubExampleTest {
         bout.reset()
 
         runBlocking {
-            launch {
-                main("listen", subscriptionId)
+            try {
+                withTimeout(5000L) {
+                    runInterruptible {
+                        main("listen", subscriptionId)
+                    }
+                }
+            } catch (e: TimeoutCancellationException) {
+                // listenToSub runs forever, we have to interrupt it
             }
-            delay(5000L) // wait for 5s and then exit from the blocking thread
         }
 
         val receivedMessages: HashSet<String> = HashSet(messageIds)
