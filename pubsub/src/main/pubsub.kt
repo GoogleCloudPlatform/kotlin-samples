@@ -20,12 +20,12 @@ import com.google.api.core.ApiFuture
 import com.google.api.core.ApiFutures
 import com.google.api.gax.rpc.ApiException
 import com.google.cloud.ServiceOptions
-import com.google.cloud.pubsub.v1.MessageReceiver
 import com.google.cloud.pubsub.v1.AckReplyConsumer
-import com.google.cloud.pubsub.v1.TopicAdminClient
+import com.google.cloud.pubsub.v1.MessageReceiver
 import com.google.cloud.pubsub.v1.Publisher
-import com.google.cloud.pubsub.v1.SubscriptionAdminClient
 import com.google.cloud.pubsub.v1.Subscriber
+import com.google.cloud.pubsub.v1.SubscriptionAdminClient
+import com.google.cloud.pubsub.v1.TopicAdminClient
 import com.google.protobuf.ByteString
 import com.google.pubsub.v1.ProjectSubscriptionName
 import com.google.pubsub.v1.ProjectTopicName
@@ -48,12 +48,12 @@ const val usage = """
 private val projectId = ServiceOptions.getDefaultProjectId()!!
 
 private val actions = mapOf(
-        "create" to ::createTopic,
-        "sub" to ::subscribeTopic,
-        "pub" to ::publishMsg,
-        "listen" to ::listenToSub,
-        "del-topic" to ::deleteTopic,
-        "del-sub" to ::deleteSub
+    "create" to ::createTopic,
+    "sub" to ::subscribeTopic,
+    "pub" to ::publishMsg,
+    "listen" to ::listenToSub,
+    "del-topic" to ::deleteTopic,
+    "del-sub" to ::deleteSub
 )
 
 private fun createTopic(vararg args: String) { // expects 1 arg: <topic> to create
@@ -125,8 +125,8 @@ private fun publishMsg(vararg args: String) { // expects 2 args: <topic> and <co
             // convert message to bytes
             val data = ByteString.copyFromUtf8(message)
             val pubsubMessage = PubsubMessage.newBuilder()
-                    .setData(data)
-                    .build()
+                .setData(data)
+                .build()
             // Schedule a message to be published. Messages are automatically batched.
             val future = publisher.publish(pubsubMessage)
             futures.add(future)

@@ -17,8 +17,10 @@
 package com.example.pubsub
 
 import com.google.common.truth.Truth.assertThat
-import java.io.ByteArrayOutputStream
-import java.io.PrintStream
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.runInterruptible
+import kotlinx.coroutines.withTimeout
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -26,10 +28,8 @@ import org.junit.Test
 import org.junit.rules.Timeout
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.runInterruptible
-import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.withTimeout
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 
 @RunWith(JUnit4::class)
 class PubSubExampleTest {
