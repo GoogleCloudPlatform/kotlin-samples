@@ -5,6 +5,7 @@ These sample Kotlin applications demonstrate how to deploy Kotlin to [Google Clo
 
 |Link|Description|Deploy|
 |---|---|---|
+|[Plain Kotlin](plain-hello-world)|Deploy a basic HTTP server Cloud Run (uses Maven)|[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run/?dir=run/plain-hello-world)|
 |[Spring Boot Kotlin](springboot-hello-world)|Deploy a basic Spring Boot service on Cloud Run (uses Gradle)|[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run/?dir=run/springboot-hello-world)|
 |[Ktor Kotlin](ktor-hello-world)|Deploy a basic Ktor service on Cloud Run (uses Gradle)|[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run/?dir=run/ktor-hello-world)|
 |[http4k Kotlin](http4k-hello-world)|Deploy a basic http4k service on Cloud Run (uses Gradle)|[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run/?dir=run/http4k-hello-world)|
