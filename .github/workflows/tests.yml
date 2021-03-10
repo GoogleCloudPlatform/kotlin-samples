@@ -25,8 +25,9 @@ jobs:
     - run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
 
     - if: {{ env.GOOGLE_APPLICATION_CREDENTIALS = "" }}
-      run: echo "MAVEN_FLAGS=\"-Dmaven.test.skip=true\"" >> $GITHUB_ENV
-      run: echo "GRADLE_FLAGS=\"-x test\"" >> $GITHUB_ENV
+      run: |
+        echo "MAVEN_FLAGS=\"-Dmaven.test.skip=true\"" >> $GITHUB_ENV
+        echo "GRADLE_FLAGS=\"-x test\"" >> $GITHUB_ENV
 
     - name: App Engine (Ktor) - Gradle
       uses: eskatos/gradle-command-action@v1
