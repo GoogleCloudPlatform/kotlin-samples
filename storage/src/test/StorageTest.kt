@@ -17,6 +17,7 @@
 package com.google.storage
 
 import com.google.cloud.Timestamp
+import java.util.Random
 import org.junit.Test
 import org.junit.FixMethodOrder
 import org.junit.runners.MethodSorters
@@ -26,6 +27,8 @@ internal class StorageTest {
 
     companion object {
         val timestamp = Timestamp.now().seconds
+        val rand = Random().nextInt(10000)
+        val bucketName = "my_kotlin_sample_bucket_${timestamp}_$rand"
     }
 
     @Test(expected = IllegalStateException::class)
@@ -50,7 +53,7 @@ internal class StorageTest {
 
     @Test
     fun t05_createBucket() {
-        main("create", "my_kotlin_sample_bucket_$timestamp")
+        main("create", bucketName)
     }
 
     @Test
@@ -64,31 +67,31 @@ internal class StorageTest {
     }
 
     fun t08_infoBucket() {
-        main("info", "my_kotlin_sample_bucket_$timestamp")
+        main("info", bucketName)
     }
 
     @Test
     fun t09_upload() {
-        main("upload", "resources/upload/dog.jpg", "my_kotlin_sample_bucket_$timestamp", "dog.jpg")
+        main("upload", "resources/upload/dog.jpg", bucketName, "dog.jpg")
     }
 
     @Test
     fun t10_uploadNoBlobName() {
-        main("upload", "resources/upload/dog.jpg", "my_kotlin_sample_bucket_$timestamp")
+        main("upload", "resources/upload/dog.jpg", bucketName)
     }
 
     @Test
     fun t11_download() {
-        main("download", "my_kotlin_sample_bucket_$timestamp", "dog.jpg", "resources/dog-downloaded.jpg")
+        main("download", bucketName, "dog.jpg", "resources/dog-downloaded.jpg")
     }
 
     @Test
     fun t12_deleteBlob() {
-        main("delete", "my_kotlin_sample_bucket_$timestamp", "dog.jpg")
+        main("delete", bucketName, "dog.jpg")
     }
 
     @Test
     fun t13_deleteBucket() {
-        main("delete", "my_kotlin_sample_bucket_$timestamp")
+        main("delete", bucketName)
     }
 }
