@@ -49,13 +49,15 @@ jobs:
         cd ${GITHUB_WORKSPACE}/functions
         ./gradlew build --console=plain --info $GRADLE_FLAGS
 
-    - name: Getting Started Android (frontend) - Gradle
+    - if:  github.event.pull_request.head.repo.full_name == github.repository
+      name: Getting Started Android (frontend) - Gradle
       run: |
         cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend
         echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> emojify/google-services.json
         ./gradlew build --console=plain --info $GRADLE_FLAGS
 
-    - name: Getting Started Android (backend) - Maven
+    - if:  github.event.pull_request.head.repo.full_name == github.repository
+      name: Getting Started Android (backend) - Maven
       run: |
         cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend
         echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> src/main/resources/application.properties
