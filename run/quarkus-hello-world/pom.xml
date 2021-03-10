@@ -14,8 +14,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <quarkus.version>1.11.2.Final</quarkus.version>
-    <kotlin.version>1.4.30</kotlin.version>
+    <quarkus.version>1.12.1.Final</quarkus.version>
+    <kotlin.version>1.4.31</kotlin.version>
   </properties>
 
   <dependencyManagement>

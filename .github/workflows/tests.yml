@@ -7,6 +7,7 @@ on:
 env:
   GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
   GOOGLE_STORAGE_BUCKET: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+
 jobs:
   unit_tests:
     strategy:
@@ -23,121 +24,107 @@ jobs:
       run: echo "GOOGLE_APPLICATION_CREDENTIALS=${HOME}/credentials.json" >> $GITHUB_ENV
     - run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
 
+    - if:  github.event.pull_request.head.repo.full_name != github.repository
+      run: |
+        echo "MAVEN_FLAGS=-Dmaven.test.skip=true" >> $GITHUB_ENV
+        echo "GRADLE_FLAGS=-x test" >> $GITHUB_ENV
+
     - name: App Engine (Ktor) - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: build
-        build-root-directory: appengine/ktor
-        wrapper-directory: appengine/ktor
+      run: |
+        cd ${GITHUB_WORKSPACE}/appengine/ktor
+        ./gradlew build $GRADLE_FLAGS
 
     - name: App Engine (Springboot) - Maven
       run: |
         cd ${GITHUB_WORKSPACE}/appengine/springboot
-        ./mvnw test -q
+        ./mvnw install -q $MAVEN_FLAGS
 
     - name: Firestore - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: build
-        build-root-directory: firestore
-        wrapper-directory: firestore
+      run: |
+        cd ${GITHUB_WORKSPACE}/firestore
+        ./gradlew build $GRADLE_FLAGS
 
     - name: Functions - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: functions
-        wrapper-directory: functions
+      run: |
+        cd ${GITHUB_WORKSPACE}/functions
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
-    - name: Getting Started Android (frontend) - Gradle
+    - if:  github.event.pull_request.head.repo.full_name == github.repository
+      name: Getting Started Android (frontend) - Gradle
       run: |
         cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend
         echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> emojify/google-services.json
-        ./gradlew test --console=plain --info
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
-    - name: Getting Started Android (backend) - Maven
+    - if:  github.event.pull_request.head.repo.full_name == github.repository
+      name: Getting Started Android (backend) - Maven
       run: |
         cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend
         echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> src/main/resources/application.properties
-        ./mvnw test -q
+        ./mvnw install -q
 
     - name: Pubsub - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: pubsub
-        wrapper-directory: pubsub
+      run: |
+        cd ${GITHUB_WORKSPACE}/pubsub
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
     - name: Cloud Run (gRPC) - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: run/grpc-hello-world-gradle
-        wrapper-directory: run/grpc-hello-world-gradle
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-gradle
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
     - name: Cloud Run (gRPC) - Maven
       run: |
         cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-mvn
-        ./mvnw test -q
+        ./mvnw install -q $MAVEN_FLAGS
 
     - name: Cloud Run (gRPC streaming) - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: run/grpc-hello-world-streaming
-        wrapper-directory: run/grpc-hello-world-streaming
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-streaming
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
     - name: Cloud Run (gRPC bidi-streaming) - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: run/grpc-hello-world-bidi-streaming
-        wrapper-directory: run/grpc-hello-world-bidi-streaming
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-bidi-streaming
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
     - name: Cloud Run (Ktor) - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: run/ktor-hello-world
-        wrapper-directory: run/ktor-hello-world
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/ktor-hello-world
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
     - name: Cloud Run (Micronaut) - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: run/micronaut-hello-world
-        wrapper-directory: run/micronaut-hello-world
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/micronaut-hello-world
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
     - name: Cloud Run (Quarkus) - Maven
       run: |
         cd ${GITHUB_WORKSPACE}/run/quarkus-hello-world
-        ./mvnw test -q
+        ./mvnw install -q $MAVEN_FLAGS
 
-    - name: Cloud Run (Springboot) - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: run/springboot-hello-world
-        wrapper-directory: run/springboot-hello-world
+    - name: Cloud Run (Spring Boot) - Gradle
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/springboot-hello-world
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
     - name: Cloud Run (Http4k) - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: run/http4k-hello-world
-        wrapper-directory: run/http4k-hello-world
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/http4k-hello-world
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
+
+    - name: Cloud Run (Plain) - Maven
+      run: |
+        cd ${GITHUB_WORKSPACE}/run/plain-hello-world
+        ./mvnw install -q $MAVEN_FLAGS
 
     - name: Storage - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: storage
-        wrapper-directory: storage
+      run: |
+        cd ${GITHUB_WORKSPACE}/storage
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 
     - name: Vision - Gradle
-      uses: eskatos/gradle-command-action@v1
-      with:
-        arguments: test --console=plain --info
-        build-root-directory: vision
-        wrapper-directory: vision
+      run: |
+        cd ${GITHUB_WORKSPACE}/vision
+        ./gradlew build --console=plain --info $GRADLE_FLAGS
 

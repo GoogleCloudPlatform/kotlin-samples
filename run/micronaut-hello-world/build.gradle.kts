@@ -2,9 +2,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    kotlin("jvm") version "1.4.20"
-    kotlin("kapt") version "1.4.20"
-    kotlin("plugin.allopen") version "1.4.20"
+    kotlin("jvm") version "1.4.31"
+    kotlin("kapt") version "1.4.31"
+    kotlin("plugin.allopen") version "1.4.31"
 }
 
 repositories {
