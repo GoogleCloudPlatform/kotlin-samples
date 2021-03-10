@@ -26,8 +26,8 @@ jobs:
 
     - if:  github.event.pull_request.head.repo.full_name != github.repository
       run: |
-        echo "MAVEN_FLAGS=\"-Dmaven.test.skip=true\"" >> $GITHUB_ENV
-        echo "GRADLE_FLAGS=\"-x test\"" >> $GITHUB_ENV
+        echo "MAVEN_FLAGS='-Dmaven.test.skip=true'" >> $GITHUB_ENV
+        echo "GRADLE_FLAGS='-x test'" >> $GITHUB_ENV
 
     - name: App Engine (Ktor) - Gradle
       run: |
