@@ -5,7 +5,8 @@
   "hooks": {
     "prebuild": {
       "commands": [
-        "./gradlew --no-daemon --console=plain bootBuildImage --imageName=$IMAGE_URL"
+        "echo 'The build will take a few minutes and not output anything'",
+        "./gradlew --no-daemon --console=plain bootBuildImage --imageName=$IMAGE_URL >/dev/null"
       ]
     }
   }
