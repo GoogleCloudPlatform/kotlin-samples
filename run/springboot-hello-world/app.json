@@ -1,5 +1,12 @@
 {
-    "options": {
-        "memory": "1Gi"
+  "build": {
+    "skip": true
+  },
+  "hooks": {
+    "prebuild": {
+      "commands": [
+        "./gradlew --no-daemon --console=plain bootBuildImage --imageName=$IMAGE_URL"
+      ]
     }
+  }
 }
