@@ -21,8 +21,12 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Set Application Default Credentials
-      run: echo "GOOGLE_APPLICATION_CREDENTIALS=${HOME}/credentials.json" >> $GITHUB_ENV
-    - run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
-
+      run: |
+        echo "GOOGLE_APPLICATION_CREDENTIALS=${HOME}/credentials.json" >> $GITHUB_ENV
+        echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
+    - name: Set config files
+      run : |
+        echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend/emojify/google-services.json
+        echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend/src/main/resources/application.properties
     - name: Build all samples
-      run: ./tests.sh
+      run: ./.github/tests.sh
