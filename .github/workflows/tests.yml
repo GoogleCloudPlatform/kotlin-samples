@@ -24,7 +24,8 @@ jobs:
       run: echo "GOOGLE_APPLICATION_CREDENTIALS=${HOME}/credentials.json" >> $GITHUB_ENV
     - run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
 
-    - if:  github.event.pull_request.head.repo.full_name != github.repository
+    # Skip tests for Gradle and Maven builds for PRs submitted from forks
+    - if: github.ref != 'refs/heads/master' && github.event.pull_request.head.repo.full_name != github.repository
       run: |
         echo "MAVEN_FLAGS=-Dmaven.test.skip=true" >> $GITHUB_ENV
         echo "GRADLE_FLAGS=-x test" >> $GITHUB_ENV
