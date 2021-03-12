@@ -78,6 +78,17 @@ limitations under the License.
 			<artifactId>kotlin-reflect</artifactId>
 		</dependency>
 		<!-- END Spring Boot Kotlin dependencies -->
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
