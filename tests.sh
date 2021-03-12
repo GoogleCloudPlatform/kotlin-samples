@@ -23,6 +23,7 @@ FAILED_FILE=${TMP_REPORT_DIR}/failed
 if [ ! -s "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
     MAVEN_FLAGS="-Dmaven.test.skip=true"
     GRADLE_FLAGS="-x test"
+    BUILD_ONLY="(build only) "
 fi
 
 build_samples()
@@ -63,18 +64,18 @@ done
 
 set +x
 if [ -f "${SUCCEEDED_FILE}" ]; then
-    echo "--------- Succeeded tests -----------"
+    echo "--------- Succeeded ${BUILD_ONLY}-----------"
     cat "${SUCCEEDED_FILE}"
     echo "-------------------------------------"
 fi
 
 if [ -f "${FAILED_FILE}" ]; then
-    echo "--------- Failed tests --------------"
+    echo "--------- Failed ${BUILD_ONLY}--------------"
     cat "${FAILED_FILE}"
     echo "-------------------------------------"
 fi
 
-# Finally report failure if any tests failed
+# Finally report failure if any buildsfailed
 if [ -f "${FAILED_FILE}" ]; then
     exit 1
 fi
