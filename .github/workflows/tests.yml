@@ -20,112 +20,13 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: Set Application Default Credentials
+    - name: Set Application Default Credentials Environment Variable
       run: echo "GOOGLE_APPLICATION_CREDENTIALS=${HOME}/credentials.json" >> $GITHUB_ENV
-    - run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
-
-    # Skip tests for Gradle and Maven builds for PRs submitted from forks
-    - if: github.ref != 'refs/heads/master' && github.event.pull_request.head.repo.full_name != github.repository
-      run: |
-        echo "MAVEN_FLAGS=-Dmaven.test.skip=true" >> $GITHUB_ENV
-        echo "GRADLE_FLAGS=-x test" >> $GITHUB_ENV
-
-    - name: App Engine (Ktor) - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/appengine/ktor
-        ./gradlew build $GRADLE_FLAGS
-
-    - name: App Engine (Springboot) - Maven
-      run: |
-        cd ${GITHUB_WORKSPACE}/appengine/springboot
-        ./mvnw install -q $MAVEN_FLAGS
-
-    - name: Firestore - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/firestore
-        ./gradlew build $GRADLE_FLAGS
-
-    - name: Functions - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/functions
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - if:  github.event.pull_request.head.repo.full_name == github.repository
-      name: Getting Started Android (frontend) - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend
-        echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> emojify/google-services.json
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - if:  github.event.pull_request.head.repo.full_name == github.repository
-      name: Getting Started Android (backend) - Maven
-      run: |
-        cd ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend
-        echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> src/main/resources/application.properties
-        ./mvnw install -q
-
-    - name: Pubsub - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/pubsub
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - name: Cloud Run (gRPC) - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-gradle
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - name: Cloud Run (gRPC) - Maven
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-mvn
-        ./mvnw install -q $MAVEN_FLAGS
-
-    - name: Cloud Run (gRPC streaming) - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-streaming
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - name: Cloud Run (gRPC bidi-streaming) - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/grpc-hello-world-bidi-streaming
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - name: Cloud Run (Ktor) - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/ktor-hello-world
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - name: Cloud Run (Micronaut) - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/micronaut-hello-world
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - name: Cloud Run (Quarkus) - Maven
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/quarkus-hello-world
-        ./mvnw install -q $MAVEN_FLAGS
-
-    - name: Cloud Run (Spring Boot) - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/springboot-hello-world
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - name: Cloud Run (Http4k) - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/http4k-hello-world
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - name: Cloud Run (Plain) - Maven
-      run: |
-        cd ${GITHUB_WORKSPACE}/run/plain-hello-world
-        ./mvnw install -q $MAVEN_FLAGS
-
-    - name: Storage - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/storage
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
-    - name: Vision - Gradle
-      run: |
-        cd ${GITHUB_WORKSPACE}/vision
-        ./gradlew build --console=plain --info $GRADLE_FLAGS
-
+    - name: Set Application Default Credentials File
+      run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
+    - name: Set config files
+      run : |
+        echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend/emojify/google-services.json
+        echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend/src/main/resources/application.properties
+    - name: Build all samples
+      run: ./.github/tests.sh
