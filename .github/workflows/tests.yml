@@ -28,6 +28,9 @@ jobs:
       if: github.ref == 'refs/heads/master' || github.event.pull_request.head.repo.full_name == github.repository
       run : |
         echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend/emojify/google-services.json
+        if [ ! -s ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend/emojify/google-services.json ]; then
+           echo "{}" >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend/emojify/google-services.json
+        fi
         echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend/src/main/resources/application.properties
     - name: Build all samples
       run: ./.github/tests.sh
