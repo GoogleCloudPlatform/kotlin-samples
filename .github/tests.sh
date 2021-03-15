@@ -19,11 +19,18 @@ TMP_REPORT_DIR=$(mktemp -d)
 SUCCEEDED_FILE=${TMP_REPORT_DIR}/succeeded
 FAILED_FILE=${TMP_REPORT_DIR}/failed
 
+# Directories we do not want to run tests in, even if they exist
+SKIP_DIRS=(
+)
+
 # Set flags for skipping tests if we are not authenticated
 if [ ! -s "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
     MAVEN_FLAGS="-Dmaven.test.skip=true"
     GRADLE_FLAGS="-x test"
     BUILD_ONLY="(build only) "
+    SKIP_DIRS=(
+        "getting-started/android-with-appengine/frontend"
+    )
 fi
 
 build_samples()
@@ -52,6 +59,10 @@ build_samples()
 # Loop through all directories containing "gradlew" and run the test suites.
 find * \( -name 'gradlew' -o -name 'mvnw' \) -exec dirname {} \; | while read DIR
 do
+    if [[ " ${SKIP_DIRS[@]} " =~ " ${DIR} " ]]; then
+        echo "Skipping build in $DIR (explicitly flagged to be skipped)"
+        continue
+    fi
     pushd ${DIR}
     if [ -f "gradlew" ]; then
         build_samples $DIR "gradle"
