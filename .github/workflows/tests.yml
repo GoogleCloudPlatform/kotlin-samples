@@ -25,7 +25,7 @@ jobs:
     - name: Set Application Default Credentials File
       run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
     - name: Set config files
-      if: github.ref != 'refs/heads/master' && github.event.pull_request.head.repo.full_name != github.repository
+      if: github.ref == 'refs/heads/master' || github.event.pull_request.head.repo.full_name == github.repository
       run : |
         echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend/emojify/google-services.json
         echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend/src/main/resources/application.properties
