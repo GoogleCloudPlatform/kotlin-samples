@@ -20,19 +20,18 @@ import com.google.api.core.ApiFuture
 import com.google.api.core.ApiFutures
 import com.google.api.gax.rpc.ApiException
 import com.google.cloud.ServiceOptions
-import com.google.cloud.pubsub.v1.MessageReceiver
 import com.google.cloud.pubsub.v1.AckReplyConsumer
-import com.google.cloud.pubsub.v1.TopicAdminClient
+import com.google.cloud.pubsub.v1.MessageReceiver
 import com.google.cloud.pubsub.v1.Publisher
-import com.google.cloud.pubsub.v1.SubscriptionAdminClient
 import com.google.cloud.pubsub.v1.Subscriber
+import com.google.cloud.pubsub.v1.SubscriptionAdminClient
+import com.google.cloud.pubsub.v1.TopicAdminClient
 import com.google.protobuf.ByteString
 import com.google.pubsub.v1.ProjectSubscriptionName
-import com.google.pubsub.v1.ProjectTopicName
 import com.google.pubsub.v1.PubsubMessage
 import com.google.pubsub.v1.PushConfig
+import com.google.pubsub.v1.TopicName
 import java.io.IOException
-import java.util.Arrays.copyOfRange
 import java.util.concurrent.LinkedBlockingDeque
 
 const val usage = """
@@ -48,12 +47,12 @@ const val usage = """
 private val projectId = ServiceOptions.getDefaultProjectId()!!
 
 private val actions = mapOf(
-        "create" to ::createTopic,
-        "sub" to ::subscribeTopic,
-        "pub" to ::publishMsg,
-        "listen" to ::listenToSub,
-        "del-topic" to ::deleteTopic,
-        "del-sub" to ::deleteSub
+    "create" to ::createTopic,
+    "sub" to ::subscribeTopic,
+    "pub" to ::publishMsg,
+    "listen" to ::listenToSub,
+    "del-topic" to ::deleteTopic,
+    "del-sub" to ::deleteSub
 )
 
 private fun createTopic(vararg args: String) { // expects 1 arg: <topic> to create
@@ -65,7 +64,7 @@ private fun createTopic(vararg args: String) { // expects 1 arg: <topic> to crea
     // Your topic ID, eg. "my-topic"
     val topicId = args[0]
 
-    val topic = ProjectTopicName.of(projectId, topicId)
+    val topic = TopicName.of(projectId, topicId)
 
     try {
         TopicAdminClient.create().use { topicAdminClient -> topicAdminClient.createTopic(topic) }
@@ -88,7 +87,7 @@ private fun subscribeTopic(vararg args: String) { // expects 2 args: <topic> and
     // Your subscription ID eg. "my-sub"
     val subscriptionId = args[1]
 
-    val topicName = ProjectTopicName.of(projectId, topicId)
+    val topicName = TopicName.of(projectId, topicId)
 
     val subscriptionName = ProjectSubscriptionName.of(projectId, subscriptionId)
 
@@ -111,7 +110,7 @@ private fun publishMsg(vararg args: String) { // expects 2 args: <topic> and <co
     }
     val topicId = args[0]
     val messageCount = args[1].toInt()
-    val topicName = ProjectTopicName.of(projectId, topicId)
+    val topicName = TopicName.of(projectId, topicId)
     lateinit var publisher: Publisher
     val futures: MutableList<ApiFuture<String>> = mutableListOf()
 
@@ -125,8 +124,8 @@ private fun publishMsg(vararg args: String) { // expects 2 args: <topic> and <co
             // convert message to bytes
             val data = ByteString.copyFromUtf8(message)
             val pubsubMessage = PubsubMessage.newBuilder()
-                    .setData(data)
-                    .build()
+                .setData(data)
+                .build()
             // Schedule a message to be published. Messages are automatically batched.
             val future = publisher.publish(pubsubMessage)
             futures.add(future)
@@ -182,7 +181,7 @@ fun deleteTopic(vararg args: String) { // expects 1 arg: <topic> to delete
     // Your topic ID, eg. "my-topic"
     val topicId = args[0]
 
-    val topic = ProjectTopicName.of(projectId, topicId)
+    val topic = TopicName.of(projectId, topicId)
 
     try {
         TopicAdminClient.create().use { topicAdminClient -> topicAdminClient.deleteTopic(topic) }
@@ -219,7 +218,7 @@ fun main(vararg args: String) {
         !actions.containsKey(args[0]) -> println("Bad command: action not found! \n $usage")
 
         else -> {
-            val actionArgs = copyOfRange(args, 1, args.size)
+            val actionArgs = args.copyOfRange(1, args.size)
             actions[args[0]]?.invoke(actionArgs)
         }
     }
