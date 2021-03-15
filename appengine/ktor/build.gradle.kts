@@ -20,7 +20,7 @@ require (JavaVersion.current() <= JavaVersion.VERSION_11) {
 }
 
 dependencies {
-    implementation(platform("io.ktor:ktor-bom:1.5.1"))
+    implementation(platform("io.ktor:ktor-bom:1.5.2"))
     implementation("io.ktor:ktor-server-servlet")
     implementation("io.ktor:ktor-html-builder")
     implementation("com.google.cloud:google-cloud-logging-logback:0.117.0-alpha")
