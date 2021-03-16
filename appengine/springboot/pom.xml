@@ -35,8 +35,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<kotlin.version>1.4.31</kotlin.version>
-		<spring-cloud-gcp.version>1.2.5.RELEASE</spring-cloud-gcp.version>
-		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
+		<spring-cloud-gcp.version>1.2.7.RELEASE</spring-cloud-gcp.version>
+		<spring-cloud.version>2020.0.1</spring-cloud.version>
 	</properties>
 
 	<dependencies>
