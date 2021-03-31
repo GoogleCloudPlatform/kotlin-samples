@@ -29,6 +29,7 @@ import com.google.cloud.pubsub.v1.TopicAdminClient
 import com.google.protobuf.ByteString
 import com.google.pubsub.v1.ProjectSubscriptionName
 import com.google.pubsub.v1.PubsubMessage
+import com.google.pubsub.v1.pubsubMessage
 import com.google.pubsub.v1.PushConfig
 import com.google.pubsub.v1.TopicName
 import java.io.IOException
@@ -122,10 +123,10 @@ private fun publishMsg(vararg args: String) { // expects 2 args: <topic> and <co
             val message = "message-$i"
 
             // convert message to bytes
-            val data = ByteString.copyFromUtf8(message)
-            val pubsubMessage = PubsubMessage.newBuilder()
-                .setData(data)
-                .build()
+            val messageData = ByteString.copyFromUtf8(message)
+            val pubsubMessage = pubsubMessage {
+                data = messageData
+            }
             // Schedule a message to be published. Messages are automatically batched.
             val future = publisher.publish(pubsubMessage)
             futures.add(future)
