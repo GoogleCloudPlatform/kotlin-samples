@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        distribution: 'adopt'
     - id: set-testdirs
       run: echo "::set-output name=testdirs::[$(for i in $(ls -d */); do echo -n \"${i%%/}\",; done | sed 's/.$//')]"
     outputs:
