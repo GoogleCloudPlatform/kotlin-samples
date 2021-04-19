@@ -57,7 +57,7 @@ build_samples()
 }
 
 # Loop through all directories containing "gradlew" and run the test suites.
-find * \( -name 'gradlew' -o -name 'mvnw' \) -exec dirname {} \; | while read DIR
+find ${1:-*} \( -name 'gradlew' -o -name 'mvnw' \) -exec dirname {} \; | while read DIR
 do
     if [[ " ${SKIP_DIRS[@]} " =~ " ${DIR} " ]]; then
         echo "Skipping build in $DIR (explicitly flagged to be skipped)"

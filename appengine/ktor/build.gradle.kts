@@ -25,7 +25,7 @@ dependencies {
     implementation("io.ktor:ktor-html-builder")
     implementation("com.google.cloud:google-cloud-logging-logback:0.117.0-alpha")
 
-    runtimeOnly("com.google.appengine:appengine:1.9.87")
+    runtimeOnly("com.google.appengine:appengine:1.9.88")
 }
 
 appengine {
