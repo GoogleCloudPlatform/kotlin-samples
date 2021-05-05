@@ -2,9 +2,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    kotlin("jvm") version "1.4.31"
-    kotlin("kapt") version "1.4.31"
-    kotlin("plugin.allopen") version "1.4.31"
+    kotlin("jvm") version "1.5.0"
+    kotlin("kapt") version "1.5.0"
+    kotlin("plugin.allopen") version "1.5.0"
 }
 
 repositories {
@@ -14,13 +14,13 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-RC")
 
-    implementation("io.micronaut:micronaut-runtime:2.2.0")
-    implementation("io.micronaut:micronaut-http-server-netty:2.2.0")
+    implementation("io.micronaut:micronaut-runtime:2.5.0")
+    implementation("io.micronaut:micronaut-http-server-netty:2.5.0")
     implementation("ch.qos.logback:logback-classic:1.2.3")
 
-    kapt("io.micronaut:micronaut-inject-java:2.2.0")
+    kapt("io.micronaut:micronaut-inject-java:2.5.0")
 }
 
 java {

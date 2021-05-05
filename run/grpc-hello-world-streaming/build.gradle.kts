@@ -8,11 +8,11 @@ import com.google.protobuf.gradle.protoc
 val grpcVersion = "1.37.0"
 val grpcKotlinVersion = "1.1.0"
 val protobufVersion = "3.15.8"
-val coroutinesVersion = "1.4.3"
+val coroutinesVersion = "1.5.0-RC"
 
 plugins {
     application
-    kotlin("jvm") version "1.4.32"
+    kotlin("jvm") version "1.5.0"
     id("com.google.protobuf") version "0.8.15"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
