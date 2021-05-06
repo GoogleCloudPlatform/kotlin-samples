@@ -10,11 +10,11 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <kotlin.version>1.4.32</kotlin.version>
-    <kotlinx.coroutines.version>1.4.3-native-mt</kotlinx.coroutines.version>
+    <kotlin.version>1.5.0</kotlin.version>
+    <kotlinx.coroutines.version>1.5.0-RC</kotlinx.coroutines.version>
     <grpc.version>1.37.0</grpc.version>
-    <grpc.kotlin.version>1.0.0</grpc.kotlin.version>
-    <protobuf.version>3.14.0</protobuf.version>
+    <grpc.kotlin.version>1.1.0</grpc.kotlin.version>
+    <protobuf.version>3.15.8</protobuf.version>
   </properties>
 
   <dependencies>
@@ -37,6 +37,11 @@
       <groupId>io.grpc</groupId>
       <artifactId>grpc-kotlin-stub</artifactId>
       <version>${grpc.kotlin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.grpc</groupId>
+      <artifactId>grpc-protobuf</artifactId>
+      <version>${grpc.version}</version>
     </dependency>
     <dependency>
       <groupId>io.grpc</groupId>

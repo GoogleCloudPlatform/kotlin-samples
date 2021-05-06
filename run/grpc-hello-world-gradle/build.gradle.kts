@@ -5,15 +5,15 @@ import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
-val grpcVersion = "1.34.0"
-val grpcKotlinVersion = "1.0.0"
-val protobufVersion = "3.14.0"
-val coroutinesVersion = "1.4.2"
+val grpcVersion = "1.37.0"
+val grpcKotlinVersion = "1.1.0"
+val protobufVersion = "3.15.8"
+val coroutinesVersion = "1.5.0-RC"
 
 plugins {
     application
-    kotlin("jvm") version "1.4.31"
-    id("com.google.protobuf") version "0.8.14"
+    kotlin("jvm") version "1.5.0"
+    id("com.google.protobuf") version "0.8.15"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
 
@@ -28,6 +28,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
 }
