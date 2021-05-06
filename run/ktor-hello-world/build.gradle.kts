@@ -3,7 +3,7 @@ import java.util.concurrent.*
 
 plugins {
     application
-    kotlin("jvm") version "1.4.31"
+    kotlin("jvm") version "1.5.0"
 }
 
 repositories {
@@ -12,8 +12,10 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core:1.4.3")
-    implementation("io.ktor:ktor-server-cio:1.4.3")
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("reflect"))
+    implementation("io.ktor:ktor-server-core:1.5.4")
+    implementation("io.ktor:ktor-server-cio:1.5.4")
     runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
 }
 
