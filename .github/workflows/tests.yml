@@ -24,7 +24,7 @@ jobs:
         java: [1.8, 1.11]
         sample: ${{ fromJson(needs.sample_directories.outputs.testdirs) }}
     runs-on: ubuntu-latest
-    name: ${{ matrix.sample }} ${{ matrix.java }}
+    name: Java ${{ matrix.java }} / ${{ matrix.sample }} 
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v1
