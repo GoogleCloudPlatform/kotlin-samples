@@ -10,11 +10,11 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <kotlin.version>1.5.0</kotlin.version>
-    <kotlinx.coroutines.version>1.5.0-RC</kotlinx.coroutines.version>
+    <kotlin.version>1.5.10</kotlin.version>
+    <kotlinx.coroutines.version>1.5.0</kotlinx.coroutines.version>
     <grpc.version>1.38.0</grpc.version>
     <grpc.kotlin.version>1.1.0</grpc.kotlin.version>
-    <protobuf.version>3.15.8</protobuf.version>
+    <protobuf.version>3.17.1</protobuf.version>
   </properties>
 
   <dependencies>
@@ -44,6 +44,11 @@
       <version>${grpc.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-kotlin</artifactId>
+      <version>${protobuf.version}</version>
+    </dependency>
+    <dependency>
       <groupId>io.grpc</groupId>
       <artifactId>grpc-netty-shaded</artifactId>
       <version>${grpc.version}</version>
@@ -67,21 +72,6 @@
         <groupId>org.xolstice.maven.plugins</groupId>
         <artifactId>protobuf-maven-plugin</artifactId>
         <version>0.6.1</version>
-        <configuration>
-          <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
-          <pluginId>grpc-java</pluginId>
-          <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
-          <protocPlugins>
-            <protocPlugin>
-              <id>grpc-kotlin</id>
-              <groupId>io.grpc</groupId>
-              <artifactId>protoc-gen-grpc-kotlin</artifactId>
-              <version>${grpc.kotlin.version}</version>
-              <classifier>jdk7</classifier>
-              <mainClass>io.grpc.kotlin.generator.GeneratorRunner</mainClass>
-            </protocPlugin>
-          </protocPlugins>
-        </configuration>
         <executions>
           <execution>
             <id>compile</id>
@@ -89,6 +79,32 @@
               <goal>compile</goal>
               <goal>compile-custom</goal>
             </goals>
+            <configuration>
+              <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
+              <pluginId>grpc-java</pluginId>
+              <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
+              <protocPlugins>
+                <protocPlugin>
+                  <id>grpc-kotlin</id>
+                  <groupId>io.grpc</groupId>
+                  <artifactId>protoc-gen-grpc-kotlin</artifactId>
+                  <version>${grpc.kotlin.version}</version>
+                  <classifier>jdk7</classifier>
+                  <mainClass>io.grpc.kotlin.generator.GeneratorRunner</mainClass>
+                </protocPlugin>
+              </protocPlugins>
+            </configuration>
+          </execution>
+          <execution>
+            <id>compile-kt</id>
+            <goals>
+              <goal>compile-custom</goal>
+            </goals>
+            <configuration>
+              <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
+              <outputDirectory>${project.build.directory}/generated-sources/protobuf/kotlin</outputDirectory>
+              <pluginId>kotlin</pluginId>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -106,6 +122,11 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <args>
+            <arg>-Xopt-in=kotlin.RequiresOptIn</arg>
+          </args>
+        </configuration>
       </plugin>
 
       <plugin>

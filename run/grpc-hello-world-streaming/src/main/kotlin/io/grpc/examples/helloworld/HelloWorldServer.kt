@@ -52,7 +52,7 @@ class HelloWorldServer(val port: Int) {
         override fun sayHelloStream(request: HelloRequest): Flow<HelloReply> = flow {
             while (true) {
                 delay(1000)
-                emit(HelloReply.newBuilder().setMessage("hello, ${request.name}").build())
+                emit(helloReply { message = "hello, ${request.name}" })
             }
         }
     }
