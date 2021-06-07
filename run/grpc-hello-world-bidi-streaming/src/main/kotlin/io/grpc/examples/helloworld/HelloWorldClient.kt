@@ -59,7 +59,7 @@ fun main(args: Array<String>) = runBlocking {
     val helloFlow = flow {
         while (true) {
             delay(1000)
-            emit(HelloRequest.newBuilder().setName(user).build())
+            emit(helloRequest { name = user })
         }
     }
 

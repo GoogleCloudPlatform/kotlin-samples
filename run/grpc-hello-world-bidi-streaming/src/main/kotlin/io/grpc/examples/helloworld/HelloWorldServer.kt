@@ -51,7 +51,7 @@ class HelloWorldServer(private val port: Int) {
         override fun sayHelloStream(requests: Flow<HelloRequest>): Flow<HelloReply> {
             return requests.map { request ->
                 println(request)
-                HelloReply.newBuilder().setMessage("hello, ${request.name}").build()
+                helloReply { message = "hello, ${request.name}" }
             }
         }
     }
