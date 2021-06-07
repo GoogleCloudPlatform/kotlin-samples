@@ -30,8 +30,8 @@ import kotlinx.coroutines.runBlocking
 class HelloWorldClient(val channel: ManagedChannel) : Closeable {
     private val stub: GreeterCoroutineStub = GreeterCoroutineStub(channel)
 
-    fun greet(name: String) = runBlocking {
-        val request = HelloRequest.newBuilder().setName(name).build()
+    fun greet(s: String) = runBlocking {
+        val request = helloRequest { name = s }
         try {
             val response = stub.sayHello(request)
             println("Greeter client received: ${response.message}")
