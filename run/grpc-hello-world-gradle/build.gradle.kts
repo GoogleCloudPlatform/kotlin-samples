@@ -20,7 +20,6 @@ plugins {
 repositories {
     mavenLocal()
     google()
-    jcenter()
     mavenCentral()
 }
 
