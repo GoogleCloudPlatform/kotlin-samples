@@ -2,25 +2,31 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    kotlin("jvm") version "1.5.0"
-    kotlin("kapt") version "1.5.0"
-    kotlin("plugin.allopen") version "1.5.0"
+    kotlin("jvm") version "1.6.10"
+    kotlin("kapt") version "1.6.10"
+    kotlin("plugin.allopen") version "1.6.10"
+    id("io.micronaut.application") version "3.1.1"
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
+}
+
+micronaut {
+    version.set("3.2.4")
+    runtime("netty")
+    processing {
+        incremental(true)
+        annotations("hello.*")
+    }
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-RC")
-
-    implementation("io.micronaut:micronaut-runtime:2.5.0")
-    implementation("io.micronaut:micronaut-http-server-netty:2.5.0")
-    implementation("ch.qos.logback:logback-classic:1.2.3")
-
-    kapt("io.micronaut:micronaut-inject-java:2.5.0")
+    implementation(kotlin("reflect"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
 }
 
 java {
@@ -39,19 +45,7 @@ application {
     mainClassName = "hello.WebAppKt"
 }
 
-allOpen {
-    annotation("io.micronaut.aop.Around")
-}
-
-kapt {
-    arguments {
-        arg("micronaut.processing.incremental", true)
-        arg("micronaut.processing.annotations", "hello.*")
-        arg("micronaut.processing.group", "hello")
-        arg("micronaut.processing.module", "hello")
-    }
-}
-
+/*
 tasks.withType<JavaExec> {
     jvmArgs = listOf("-XX:TieredStopAtLevel=1", "-Dcom.sun.management.jmxremote")
 
@@ -63,6 +57,7 @@ tasks.withType<JavaExec> {
         )
     }
 }
+*/
 
 tasks.replace("assemble").dependsOn("installDist")
 
