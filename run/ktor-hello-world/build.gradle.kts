@@ -12,7 +12,7 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation("io.ktor:ktor-server-core:1.6.7")
     implementation("io.ktor:ktor-server-cio:1.6.7")
-    runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
+    runtimeOnly("ch.qos.logback:logback-classic:1.2.11")
 }
 
 java {
