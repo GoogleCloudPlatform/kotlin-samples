@@ -18,7 +18,7 @@ dependencies {
 
     implementation("io.micronaut:micronaut-runtime:2.5.0")
     implementation("io.micronaut:micronaut-http-server-netty:2.5.0")
-    implementation("ch.qos.logback:logback-classic:1.2.3")
+    implementation("ch.qos.logback:logback-classic:1.2.11")
 
     kapt("io.micronaut:micronaut-inject-java:2.5.0")
 }
