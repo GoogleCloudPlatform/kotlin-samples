@@ -33,6 +33,14 @@ if [ ! -s "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
     )
 fi
 
+
+# skip jdk 8 for projects that require higher
+JAVA_MAJOR_VERSION=$(java -version 2>&1 | grep -oP 'version "?(1\.)?\K\d+' || true)
+if [ "$JAVA_MAJOR_VERSION" -eq 8 ] ; then
+  SKIP_DIRS+=("run/quarkus-hello-world")
+fi
+
+
 build_samples()
 {
     if [ "$2" == "maven" ]; then

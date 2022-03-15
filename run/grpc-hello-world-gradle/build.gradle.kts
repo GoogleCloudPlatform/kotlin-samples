@@ -5,15 +5,15 @@ import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
-val grpcVersion = "1.38.0"
-val grpcKotlinVersion = "1.1.0"
-val protobufVersion = "3.17.1"
-val coroutinesVersion = "1.5.0"
+val grpcVersion = "1.39.0"
+val grpcKotlinVersion = "1.2.0"
+val protobufVersion = "3.19.2"
+val coroutinesVersion = "1.6.0"
 
 plugins {
     application
-    kotlin("jvm") version "1.5.0"
-    id("com.google.protobuf") version "0.8.16"
+    kotlin("jvm") version "1.6.10"
+    id("com.google.protobuf") version "0.8.18"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
 
