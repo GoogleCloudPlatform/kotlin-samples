@@ -15,3 +15,4 @@ These sample Kotlin applications demonstrate how to deploy Kotlin to [Google Clo
 |[gRPC Kotlin Gradle](grpc-hello-world-gradle)|Deploy a unary gRPC service on Cloud Run (uses Gradle)|[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run/?dir=run/grpc-hello-world-gradle)|
 |[gRPC Kotlin Streaming](grpc-hello-world-streaming)|Deploy a unary streaming gRPC service on Cloud Run|[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run/?dir=run/grpc-hello-world-streaming)|
 |[gRPC Kotlin Bidi Streaming](grpc-hello-world-bidi-streaming)|Deploy a bidirectional streaming gRPC service on Cloud Run|[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run/?dir=run/grpc-hello-world-bidi-streaming)|
+|[Spring Boot CloudSQL](springboot-cloudsql)|A Spring Boot REST server connected to CloudSQL Postgres using R2DBC|TODO: Button Support|
