@@ -24,8 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
-import java.util.*
-
+import java.util.Properties
 
 data class Bar(@Id val id: Long?, val name: String)
 
@@ -53,7 +52,6 @@ class WebApp(val barRepo: BarRepo) {
     fun error() = run {
         logger.error("An Error")
     }
-
 }
 
 @Configuration(proxyBeanMethods = false)
@@ -72,10 +70,9 @@ class InitConfiguration {
     @Profile("init")
     fun commandLineRunner(databaseClient: DatabaseClient, @Value("classpath:init.sql") initSql: Resource): CommandLineRunner {
         return CommandLineRunner {
-           initDb(databaseClient, initSql)
+            initDb(databaseClient, initSql)
         }
     }
-
 }
 
 fun main(args: Array<String>) {

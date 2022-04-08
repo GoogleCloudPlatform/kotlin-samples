@@ -18,5 +18,4 @@ class BarRepoTest(@Autowired val barRepo: BarRepo) {
         assertThat(bars.size).isEqualTo(1)
         assertThat(bars.first().id).isNotNull
     }
-
 }

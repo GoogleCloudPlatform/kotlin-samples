@@ -6,7 +6,6 @@ import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
 
-
 @Component
 class TestDb(val databaseClient: DatabaseClient, @Value("classpath:init.sql") val initSql: Resource) {
     @PostConstruct
