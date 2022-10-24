@@ -11,6 +11,16 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
+kotlin.sourceSets.all {
+    languageSettings.optIn("kotlin.RequiresOptIn")
+}
+
 val grpcVersion = "1.50.2"
 val grpcKotlinVersion = "1.3.0"
 val protobufVersion = "3.21.8"
@@ -53,16 +63,8 @@ protobuf {
     }
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-}
-
 application {
     mainClass.set("io.grpc.examples.helloworld.HelloWorldServerKt")
-}
-
-kotlin.sourceSets.all {
-    languageSettings.optIn("kotlin.RequiresOptIn")
 }
 
 tasks.register<JavaExec>("HelloWorldClient") {
