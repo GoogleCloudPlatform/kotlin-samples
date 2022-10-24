@@ -10,11 +10,11 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <kotlin.version>1.6.10</kotlin.version>
-    <kotlinx.coroutines.version>1.6.0-native-mt</kotlinx.coroutines.version>
-    <grpc.version>1.45.0</grpc.version>
-    <grpc.kotlin.version>1.2.1</grpc.kotlin.version>
-    <protobuf.version>3.19.6</protobuf.version>
+    <kotlin.version>1.7.20</kotlin.version>
+    <kotlinx.coroutines.version>1.6.4</kotlinx.coroutines.version>
+    <grpc.version>1.50.2</grpc.version>
+    <grpc.kotlin.version>1.3.0</grpc.kotlin.version>
+    <protobuf.version>3.21.8</protobuf.version>
   </properties>
 
   <dependencies>
@@ -99,7 +99,7 @@
                   <groupId>io.grpc</groupId>
                   <artifactId>protoc-gen-grpc-kotlin</artifactId>
                   <version>${grpc.kotlin.version}</version>
-                  <classifier>jdk7</classifier>
+                  <classifier>jdk8</classifier>
                   <mainClass>io.grpc.kotlin.generator.GeneratorRunner</mainClass>
                 </protocPlugin>
               </protocPlugins>
@@ -134,7 +134,7 @@
         </executions>
         <configuration>
           <args>
-            <arg>-Xopt-in=kotlin.RequiresOptIn</arg>
+            <arg>-opt-in=kotlin.RequiresOptIn</arg>
           </args>
         </configuration>
       </plugin>
@@ -201,6 +201,5 @@
       </plugin>
     </plugins>
   </build>
-
 
 </project>
