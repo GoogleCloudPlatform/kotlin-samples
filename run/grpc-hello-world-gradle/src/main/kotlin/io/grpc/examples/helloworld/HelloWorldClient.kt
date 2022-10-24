@@ -20,12 +20,12 @@ import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.StatusException
 import io.grpc.examples.helloworld.GreeterGrpcKt.GreeterCoroutineStub
-import java.io.Closeable
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.runBlocking
+import java.io.Closeable
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class HelloWorldClient(val channel: ManagedChannel) : Closeable {
     private val stub: GreeterCoroutineStub = GreeterCoroutineStub(channel)

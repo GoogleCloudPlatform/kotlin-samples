@@ -2,7 +2,7 @@ plugins {
     application
     kotlin("jvm") version "1.7.20"
     id("com.google.protobuf") version "0.9.1"
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
 
 repositories {
@@ -65,6 +65,12 @@ protobuf {
 
 application {
     mainClass.set("io.grpc.examples.helloworld.HelloWorldServerKt")
+}
+
+ktlint {
+    filter {
+        exclude { it.file.path.contains("$buildDir/generated/") }
+    }
 }
 
 tasks.register<JavaExec>("HelloWorldClient") {
