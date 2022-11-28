@@ -1,7 +1,7 @@
 plugins {
-    kotlin("jvm") version "1.4.20"
+    kotlin("jvm") version "1.6.0"
     war
-    id("com.google.cloud.tools.appengine") version "2.4.1"
+    id("com.google.cloud.tools.appengine") version "2.4.2"
 }
 
 repositories {
@@ -20,12 +20,12 @@ require (JavaVersion.current() <= JavaVersion.VERSION_11) {
 }
 
 dependencies {
-    implementation(platform("io.ktor:ktor-bom:1.5.2"))
+    implementation(platform("io.ktor:ktor-bom:1.6.4"))
     implementation("io.ktor:ktor-server-servlet")
     implementation("io.ktor:ktor-html-builder")
     implementation("com.google.cloud:google-cloud-logging-logback:0.117.0-alpha")
 
-    runtimeOnly("com.google.appengine:appengine:1.9.88")
+    runtimeOnly("com.google.appengine:appengine:1.9.92")
 }
 
 appengine {

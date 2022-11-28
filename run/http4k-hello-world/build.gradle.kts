@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin("jvm") version "1.4.31"
+    kotlin("jvm") version "1.6.10"
 }
 
 repositories {
@@ -9,8 +9,8 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.http4k:http4k-core:3.281.0")
-    implementation("org.http4k:http4k-server-undertow:3.281.0")
+    implementation("org.http4k:http4k-core:4.17.7.0")
+    implementation("org.http4k:http4k-server-undertow:4.17.7.0")
 }
 
 java {

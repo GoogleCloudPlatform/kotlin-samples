@@ -9,4 +9,4 @@ These sample Kotlin applications demonstrate how to deploy Kotlin backends to [A
 |[Kotlin on Ktor](ktor)|Deploy a Kotlin application built with [Ktor](ktor) to App Engine for Java 8|
 |[Kotlin on Spring Boot](springboot)|Deploy a Kotlin application built with [Spring Boot](springboot) to App Engine for Java 8|
 |[Kotlin Spark Sample](https://github.com/GoogleCloudPlatform/getting-started-java/tree/master/appengine-standard-java8/kotlin-spark-appengine-standard)|Deploy a Kotlin application built with Spark to App Engine for Java 8|
-|[Android app with Kotlin Backend](https://github.com/GoogleCloudPlatform/kotlin-samples/tree/master/getting-started/android-with-appengine)|Sample of a Kotlin Spring Boot backend that runs on App Engine Standard for Java8 and communicates with an Android app written in Kotlin.|
+|[Android app with Kotlin Backend](https://github.com/GoogleCloudPlatform/kotlin-samples/tree/main/getting-started/android-with-appengine)|Sample of a Kotlin Spring Boot backend that runs on App Engine Standard for Java8 and communicates with an Android app written in Kotlin.|

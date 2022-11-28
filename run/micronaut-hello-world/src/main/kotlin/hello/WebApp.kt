@@ -20,8 +20,8 @@ import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.runtime.Micronaut.build
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 fun main(args: Array<String>) {
     build()
@@ -33,9 +33,9 @@ fun main(args: Array<String>) {
 @Controller
 class WebApp {
     @Get("/")
-    suspend fun index(): HttpResponse<String> = run {
-        // it is silly to use async here, but we do it as an example
-        val futureResponse = GlobalScope.async {
+    // it is silly to use coroutines here, but we do it as an example
+    suspend fun index(): HttpResponse<String> = coroutineScope {
+        val futureResponse = async {
             HttpResponse.ok("hello, world")
         }
         futureResponse.await()

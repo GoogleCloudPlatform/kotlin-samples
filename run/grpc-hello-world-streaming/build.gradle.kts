@@ -1,33 +1,37 @@
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.ofSourceSet
-import com.google.protobuf.gradle.plugins
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
-
-val grpcVersion = "1.34.0"
-val grpcKotlinVersion = "1.0.0"
-val protobufVersion = "3.14.0"
-val coroutinesVersion = "1.4.2"
-
 plugins {
     application
-    kotlin("jvm") version "1.4.31"
-    id("com.google.protobuf") version "0.8.14"
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    kotlin("jvm") version "1.7.20"
+    id("com.google.protobuf") version "0.9.1"
+    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
 
 repositories {
     mavenLocal()
     google()
-    jcenter()
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
+kotlin.sourceSets.all {
+    languageSettings.optIn("kotlin.RequiresOptIn")
+}
+
+val grpcVersion = "1.50.2"
+val grpcKotlinVersion = "1.3.0"
+val protobufVersion = "3.21.8"
+val coroutinesVersion = "1.6.4"
+
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("javax.annotation:javax.annotation-api:1.2")
+    implementation(kotlin("stdlib"))
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
 }
@@ -36,40 +40,47 @@ protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:$protobufVersion"
     }
+
     plugins {
-        id("grpc") {
+        create("grpc") {
             artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
         }
-        id("grpckt") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKotlinVersion:jdk7@jar"
+        create("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKotlinVersion:jdk8@jar"
         }
     }
+
     generateProtoTasks {
-        ofSourceSet("main").forEach {
+        all().forEach {
             it.plugins {
-                id("grpc")
-                id("grpckt")
+                create("grpc")
+                create("grpckt")
+            }
+            it.builtins {
+                create("kotlin")
             }
         }
     }
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
+application {
+    mainClass.set("io.grpc.examples.helloworld.HelloWorldServerKt")
 }
 
-application {
-    mainClassName = "io.grpc.examples.helloworld.HelloWorldServerKt"
+ktlint {
+    filter {
+        exclude { it.file.path.contains("$buildDir/generated/") }
+    }
 }
 
 tasks.register<JavaExec>("HelloWorldClient") {
     dependsOn("classes")
     classpath = sourceSets["main"].runtimeClasspath
-    main = "io.grpc.examples.helloworld.HelloWorldClientKt"
+    mainClass.set("io.grpc.examples.helloworld.HelloWorldClientKt")
 }
 
 val otherStartScripts = tasks.register<CreateStartScripts>("otherStartScripts") {
-    mainClassName = "io.grpc.examples.helloworld.HelloWorldClientKt"
+    mainClass.set("io.grpc.examples.helloworld.HelloWorldClientKt")
     applicationName = "HelloWorldClientKt"
     outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
     classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath

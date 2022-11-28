@@ -24,19 +24,19 @@ import kotlinx.coroutines.flow.flow
 
 class HelloWorldServer(val port: Int) {
     val server: Server = ServerBuilder
-            .forPort(port)
-            .addService(HelloWorldService())
-            .build()
+        .forPort(port)
+        .addService(HelloWorldService())
+        .build()
 
     fun start() {
         server.start()
         println("Server started, listening on $port")
         Runtime.getRuntime().addShutdownHook(
-                Thread {
-                    println("*** shutting down gRPC server since JVM is shutting down")
-                    stop()
-                    println("*** server shut down")
-                }
+            Thread {
+                println("*** shutting down gRPC server since JVM is shutting down")
+                stop()
+                println("*** server shut down")
+            }
         )
     }
 
@@ -52,7 +52,7 @@ class HelloWorldServer(val port: Int) {
         override fun sayHelloStream(request: HelloRequest): Flow<HelloReply> = flow {
             while (true) {
                 delay(1000)
-                emit(HelloReply.newBuilder().setMessage("hello, ${request.name}").build())
+                emit(helloReply { message = "hello, ${request.name}" })
             }
         }
     }
