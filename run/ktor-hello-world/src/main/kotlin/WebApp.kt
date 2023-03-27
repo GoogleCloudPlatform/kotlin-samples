@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-import io.ktor.application.call
-import io.ktor.application.install
-import io.ktor.application.Application
-import io.ktor.features.CallLogging
-import io.ktor.features.DefaultHeaders
-import io.ktor.response.respondText
-import io.ktor.routing.Routing
-import io.ktor.routing.get
-import io.ktor.server.cio.CIO
-import io.ktor.server.engine.embeddedServer
+
+import io.ktor.server.application.*
+import io.ktor.server.cio.*
+import io.ktor.server.engine.*
+import io.ktor.server.plugins.callloging.*
+import io.ktor.server.plugins.defaultheaders.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
 fun Application.module() {
     install(DefaultHeaders)

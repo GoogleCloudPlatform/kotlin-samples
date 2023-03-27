@@ -1,11 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     application
-    kotlin("jvm") version "1.6.10"
-    kotlin("kapt") version "1.6.10"
-    kotlin("plugin.allopen") version "1.6.10"
-    id("io.micronaut.application") version "3.1.1"
+    kotlin("jvm") version "1.8.10"
+    kotlin("kapt") version "1.8.10"
+    kotlin("plugin.allopen") version "1.8.10"
+    id("io.micronaut.application") version "3.7.7"
 }
 
 repositories {
@@ -13,7 +11,7 @@ repositories {
 }
 
 micronaut {
-    version.set("3.2.4")
+    version.set("3.8.7")
     runtime("netty")
     processing {
         incremental(true)
@@ -22,27 +20,18 @@ micronaut {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        javaParameters = true
-    }
+kotlin {
+    jvmToolchain(17)
 }
 
 application {
-    mainClassName = "hello.WebAppKt"
+    mainClass.set("hello.WebAppKt")
 }
 
 /*

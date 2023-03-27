@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.8.10"
 }
 
 repositories {
@@ -8,23 +8,20 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
-    implementation("io.ktor:ktor-server-core:1.6.7")
-    implementation("io.ktor:ktor-server-cio:1.6.7")
-    runtimeOnly("ch.qos.logback:logback-classic:1.2.11")
+    implementation("io.ktor:ktor-server-core:2.2.4")
+    implementation("io.ktor:ktor-server-call-logging:2.2.4")
+    implementation("io.ktor:ktor-server-default-headers:2.2.4")
+    implementation("io.ktor:ktor-server-cio:2.2.4")
+    runtimeOnly("ch.qos.logback:logback-classic:1.4.6")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.compileKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+kotlin {
+    jvmToolchain(17)
 }
 
 application {
-    mainClassName = "WebAppKt"
+    mainClass.set("WebAppKt")
 }
 
 tasks.replace("assemble").dependsOn("installDist")

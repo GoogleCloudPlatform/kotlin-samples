@@ -1,33 +1,29 @@
 plugins {
     application
-    kotlin("jvm") version "1.7.20"
+    kotlin("jvm") version "1.8.10"
     id("com.google.protobuf") version "0.9.2"
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
 
 repositories {
-    mavenLocal()
     google()
     mavenCentral()
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
+kotlin {
+    jvmToolchain(17)
 }
 
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.RequiresOptIn")
 }
 
-val grpcVersion = "1.50.2"
+val grpcVersion = "1.54.0"
 val grpcKotlinVersion = "1.3.0"
-val protobufVersion = "3.21.8"
+val protobufVersion = "3.22.2"
 val coroutinesVersion = "1.6.4"
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
