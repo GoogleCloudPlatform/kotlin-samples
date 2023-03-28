@@ -15,6 +15,7 @@
 package com.google.firestore
 
 import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -55,7 +56,7 @@ internal class FirestoreTest {
 
         // set the key to "some value"
         main(collection, key, "some value")
-        Assert.assertThat(outContent.toString(), containsString("Updated collection: "))
+        assertThat(outContent.toString(), containsString("Updated collection: "))
 
         // ensure key exists now (and reset the output stream)
         outContent.reset()

@@ -16,22 +16,32 @@ package com.google.firestore
 
 import com.google.cloud.firestore.FirestoreOptions
 
-fun quickstart(collectionName: String, documentName: String) {
-    // [START firestore_quickstart]
-    // Create the client.
+fun main(vararg args: String) {
+    // validate the arguments
+    if (args.isEmpty() || args.size > 3) {
+        throw Exception("Usage: java -jar firestore.jar YOUR_COLLECTION_ID [KEY] [VALUE]")
+    }
+
+    // create the client
     val db = FirestoreOptions.newBuilder()
-        .setTimestampsInSnapshotsEnabled(true)
         .build()
         .service
 
-    // Fetch the document reference and data object.
-    val docRef = db.collection(collectionName).document(documentName)
+    // create the docRef and data object
+    val docRef = db.collection(args[0]).document("samples")
     val data = docRef
         .get() // future
         .get() // snapshot
-        .data ?: error("Document $collectionName:$documentName not found") // MutableMap
+        .data // MutableMap
 
-    // Print the retrieved data.
-    data.forEach { key, value -> println("$key: $value") }
-    // [END firestore_quickstart]
+    // If no arguments are supplied, call the quickstart. Fetch the key value if only one argument is supplied.
+    // Set the key to the supplied value if two arguments are supplied.
+    when (args.size) {
+        1 -> quickstart(args[0], "samples")
+        2 -> println("${args[1]}: ${data?.get(args[1]) ?: "not found"}")
+        else -> {
+            val future = docRef.update(args[1], args[2])
+            println("Updated collection: ${future.get()}")
+        }
+    }
 }
