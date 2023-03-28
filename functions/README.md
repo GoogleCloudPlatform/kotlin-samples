@@ -1,10 +1,5 @@
 # Using Kotlin with Google Cloud Functions
 
-**Cloud Functions with Java 8 is currently in Alpha!**
-
-[Sign up here](https://docs.google.com/forms/d/e/1FAIpQLScC98jGi7CfG0n3UYlj7Xad8XScvZC8-BBOg7Pk3uSZx_2cdQ/viewform)
-to request alpha access.
-
 ## Deploying Kotlin Cloud Function
 
 When deploying to Google Cloud Functions, you can deploy functions for
@@ -17,7 +12,7 @@ Deploy it with the following `gcloud` command:
 
 ```sh
 gcloud functions deploy http-example \
-    --runtime=java8 \
+    --runtime=java17 \
     --entry-point=HttpExample.helloWorld \
     --trigger-http \
     --source=.
@@ -54,7 +49,7 @@ Now deploy the Cloud Function with the following `gcloud` command:
 
 ```sh
 gcloud functions deploy pubsub-example \
-    --runtime java8 \
+    --runtime java17 \
     --entry-point EventExample.helloPubSub \
     --trigger-resource hello-topic \
     --trigger-event google.pubsub.topic.publish
@@ -76,7 +71,7 @@ NAME            EXECUTION_ID  TIME_UTC                 LOG
 pubsub-example  wss5cki38tkb  2019-05-08 21:24:28.061  INFO: Hello, Pub/Sub!
 ```
 
-### Deploy a JAR (required for building with Gradle)
+### Deploy a JAR
 
 Google Cloud Functions support deploying pre-built fat JARs. This is especially
 useful when building functions with Gradle, as Cloud Functions does not
@@ -84,8 +79,10 @@ currently support building from Gradle automatically. A fat JAR is built
 automatically using the `shadowJar` task when you run `gradle build`:
 
 ```
-apply plugin: 'com.github.johnrengelman.shadow'
-tasks.build.dependsOn tasks.shadowJar
+plugins {
+    // ...
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+}
 ```
 
 Now you can build a fat JAR file:
@@ -98,7 +95,7 @@ To deploy the JAR, it must be in directory by itself:
 
 ```sh
 mkdir jar-deployment
-cp build/libs/functions-all.jar jar-deployment/
+cp build/libs/gcloud-functions.jar jar-deployment/
 ```
 
 Now you can deploy to Google Cloud Functions by providing the directory
@@ -106,7 +103,7 @@ your JAR resides in as the source:
 
 ```sh
 gcloud functions deploy jar-example \
-    --runtime=java8 \
+    --runtime=java17 \
     --entry-point=HttpExample.helloWorld \
     --trigger-http \
     --source=jar-deployment/
