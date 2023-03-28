@@ -29,7 +29,6 @@ import kotlinx.html.head
 import kotlinx.html.p
 import kotlinx.html.title
 
-
 // Entry Point of the application as defined in resources/application.conf.
 // @see https://ktor.io/servers/configuration.html#hocon-file
 fun Application.main() {
