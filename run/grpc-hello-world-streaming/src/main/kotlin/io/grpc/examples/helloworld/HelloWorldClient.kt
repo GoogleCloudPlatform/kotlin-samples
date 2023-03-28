@@ -57,9 +57,8 @@ fun main(args: Array<String>) {
             ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
         }
 
-        HelloWorldClient(
-            builder.executor(dispatcher.asExecutor()).build(),
-        ).use {
+        val channel = builder.executor(dispatcher.asExecutor()).build()
+        HelloWorldClient(channel).use {
             val user = args.singleOrNull() ?: "world"
             it.greet(user)
         }

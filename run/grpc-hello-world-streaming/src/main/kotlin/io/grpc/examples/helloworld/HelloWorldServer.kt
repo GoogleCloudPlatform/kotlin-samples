@@ -31,13 +31,12 @@ class HelloWorldServer(val port: Int) {
     fun start() {
         server.start()
         println("Server started, listening on $port")
-        Runtime.getRuntime().addShutdownHook(
-            Thread {
-                println("*** shutting down gRPC server since JVM is shutting down")
-                stop()
-                println("*** server shut down")
-            },
-        )
+        val thread = Thread {
+            println("*** shutting down gRPC server since JVM is shutting down")
+            stop()
+            println("*** server shut down")
+        }
+        Runtime.getRuntime().addShutdownHook(thread)
     }
 
     private fun stop() {
