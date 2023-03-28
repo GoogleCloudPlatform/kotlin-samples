@@ -2,7 +2,7 @@ plugins {
     application
     kotlin("jvm") version "1.8.10"
     id("com.google.protobuf") version "0.9.2"
-    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
 }
 
 repositories {
