@@ -27,9 +27,9 @@ fun quickstart(collectionName: String, documentName: String) {
     // Fetch the document reference and data object.
     val docRef = db.collection(collectionName).document(documentName)
     val data = docRef
-            .get() // future
-            .get() // snapshot
-            .data ?: error("Document $collectionName:$documentName not found") // MutableMap
+        .get() // future
+        .get() // snapshot
+        .data ?: error("Document $collectionName:$documentName not found") // MutableMap
 
     // Print the retrieved data.
     data.forEach { key, value -> println("$key: $value") }

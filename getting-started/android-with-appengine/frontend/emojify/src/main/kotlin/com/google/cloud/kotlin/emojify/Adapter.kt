@@ -16,12 +16,12 @@
 
 package com.google.cloud.kotlin.emojify
 
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.google.cloud.kotlin.emojify.databinding.ItemContentImageBinding
 import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile

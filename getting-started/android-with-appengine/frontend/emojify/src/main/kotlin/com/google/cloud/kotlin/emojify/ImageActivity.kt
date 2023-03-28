@@ -19,14 +19,14 @@ package com.google.cloud.kotlin.emojify
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
 import android.util.Log
 import android.util.NoSuchPropertyException
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -38,12 +38,12 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
 import com.google.cloud.kotlin.emojify.databinding.ActivityListContentBinding
 import com.google.cloud.kotlin.emojify.databinding.ToolbarBinding
-import com.yanzhenjie.album.Album
-import com.yanzhenjie.album.AlbumFile
-import com.yanzhenjie.album.api.widget.Widget
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
+import com.yanzhenjie.album.Album
+import com.yanzhenjie.album.AlbumFile
+import com.yanzhenjie.album.api.widget.Widget
 import com.yanzhenjie.album.widget.divider.Api21ItemDivider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -95,40 +95,44 @@ class ImageActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         val url = "${this.backendUrl}/emojify?objectName=$imageId"
         updateUI { show("Image uploaded to Storage!") }
-        val request = JsonObjectRequest(Request.Method.GET, url, null,
-                { response ->
-                    val statusCode = response["statusCode"]
-                    if (statusCode != "OK") {
-                        updateUI {
-                            show("Oops!")
-                            activityListContentBinding.tvMessage.text = response["errorMessage"].toString()
-                        }
-                        Log.i("backend response", "${response["statusCode"]}, ${response["errorCode"]}")
-                    } else {
-                        updateUI {
-                            show("Yay!")
-                            activityListContentBinding.tvMessage.text = getString(R.string.waiting_over)
-                        }
-                        emjojifiedUrl = response["emojifiedUrl"].toString()
-                        downloadAndShowImage()
-                    }
-                    deleteSourceImage()
-                },
-                { err ->
+        val request = JsonObjectRequest(
+            Request.Method.GET,
+            url,
+            null,
+            { response ->
+                val statusCode = response["statusCode"]
+                if (statusCode != "OK") {
                     updateUI {
-                        show("Error calling backend!")
-                        activityListContentBinding.tvMessage.text = getString(R.string.backend_error)
+                        show("Oops!")
+                        activityListContentBinding.tvMessage.text = response["errorMessage"].toString()
                     }
-                    Log.e("backend", err?.message ?: "unknown")
-                    deleteSourceImage()
-                })
+                    Log.i("backend response", "${response["statusCode"]}, ${response["errorCode"]}")
+                } else {
+                    updateUI {
+                        show("Yay!")
+                        activityListContentBinding.tvMessage.text = getString(R.string.waiting_over)
+                    }
+                    emjojifiedUrl = response["emojifiedUrl"].toString()
+                    downloadAndShowImage()
+                }
+                deleteSourceImage()
+            },
+            { err ->
+                updateUI {
+                    show("Error calling backend!")
+                    activityListContentBinding.tvMessage.text = getString(R.string.backend_error)
+                }
+                Log.e("backend", err?.message ?: "unknown")
+                deleteSourceImage()
+            },
+        )
         request.retryPolicy = DefaultRetryPolicy(50000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         queue.add(request)
     }
 
     private fun deleteSourceImage() = storageRef.child(imageId).delete()
-            .addOnSuccessListener { Log.i("deleted", "Source image successfully deleted!") }
-            .addOnFailureListener { err -> Log.e("delete", err.message ?: "unknown") }
+        .addOnSuccessListener { Log.i("deleted", "Source image successfully deleted!") }
+        .addOnFailureListener { err -> Log.e("delete", err.message ?: "unknown") }
 
     private fun uploadImage(path: String) {
         val file = Uri.fromFile(File(path))
@@ -139,41 +143,43 @@ class ImageActivity : AppCompatActivity() {
             activityListContentBinding.tvMessage.text = getString(R.string.waiting_msg_1)
         }
         imgRef.putFile(file, StorageMetadata.Builder().setContentType("image/jpg").build())
-                .addOnSuccessListener {
-                    updateUI { activityListContentBinding.tvMessage.text = getString(R.string.waiting_msg_2) }
-                    callEmojifyBackend()
+            .addOnSuccessListener {
+                updateUI { activityListContentBinding.tvMessage.text = getString(R.string.waiting_msg_2) }
+                callEmojifyBackend()
+            }
+            .addOnFailureListener { err ->
+                updateUI {
+                    show("Cloud Storage error!")
+                    activityListContentBinding.tvMessage.text = getString(R.string.storage_error)
                 }
-                .addOnFailureListener { err ->
-                    updateUI {
-                        show("Cloud Storage error!")
-                        activityListContentBinding.tvMessage.text = getString(R.string.storage_error)
-                    }
-                    Log.e("storage", err.message ?: "unknown")
-                }
+                Log.e("storage", err.message ?: "unknown")
+            }
     }
 
     private fun downloadAndShowImage() {
         val url = emjojifiedUrl
         updateUI {
             Glide.with(this)
-                    .load(url)
-                    .apply(RequestOptions().signature(ObjectKey(System.currentTimeMillis())))
-                    .apply(RequestOptions()
-                            .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.placeholder)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .dontTransform()
-                            .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                            .skipMemoryCache(true))
-                    .into(activityListContentBinding.imageView)
+                .load(url)
+                .apply(RequestOptions().signature(ObjectKey(System.currentTimeMillis())))
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .dontTransform()
+                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .skipMemoryCache(true),
+                )
+                .into(activityListContentBinding.imageView)
         }
         activityListContentBinding.imageView.visibility = View.VISIBLE
     }
 
     private fun load(path: String) =
-            CoroutineScope(Dispatchers.IO + job).launch {
-                uploadImage(path)
-            }
+        CoroutineScope(Dispatchers.IO + job).launch {
+            uploadImage(path)
+        }
 
     private fun selectImage() {
         Album.image(this)
@@ -183,7 +189,7 @@ class ImageActivity : AppCompatActivity() {
             .widget(
                 Widget.newDarkBuilder(this)
                     .title(toolbarBinding.toolbar.title.toString())
-                    .build()
+                    .build(),
             )
             .onResult { result ->
                 albumFiles.clear()
@@ -198,8 +204,9 @@ class ImageActivity : AppCompatActivity() {
     }
 
     private fun previewImage(position: Int) {
-        if (albumFiles.isEmpty()) Toast.makeText(this, R.string.no_selected, Toast.LENGTH_LONG).show()
-        else {
+        if (albumFiles.isEmpty()) {
+            Toast.makeText(this, R.string.no_selected, Toast.LENGTH_LONG).show()
+        } else {
             Album.galleryAlbum(this)
                 .checkable(false)
                 .checkedList(albumFiles as ArrayList<AlbumFile>)
@@ -207,7 +214,7 @@ class ImageActivity : AppCompatActivity() {
                 .widget(
                     Widget.newDarkBuilder(this)
                         .title(toolbarBinding.toolbar.title.toString())
-                        .build()
+                        .build(),
                 )
                 .onResult { result ->
                     albumFiles.clear()

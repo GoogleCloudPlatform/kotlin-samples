@@ -19,9 +19,8 @@ import com.google.cloud.vision.v1.Feature.Type
 import com.google.cloud.vision.v1.Image
 import com.google.cloud.vision.v1.ImageAnnotatorClient
 import com.google.protobuf.ByteString
-
-import java.io.IOException
 import java.io.File
+import java.io.IOException
 
 fun main(args: Array<String>) {
     val imageFileName = if (args.isEmpty()) {

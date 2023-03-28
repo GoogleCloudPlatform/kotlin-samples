@@ -13,13 +13,13 @@
 //  limitations under the License.
 
 import org.junit.jupiter.api.Test
-import java.io.PrintWriter
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
+import java.io.PrintWriter
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 internal class HttpExampleTest {
 

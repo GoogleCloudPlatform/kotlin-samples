@@ -53,7 +53,7 @@ private val actions = mapOf(
     "pub" to ::publishMsg,
     "listen" to ::listenToSub,
     "del-topic" to ::deleteTopic,
-    "del-sub" to ::deleteSub
+    "del-sub" to ::deleteSub,
 )
 
 private fun createTopic(vararg args: String) { // expects 1 arg: <topic> to create

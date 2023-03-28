@@ -47,7 +47,7 @@ val actions = mapOf(
     "info" to ::info,
     "upload" to ::upload,
     "download" to ::download,
-    "delete" to ::delete
+    "delete" to ::delete,
 )
 
 const val usage = """
@@ -87,7 +87,7 @@ fun info(vararg params: String) { // 1 optional arg expected: [<bucket>]
     // 1 optional arg provided: <bucket> => Bucket Info => List all blobs in <bucket>
     val bucketName = params[0]
     val bucket = storage.get(bucketName)
-            ?: error("Bucket $bucketName does not exist. You can create a new bucket with the command 'create <bucket>'. \n $usage")
+        ?: error("Bucket $bucketName does not exist. You can create a new bucket with the command 'create <bucket>'. \n $usage")
 
     if (bucket.list().iterateAll().count() == 0) {
         println("Looks like your bucket is empty. You can upload blobs to your bucket with the 'upload' command. \n $usage")
@@ -111,7 +111,7 @@ fun upload(vararg params: String) { // 2 mandatory and 1 optional args expected:
     val blobName = if (params.size == 2) file.fileName.toString() else params[2]
 
     val bucket = storage.get(bucketName)
-            ?: error("Bucket $bucketName does not exist. You can create a new bucket with the command 'create <bucket>'. \n $usage")
+        ?: error("Bucket $bucketName does not exist. You can create a new bucket with the command 'create <bucket>'. \n $usage")
 
     bucket.create(blobName, Files.readAllBytes(file))
     println("$blobName was successfully uploaded to bucket $bucketName.")
@@ -124,11 +124,11 @@ fun download(vararg params: String) { // 3 mandatory args expected: <bucket> <bl
 
     val bucketName = params[0]
     val bucket = storage.get(bucketName)
-            ?: error("Bucket $bucketName does not exist! To see your existing buckets, use command 'info'. \n $usage")
+        ?: error("Bucket $bucketName does not exist! To see your existing buckets, use command 'info'. \n $usage")
 
     val blobName = params[1]
     val blob = bucket.get(blobName)
-            ?: error("Blob $blobName does not exist! To see blobs in bucket $bucketName, use command 'info $bucketName'. \n $usage")
+        ?: error("Blob $blobName does not exist! To see blobs in bucket $bucketName, use command 'info $bucketName'. \n $usage")
 
     val localFilePath = Paths.get(params[2])
     val writeTo = PrintStream(FileOutputStream(localFilePath.toFile()))
@@ -140,7 +140,7 @@ fun download(vararg params: String) { // 3 mandatory args expected: <bucket> <bl
 fun delete(vararg params: String) { // 1 mandatory and 1 optional args expected: <bucket> [<blob>]
     val bucketName = params[0]
     val bucket = storage.get(bucketName)
-            ?: error("Bucket $bucketName does not exist! To see your existing buckets, use command 'info'. \n $usage")
+        ?: error("Bucket $bucketName does not exist! To see your existing buckets, use command 'info'. \n $usage")
 
     if (params.size == 1) { // 1 arg provided => Delete Bucket <bucket>
 
@@ -156,7 +156,7 @@ fun delete(vararg params: String) { // 1 mandatory and 1 optional args expected:
     // 2 args provided (<bucket> and <blob>) => Delete Blob <blob> of Bucket <bucket>
     val blobName = params[1]
     val blob = bucket.get(blobName)
-            ?: error("Blob $blobName does not exist! To see blobs in bucket $bucketName, use command 'info $bucketName'. \n $usage")
+        ?: error("Blob $blobName does not exist! To see blobs in bucket $bucketName, use command 'info $bucketName'. \n $usage")
 
     blob.delete()
     println("Blob $blobName was successfully deleted from bucket $bucketName.")

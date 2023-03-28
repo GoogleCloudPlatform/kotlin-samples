@@ -17,10 +17,10 @@
 package com.google.storage
 
 import com.google.cloud.Timestamp
-import java.util.Random
-import org.junit.Test
 import org.junit.FixMethodOrder
+import org.junit.Test
 import org.junit.runners.MethodSorters
+import java.util.Random
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 internal class StorageTest {

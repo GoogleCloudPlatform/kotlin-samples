@@ -47,10 +47,11 @@ class HelloWorldClient(private val channel: ManagedChannel) : Closeable {
 fun main(args: Array<String>) = runBlocking {
     val isRemote = args.size == 1
 
-    val builder = if (isRemote)
+    val builder = if (isRemote) {
         ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
-    else
+    } else {
         ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
+    }
 
     val client = HelloWorldClient(builder.executor(Dispatchers.Default.asExecutor()).build())
 

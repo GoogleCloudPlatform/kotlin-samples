@@ -13,10 +13,10 @@
 //  limitations under the License.
 
 import org.junit.jupiter.api.Test
-import java.util.logging.Logger
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import java.util.logging.Logger
 
 internal class EventExampleTest {
 
@@ -26,7 +26,7 @@ internal class EventExampleTest {
             data = "SGVsbG8sIFB1Yi9TdWIh",
             messageId = "",
             publishTime = "",
-            attributes = mapOf<String, String>()
+            attributes = mapOf<String, String>(),
         )
 
         val log = mock(Logger::class.java)

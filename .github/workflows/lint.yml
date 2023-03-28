@@ -17,5 +17,5 @@ jobs:
         chmod +x "${GITHUB_WORKSPACE}/bin/ktlint"
     - name: Run ktlint
       run: |
-        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt --version
-        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt -l=info
+        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt '!**/build/generated/**' --version
+        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt '!**/build/generated/**' -l=info

@@ -11,7 +11,7 @@ import org.http4k.server.asServer
 val app = routes(
     "/" bind GET to {
         Response(OK).body("hello, world")
-    }
+    },
 )
 
 fun main() {

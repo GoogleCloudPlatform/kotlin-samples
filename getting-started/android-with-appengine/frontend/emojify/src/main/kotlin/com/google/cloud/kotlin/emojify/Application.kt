@@ -24,10 +24,11 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Album.initialize(AlbumConfig.newBuilder(this)
+        Album.initialize(
+            AlbumConfig.newBuilder(this)
                 .setAlbumLoader(MediaLoader())
                 .setLocale(Locale.getDefault())
-                .build()
+                .build(),
         )
     }
 }

@@ -31,13 +31,14 @@ class MediaLoader : AlbumLoader {
 
     override fun load(imageView: ImageView, url: String) {
         Glide.with(imageView.context)
-                .load(url)
-                .apply(RequestOptions()
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .error(R.drawable.placeholder)
-                        .placeholder(R.drawable.placeholder)
-                )
-                .into(imageView)
+            .load(url)
+            .apply(
+                RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .error(R.drawable.placeholder)
+                    .placeholder(R.drawable.placeholder),
+            )
+            .into(imageView)
     }
 }

@@ -51,13 +51,14 @@ fun main(args: Array<String>) {
     val isRemote = args.size == 1
 
     Executors.newFixedThreadPool(10).asCoroutineDispatcher().use { dispatcher ->
-        val builder = if (isRemote)
+        val builder = if (isRemote) {
             ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
-        else
+        } else {
             ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
+        }
 
         HelloWorldClient(
-            builder.executor(dispatcher.asExecutor()).build()
+            builder.executor(dispatcher.asExecutor()).build(),
         ).use {
             val user = args.singleOrNull() ?: "world"
             it.greet(user)

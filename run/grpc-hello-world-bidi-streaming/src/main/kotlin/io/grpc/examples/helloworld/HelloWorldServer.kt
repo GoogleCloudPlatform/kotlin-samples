@@ -35,7 +35,7 @@ class HelloWorldServer(private val port: Int) {
                 println("*** shutting down gRPC server since JVM is shutting down")
                 stop()
                 println("*** server shut down")
-            }
+            },
         )
     }
 
