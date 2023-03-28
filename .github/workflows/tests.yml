@@ -21,15 +21,15 @@ jobs:
     needs: sample_directories
     strategy:
       matrix:
-        java: [1.8, 1.11]
         sample: ${{ fromJson(needs.sample_directories.outputs.testdirs) }}
     runs-on: ubuntu-latest
-    name: Java ${{ matrix.java }} / ${{ matrix.sample }}
+    name: ${{ matrix.sample }}
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
       with:
-        java-version: ${{ matrix.java }}
+        distribution: 'temurin'
+        java-version: '17'
     - name: Set Application Default Credentials Environment Variable
       run: echo "GOOGLE_APPLICATION_CREDENTIALS=${HOME}/credentials.json" >> $GITHUB_ENV
     - name: Set Application Default Credentials File

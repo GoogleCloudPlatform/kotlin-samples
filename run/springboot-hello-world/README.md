@@ -1,7 +1,7 @@
 Spring Boot + Kotlin Hello, World
 ---------------------------------
 
-## Run Locally:
+## Run Locally (Requires JDK 17 or higher):
 1. Start the local server: `./gradlew bootRun`
 1. (Optional) To enable auto-reload, in another terminal / shell: `./gradlew -t classes`
 1. Open: [localhost:8080](http://localhost:8080)

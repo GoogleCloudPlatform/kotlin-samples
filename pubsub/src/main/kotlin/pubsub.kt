@@ -30,6 +30,7 @@ import com.google.protobuf.ByteString
 import com.google.pubsub.v1.ProjectSubscriptionName
 import com.google.pubsub.v1.PubsubMessage
 import com.google.pubsub.v1.PushConfig
+import com.google.pubsub.v1.SubscriptionName
 import com.google.pubsub.v1.TopicName
 import java.io.IOException
 import java.util.concurrent.LinkedBlockingDeque
@@ -89,7 +90,7 @@ private fun subscribeTopic(vararg args: String) { // expects 2 args: <topic> and
 
     val topicName = TopicName.of(projectId, topicId)
 
-    val subscriptionName = ProjectSubscriptionName.of(projectId, subscriptionId)
+    val subscriptionName = SubscriptionName.of(projectId, subscriptionId)
 
     try {
         SubscriptionAdminClient.create().use { subscriptionAdminClient ->
@@ -199,7 +200,7 @@ fun deleteSub(vararg args: String) { // expects 1 arg: <subscription> to delete
     // Your subscription ID, eg. "my-sub"
     val subscriptionId = args[0]
 
-    val sub = ProjectSubscriptionName.of(projectId, subscriptionId)
+    val sub = SubscriptionName.of(projectId, subscriptionId)
 
     try {
         SubscriptionAdminClient.create().use { subscriptionAdminClient -> subscriptionAdminClient.deleteSubscription(sub) }

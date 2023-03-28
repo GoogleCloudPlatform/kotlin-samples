@@ -1,4 +1,4 @@
-rootProject.name = "hello-kotlin-http4k"
+rootProject.name = "pubsub-kotlin-sample"
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.4.0"

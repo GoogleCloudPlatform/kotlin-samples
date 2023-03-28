@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.8.10"
 }
 
 repositories {
@@ -8,21 +8,16 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("org.http4k:http4k-core:4.17.7.0")
-    implementation("org.http4k:http4k-server-undertow:4.17.7.0")
+    implementation("org.http4k:http4k-core:4.41.1.1")
+    implementation("org.http4k:http4k-server-undertow:4.41.1.1")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.compileKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+kotlin {
+    jvmToolchain(17)
 }
 
 application {
-    mainClassName = "WebAppKt"
+    mainClass.set("WebAppKt")
 }
 
 tasks.replace("assemble").dependsOn("installDist")

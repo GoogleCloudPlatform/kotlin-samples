@@ -2,10 +2,10 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
     application
-    kotlin("jvm")                              version "1.6.20"
-    kotlin("plugin.spring")                    version "1.6.20"
-    id("org.springframework.boot")             version "2.6.6"
-    id("io.spring.dependency-management")      version "1.0.11.RELEASE"
+    kotlin("jvm")                         version "1.8.10"
+    kotlin("plugin.spring")               version "1.8.10"
+    id("org.springframework.boot")        version "3.0.5"
+    id("io.spring.dependency-management") version "1.1.0"
 }
 
 repositories {
@@ -13,9 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
@@ -24,20 +22,18 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    implementation("io.r2dbc:r2dbc-postgresql")
+    runtimeOnly("org.postgresql:r2dbc-postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    testImplementation("org.testcontainers:postgresql:1.16.3")
-    testImplementation("org.testcontainers:r2dbc:1.16.3")
+    testImplementation("org.testcontainers:postgresql:1.17.6")
+    testImplementation("org.testcontainers:r2dbc:1.17.6")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
+kotlin {
+    jvmToolchain(17)
 }
 
 application {
@@ -45,7 +41,7 @@ application {
 }
 
 tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
-    classpath += sourceSets["test"].runtimeClasspath
+    classpath = sourceSets["test"].runtimeClasspath + classpath
 }
 
 tasks.withType<Test> {

@@ -2,7 +2,7 @@
 
 <!-- [![Run on Google Cloud](https://deploy.cloud.run/button.png)](https://deploy.cloud.run) -->
 
-## Local Dev
+## Local Dev (Requires JDK 17 or higher)
 
 Run the server:
 ```
@@ -30,13 +30,6 @@ Create container & run with docker:
 ./gradlew bootBuildImage
 
 docker run --rm -ePOSTGRES_PASSWORD=password -p5432:5432 --name my-postgres postgres:13.3
-
-docker run -it --network host \
-  -eSPRING_R2DBC_URL=r2dbc:postgresql://localhost/postgres \
-  -eSPRING_R2DBC_USERNAME=postgres \
-  -eSPRING_R2DBC_PASSWORD=password \
-  springboot-cloudsql \
-  init
 
 # psql
 docker exec -it my-postgres psql -U postgres
