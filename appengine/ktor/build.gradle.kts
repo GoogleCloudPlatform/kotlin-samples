@@ -1,52 +1,31 @@
 plugins {
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "1.8.10"
     war
-    id("com.google.cloud.tools.appengine") version "2.4.2"
+    id("com.google.cloud.tools.appengine") version "2.4.5"
 }
 
 repositories {
     mavenCentral()
-    // kotlinx-html-jvm is not available in mavenCentral yet
-    // See https://github.com/Kotlin/kotlinx.html/issues/173
-    jcenter {
-        content {
-            includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
-        }
-    }
 }
 
-require (JavaVersion.current() <= JavaVersion.VERSION_11) {
-    "AppEngine supports only Java 8 or 11 for now, the current Java is ${JavaVersion.current()}"
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
-    implementation(platform("io.ktor:ktor-bom:1.6.4"))
+    implementation(platform("io.ktor:ktor-bom:2.2.4"))
     implementation("io.ktor:ktor-server-servlet")
-    implementation("io.ktor:ktor-html-builder")
-    implementation("com.google.cloud:google-cloud-logging-logback:0.117.0-alpha")
+    implementation("io.ktor:ktor-server-html-builder")
+    implementation("io.ktor:ktor-server-call-logging:2.2.4")
+    implementation("io.ktor:ktor-server-default-headers:2.2.4")
+    implementation("com.google.cloud:google-cloud-logging-logback:0.130.8-alpha")
 
-    runtimeOnly("com.google.appengine:appengine:1.9.92")
+    runtimeOnly("com.google.appengine:appengine:1.9.98")
 }
 
 appengine {
     deploy {
         projectId = "GCLOUD_CONFIG"
         version = "GCLOUD_CONFIG"
-    }
-}
-
-tasks {
-    withType<JavaCompile>().configureEach {
-        options.encoding = "UTF-8"
-    }
-
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = "1.8"
-        }
-    }
-
-    register("run") {
-        dependsOn("appengineRun")
     }
 }
