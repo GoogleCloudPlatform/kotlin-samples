@@ -22,7 +22,7 @@ limitations under the License.
     </style>
 
     <style name="Album.AppTheme.NoActionBar">
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>
 
     <style name="Album.Theme.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">

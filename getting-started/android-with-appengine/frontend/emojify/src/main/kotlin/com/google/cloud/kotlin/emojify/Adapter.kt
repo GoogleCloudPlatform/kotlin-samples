@@ -16,15 +16,15 @@
 
 package com.google.cloud.kotlin.emojify
 
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.cloud.kotlin.emojify.databinding.ItemContentImageBinding
 import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile
-import kotlinx.android.synthetic.main.item_content_image.view.ivAlbumContentImage
 
 class AlbumFileDiffCallback : DiffUtil.ItemCallback<AlbumFile>() {
 
@@ -47,9 +47,10 @@ class Adapter(private val clickListener: (AlbumFile) -> Unit) : ListAdapter<Albu
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position), clickListener)
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private lateinit var itemContentImageBinding: ItemContentImageBinding
 
         fun bind(albumFile: AlbumFile, clickListener: (AlbumFile) -> Unit) {
-            Album.getAlbumConfig().albumLoader.load(itemView.ivAlbumContentImage, albumFile)
+            Album.getAlbumConfig().albumLoader.load(itemContentImageBinding.ivAlbumContentImage, albumFile)
             itemView.setOnClickListener { clickListener(albumFile) }
         }
     }

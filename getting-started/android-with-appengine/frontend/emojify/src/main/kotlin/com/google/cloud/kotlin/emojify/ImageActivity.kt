@@ -19,8 +19,8 @@ package com.google.cloud.kotlin.emojify
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import android.util.Log
 import android.util.NoSuchPropertyException
 import android.view.Menu
@@ -29,7 +29,6 @@ import android.view.View
 import android.widget.Toast
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
@@ -37,6 +36,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
+import com.google.cloud.kotlin.emojify.databinding.ActivityListContentBinding
+import com.google.cloud.kotlin.emojify.databinding.ToolbarBinding
 import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile
 import com.yanzhenjie.album.api.widget.Widget
@@ -44,13 +45,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
 import com.yanzhenjie.album.widget.divider.Api21ItemDivider
-import kotlinx.android.synthetic.main.activity_list_content.imageView
-import kotlinx.android.synthetic.main.activity_list_content.recyclerView
-import kotlinx.android.synthetic.main.activity_list_content.tvMessage
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.launch
-import kotlinx.android.synthetic.main.toolbar.toolbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.ArrayList
 import java.util.Properties
@@ -64,15 +62,17 @@ class ImageActivity : AppCompatActivity() {
     private var emjojifiedUrl: String = ""
     private var imageId: String = ""
     private val storageRef: StorageReference = FirebaseStorage.getInstance().reference
+    private lateinit var toolbarBinding: ToolbarBinding
+    private lateinit var activityListContentBinding: ActivityListContentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_album)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbarBinding.toolbar)
 
-        recyclerView.apply {
+        activityListContentBinding.recyclerView.apply {
             layoutManager = GridLayoutManager(this@ImageActivity, 3)
-            adapter = Adapter { _ -> previewImage(0) }
+            adapter = Adapter { previewImage(0) }
             val divider = Api21ItemDivider(Color.TRANSPARENT, 10, 10)
             addItemDecoration(divider)
         }
@@ -96,30 +96,30 @@ class ImageActivity : AppCompatActivity() {
         val url = "${this.backendUrl}/emojify?objectName=$imageId"
         updateUI { show("Image uploaded to Storage!") }
         val request = JsonObjectRequest(Request.Method.GET, url, null,
-                Response.Listener { response ->
+                { response ->
                     val statusCode = response["statusCode"]
                     if (statusCode != "OK") {
                         updateUI {
                             show("Oops!")
-                            tvMessage.text = response["errorMessage"].toString()
+                            activityListContentBinding.tvMessage.text = response["errorMessage"].toString()
                         }
                         Log.i("backend response", "${response["statusCode"]}, ${response["errorCode"]}")
                     } else {
                         updateUI {
                             show("Yay!")
-                            tvMessage.text = getString(R.string.waiting_over)
+                            activityListContentBinding.tvMessage.text = getString(R.string.waiting_over)
                         }
                         emjojifiedUrl = response["emojifiedUrl"].toString()
                         downloadAndShowImage()
                     }
                     deleteSourceImage()
                 },
-                Response.ErrorListener { err ->
+                { err ->
                     updateUI {
                         show("Error calling backend!")
-                        tvMessage.text = getString(R.string.backend_error)
+                        activityListContentBinding.tvMessage.text = getString(R.string.backend_error)
                     }
-                    Log.e("backend", err?.message)
+                    Log.e("backend", err?.message ?: "unknown")
                     deleteSourceImage()
                 })
         request.retryPolicy = DefaultRetryPolicy(50000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
@@ -128,27 +128,27 @@ class ImageActivity : AppCompatActivity() {
 
     private fun deleteSourceImage() = storageRef.child(imageId).delete()
             .addOnSuccessListener { Log.i("deleted", "Source image successfully deleted!") }
-            .addOnFailureListener { err -> Log.e("delete", err.message) }
+            .addOnFailureListener { err -> Log.e("delete", err.message ?: "unknown") }
 
     private fun uploadImage(path: String) {
         val file = Uri.fromFile(File(path))
         imageId = "${System.currentTimeMillis()}.jpg"
         val imgRef = storageRef.child(imageId)
         updateUI {
-            imageView.visibility = View.GONE
-            tvMessage!!.text = getString(R.string.waiting_msg_1)
+            activityListContentBinding.imageView.visibility = View.GONE
+            activityListContentBinding.tvMessage.text = getString(R.string.waiting_msg_1)
         }
         imgRef.putFile(file, StorageMetadata.Builder().setContentType("image/jpg").build())
-                .addOnSuccessListener { _ ->
-                    updateUI { tvMessage.text = getString(R.string.waiting_msg_2) }
+                .addOnSuccessListener {
+                    updateUI { activityListContentBinding.tvMessage.text = getString(R.string.waiting_msg_2) }
                     callEmojifyBackend()
                 }
                 .addOnFailureListener { err ->
                     updateUI {
                         show("Cloud Storage error!")
-                        tvMessage.text = getString(R.string.storage_error)
+                        activityListContentBinding.tvMessage.text = getString(R.string.storage_error)
                     }
-                    Log.e("storage", err.message)
+                    Log.e("storage", err.message ?: "unknown")
                 }
     }
 
@@ -165,15 +165,15 @@ class ImageActivity : AppCompatActivity() {
                             .dontTransform()
                             .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                             .skipMemoryCache(true))
-                    .into(imageView)
+                    .into(activityListContentBinding.imageView)
         }
-        imageView.visibility = View.VISIBLE
+        activityListContentBinding.imageView.visibility = View.VISIBLE
     }
 
     private fun load(path: String) =
-        launch(CommonPool + job) {
-            uploadImage(path)
-        }
+            CoroutineScope(Dispatchers.IO + job).launch {
+                uploadImage(path)
+            }
 
     private fun selectImage() {
         Album.image(this)
@@ -182,13 +182,13 @@ class ImageActivity : AppCompatActivity() {
             .columnCount(2)
             .widget(
                 Widget.newDarkBuilder(this)
-                    .title(toolbar!!.title.toString())
+                    .title(toolbarBinding.toolbar.title.toString())
                     .build()
             )
             .onResult { result ->
                 albumFiles.clear()
                 albumFiles.addAll(result)
-                tvMessage.visibility = View.VISIBLE
+                activityListContentBinding.tvMessage.visibility = View.VISIBLE
                 if (result.size > 0) load(result[0].path)
             }
             .onCancel {
@@ -206,14 +206,14 @@ class ImageActivity : AppCompatActivity() {
                 .currentPosition(position)
                 .widget(
                     Widget.newDarkBuilder(this)
-                        .title(toolbar!!.title.toString())
+                        .title(toolbarBinding.toolbar.title.toString())
                         .build()
                 )
                 .onResult { result ->
                     albumFiles.clear()
                     albumFiles.addAll(result)
                     adapter.submitList(albumFiles)
-                    tvMessage.visibility = if (result.size > 0) View.VISIBLE else View.GONE
+                    activityListContentBinding.tvMessage.visibility = if (result.size > 0) View.VISIBLE else View.GONE
                 }
                 .start()
         }
@@ -227,11 +227,9 @@ class ImageActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         when (id) {
-            android.R.id.home -> this.onBackPressed()
+            android.R.id.home -> selectImage()
             R.id.menu_eye -> previewImage(0)
         }
         return true
     }
-
-    override fun onBackPressed() = selectImage()
 }

@@ -17,13 +17,13 @@ This folder contains the source code of Emojify backend. When deployed on App En
 ## Maven
 ### Running locally
 
-`mvn appengine:run`
+`./mvnw package appengine:run`
 
 To use visit: http://localhost:8080/
 
 ### Deploying to App Engine
 
-`mvn appengine:deploy`
+`./mvnw appengine:deploy`
 
 See the [Google App Engine standard environment documentation][ae-docs] for more
 detailed instructions.
@@ -36,4 +36,4 @@ detailed instructions.
 
 ## Testing
 
-`mvn verify`
+`./mvnw verify`
