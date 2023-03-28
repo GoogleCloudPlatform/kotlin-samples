@@ -18,4 +18,4 @@ jobs:
     - name: Run ktlint
       run: |
         "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt --version
-        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt --verbose
+        "${GITHUB_WORKSPACE}/bin/ktlint" "**/*".kt -l=verbose
