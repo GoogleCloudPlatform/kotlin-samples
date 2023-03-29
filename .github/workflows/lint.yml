@@ -8,7 +8,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Install ktlint
       run: |
         curl -sSLO https://github.com/shyiko/ktlint/releases/download/0.48.2/ktlint
