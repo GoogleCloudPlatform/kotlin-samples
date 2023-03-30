@@ -1,5 +1,4 @@
 plugins {
-    id("org.jetbrains.compose")
     id("com.android.application")
     kotlin("android")
 }
@@ -9,7 +8,6 @@ kotlin {
 }
 
 dependencies {
-    implementation("androidx.compose.runtime:runtime:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.yanzhenjie:album:2.1.2")
     implementation("com.yanzhenjie:mediascanner:1.0.3")

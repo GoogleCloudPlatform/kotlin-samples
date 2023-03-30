@@ -15,7 +15,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <quarkus.version>2.16.5.Final</quarkus.version>
-    <kotlin.version>1.8.10</kotlin.version>
+    <kotlin.version>1.8.20</kotlin.version>
   </properties>
 
   <dependencyManagement>
@@ -90,7 +90,7 @@
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
-        <version>1.8.10</version>
+        <version>1.8.20</version>
         <executions>
           <execution>
             <id>compile</id>
@@ -109,7 +109,7 @@
           <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-allopen</artifactId>
-            <version>1.8.10</version>
+            <version>1.8.20</version>
           </dependency>
         </dependencies>
         <configuration>
