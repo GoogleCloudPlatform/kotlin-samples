@@ -13,7 +13,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(platform("io.ktor:ktor-bom:2.2.4"))
+    implementation(platform("io.ktor:ktor-bom:2.3.0"))
     implementation("io.ktor:ktor-server-servlet")
     implementation("io.ktor:ktor-server-html-builder")
     implementation("io.ktor:ktor-server-call-logging:2.3.0")
