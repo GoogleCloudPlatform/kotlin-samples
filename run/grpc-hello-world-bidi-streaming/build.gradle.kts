@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.8.21"
     id("com.google.protobuf") version "0.9.3"
     id("org.jlleitschuh.gradle.ktlint") version "11.3.2"
 }

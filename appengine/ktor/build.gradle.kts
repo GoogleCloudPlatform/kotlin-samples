@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.8.21"
     war
     id("com.google.cloud.tools.appengine") version "2.4.5"
 }

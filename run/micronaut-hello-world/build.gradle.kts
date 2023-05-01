@@ -1,8 +1,8 @@
 plugins {
     application
-    kotlin("jvm") version "1.8.20"
-    kotlin("kapt") version "1.8.20"
-    kotlin("plugin.allopen") version "1.8.20"
+    kotlin("jvm") version "1.8.21"
+    kotlin("kapt") version "1.8.21"
+    kotlin("plugin.allopen") version "1.8.21"
     id("io.micronaut.application") version "3.7.9"
 }
 
