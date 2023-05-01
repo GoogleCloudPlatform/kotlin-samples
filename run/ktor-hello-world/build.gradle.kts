@@ -13,7 +13,7 @@ dependencies {
     implementation("io.ktor:ktor-server-call-logging:2.2.4")
     implementation("io.ktor:ktor-server-default-headers:2.2.4")
     implementation("io.ktor:ktor-server-cio:2.2.4")
-    runtimeOnly("ch.qos.logback:logback-classic:1.4.6")
+    runtimeOnly("ch.qos.logback:logback-classic:1.4.7")
 }
 
 kotlin {
