@@ -35,7 +35,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>17</java.version>
 		<kotlin.version>1.8.21</kotlin.version>
-		<spring-cloud-gcp.version>4.2.0</spring-cloud-gcp.version>
+		<spring-cloud-gcp.version>4.3.0</spring-cloud-gcp.version>
 		<spring-cloud.version>2022.0.2</spring-cloud.version>
 	</properties>
 
