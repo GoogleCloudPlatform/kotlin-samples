@@ -21,7 +21,7 @@ micronaut {
 
 dependencies {
     implementation(kotlin("reflect"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
 }
