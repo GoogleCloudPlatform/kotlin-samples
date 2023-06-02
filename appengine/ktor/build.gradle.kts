@@ -16,7 +16,7 @@ dependencies {
     implementation(platform("io.ktor:ktor-bom:2.3.0"))
     implementation("io.ktor:ktor-server-servlet")
     implementation("io.ktor:ktor-server-html-builder")
-    implementation("io.ktor:ktor-server-call-logging:2.3.0")
+    implementation("io.ktor:ktor-server-call-logging:2.3.1")
     implementation("io.ktor:ktor-server-default-headers:2.3.0")
     implementation("com.google.cloud:google-cloud-logging-logback:0.130.8-alpha")
 
