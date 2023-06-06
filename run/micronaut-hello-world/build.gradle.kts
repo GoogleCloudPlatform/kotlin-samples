@@ -3,7 +3,7 @@ plugins {
     kotlin("jvm") version "1.8.21"
     kotlin("kapt") version "1.8.21"
     kotlin("plugin.allopen") version "1.8.21"
-    id("io.micronaut.application") version "3.7.9"
+    id("io.micronaut.application") version "3.7.10"
 }
 
 repositories {
