@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("reflect"))
-    implementation("com.google.cloud:google-cloud-firestore:3.12.1")
+    implementation("com.google.cloud:google-cloud-firestore:3.13.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
 }
