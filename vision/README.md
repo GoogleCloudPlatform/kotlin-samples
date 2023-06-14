@@ -12,7 +12,7 @@ Cloud Vision API][vision-api-docs] from Kotlin. The sample calls the Vision API 
 
 Example:
 ```sh 
-java -jar build/libs/vision.jar ./resources/doggo.jpg
+build/install/vision/bin/vision ./resources/doggo.jpg
 ```
 
 ## Quickstart
@@ -30,15 +30,15 @@ cd kotlin-samples/vision
 - Build the project with Gradle Wrapper:
 ```sh
 # run with "-info" flag to print potential errors
-./gradlew build -info
+./gradlew installDist -info
 ```
 #### Running the sample!
 
 ```sh
 # Call the Vision API with the default image file in "resources/doggo.jpg"
-java -jar build/libs/vision.jar
+build/install/vision/bin/vision
 # Call the Vision API with your own image file
-java -jar build/libs/vision.jar path/to/your-image.jpg
+build/install/vision/bin/vision path/to/your-image.jpg
 ```
 ## Contributing changes
 

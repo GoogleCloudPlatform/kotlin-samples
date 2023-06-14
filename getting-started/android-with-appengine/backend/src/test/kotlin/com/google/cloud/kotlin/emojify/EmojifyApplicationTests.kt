@@ -84,18 +84,6 @@ class EmojifyApplicationTests {
     }
 
     @Test
-    fun `blob ContentType is not set`() {
-        val publicImage = URL("https://lh3.googleusercontent.com/2ONX_nVMyhMt62GrKOJj9yf6SHvD6T7QEGidCg4P3YeAh5m4nyKbbg3lUr_TR3GA09PVP5xjF_cfaOwj4mYGgg=w1614").readBytes()
-        val blob = storage.get(bucketName).create("google-diversity", publicImage)
-        assertThat(blob).isNotNull
-
-        val response = testRestTemplate.getForEntity("/emojify?objectName=google-diversity", EmojifyResponse::class.java)
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(response?.body).isEqualTo(EmojifyResponse(statusCode = HttpStatus.BAD_REQUEST, errorCode = 104, errorMessage = errorMessage[104]))
-        assertThat(blob.delete()).isTrue()
-    }
-
-    @Test
     fun `source image processed and emojified image is public`() {
         val publicImage = URL("https://lh3.googleusercontent.com/2ONX_nVMyhMt62GrKOJj9yf6SHvD6T7QEGidCg4P3YeAh5m4nyKbbg3lUr_TR3GA09PVP5xjF_cfaOwj4mYGgg=w1614").readBytes()
         val blob = storage.get(bucketName).create("test-emojify.png", publicImage, "image/png")

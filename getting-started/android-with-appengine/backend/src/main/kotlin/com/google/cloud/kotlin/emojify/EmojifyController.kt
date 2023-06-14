@@ -18,17 +18,17 @@ package com.google.cloud.kotlin.emojify
 
 import com.google.cloud.storage.Bucket
 import com.google.cloud.storage.Storage
-import com.google.cloud.vision.v1.Likelihood
-import com.google.cloud.vision.v1.FaceAnnotation
 import com.google.cloud.vision.v1.AnnotateImageRequest
-import com.google.cloud.vision.v1.ImageAnnotatorClient
-import com.google.cloud.vision.v1.ImageSource
-import com.google.cloud.vision.v1.Image
+import com.google.cloud.vision.v1.FaceAnnotation
 import com.google.cloud.vision.v1.Feature
 import com.google.cloud.vision.v1.Feature.Type
-import org.springframework.http.HttpStatus
+import com.google.cloud.vision.v1.Image
+import com.google.cloud.vision.v1.ImageAnnotatorClient
+import com.google.cloud.vision.v1.ImageSource
+import com.google.cloud.vision.v1.Likelihood
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -37,8 +37,8 @@ import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.nio.channels.Channels
-import javax.imageio.ImageIO
 import java.util.logging.Logger
+import javax.imageio.ImageIO
 
 enum class Emoji {
     JOY, ANGER, SURPRISE, SORROW, NONE
@@ -52,7 +52,7 @@ val errorMessage = mapOf(
     104 to "blob ContentType is null.",
     105 to "Size of responsesList is not 1.",
     106 to "objectName is null.",
-    107 to "We couldn't detect faces in your image."
+    107 to "We couldn't detect faces in your image.",
 )
 
 // Returns best emoji based on detected emotions likelihoods
@@ -62,7 +62,7 @@ fun bestEmoji(annotation: FaceAnnotation): Emoji {
         Emoji.JOY to annotation.joyLikelihood,
         Emoji.ANGER to annotation.angerLikelihood,
         Emoji.SURPRISE to annotation.surpriseLikelihood,
-        Emoji.SORROW to annotation.sorrowLikelihood
+        Emoji.SORROW to annotation.sorrowLikelihood,
     )
     for (likelihood in emotionsLikelihood) { // In this order: VERY_LIKELY, LIKELY, POSSIBLE
         for (emotion in emotions) { // In this order: JOY, ANGER, SURPRISE, SORROW (https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map-of.html)
@@ -77,7 +77,7 @@ data class EmojifyResponse(
     val emojifiedUrl: String? = null,
     val statusCode: HttpStatus = HttpStatus.OK,
     val errorCode: Int? = null,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
 )
 
 @RestController
@@ -92,7 +92,7 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
         Emoji.ANGER to retrieveEmoji("anger.png"),
         Emoji.SURPRISE to retrieveEmoji("surprise.png"),
         Emoji.SORROW to retrieveEmoji("sorrow.png"),
-        Emoji.NONE to retrieveEmoji("none.png")
+        Emoji.NONE to retrieveEmoji("none.png"),
     )
 
     private final fun retrieveEmoji(name: String): BufferedImage {
@@ -112,7 +112,6 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
 
     @GetMapping("/emojify")
     fun emojify(@RequestParam(value = "objectName") objectName: String): EmojifyResponse {
-
         if (objectName.isEmpty()) return errorResponse(HttpStatus.BAD_REQUEST, 106)
 
         if (objectName.contains('/')) return errorResponse(HttpStatus.BAD_REQUEST, 101)
@@ -164,13 +163,13 @@ class EmojifyController(@Value("\${storage.bucket.name}") val bucketName: String
         bucket.create(
             "emojified/emojified-$objectName",
             outputStream.toByteArray(),
-            Bucket.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ)
+            Bucket.BlobTargetOption.predefinedAcl(Storage.PredefinedAcl.PUBLIC_READ),
         )
 
         // Everything went well!
         return EmojifyResponse(
             objectPath = "emojified/emojified-$objectName",
-            emojifiedUrl = publicUrl
+            emojifiedUrl = publicUrl,
         )
     }
 }

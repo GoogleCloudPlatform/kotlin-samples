@@ -9,8 +9,8 @@
 
 This simple command-line application demonstrates how invoke the Google [Cloud Firestore API][firestore-api] from a Kotlin application.
 
-**Check out the sample code in** [quickstart.kt](src/main/quickstart.kt) **and**
-[firestore.kt](src/main/firestore.kt).
+**Check out the sample code in** [quickstart.kt](src/main/kotlin/quickstart.kt) **and**
+[firestore.kt](src/main/kotlin/firestore.kt).
 
 ## Quickstart
 
@@ -28,13 +28,13 @@ This simple command-line application demonstrates how invoke the Google [Cloud F
 - Build the project with Gradle Wrapper:
   ```sh
   # run with "-info" flag to print potential errors
-  ./gradlew build -info
+  ./gradlew installDist -info
   ```
 You should now have a **'firestore.jar'** file under **build/libs/**
 
 #### Running the sample
 
-Usage: ```java -jar build/libs/firestore.jar YOUR_COLLECTION_NAME [KEY] [VALUE]```
+Usage: ```build/install/firestore/bin/firestore YOUR_COLLECTION_NAME [KEY] [VALUE]```
 
 * Running with a collection name will print all keys and values in the collection.
 * Running with a collection name and key will print the key/value pair.

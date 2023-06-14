@@ -28,36 +28,36 @@ the [Google Cloud Client Library for Java][google-cloud-java].
   ```
 - Build the project with Gradle Wrapper:
   ```sh
-  # run with "-info" flag to print potential errors
-  ./gradlew build -info
+  # run with "--info" flag to print potential errors
+  ./gradlew build --info
   ```
-You should now have a **'pubsub.jar'** file under **build/libs/**
+You should now have a **'pubsub-kotlin-sample-all.jar'** file under **build/libs/**
 
 #### Create a new topic
 
-`java -jar build/libs/pubsub.jar create <topic>`
+`java -jar build/libs/pubsub-kotlin-sample-all.jar create <topic>`
 
 #### Create a subscription
 
-`java -jar build/libs/pubsub.jar sub <topic> <subscription>`
+`java -jar build/libs/pubsub-kotlin-sample-all.jar sub <topic> <subscription>`
 
 #### Publish messages
 
-`java -jar build/libs/pubsub.jar pub <topic> <count>`
+`java -jar build/libs/pubsub-kotlin-sample-all.jar pub <topic> <count>`
 
 #### Receive messages
 
-`java -jar build/libs/pubsub.jar listen <subscription>`
+`java -jar build/libs/pubsub-kotlin-sample-all.jar listen <subscription>`
 
 Subscriber will continue to listen on the topic for 5 minutes and print out message id and data as messages are received.
 
 #### Delete a topic
 
-`java -jar build/libs/pubsub.jar del-topic <topic>`
+`java -jar build/libs/pubsub-kotlin-sample-all.jar del-topic <topic>`
 
 #### Delete a subscription
 
-`java -jar build/libs/pubsub.jar del-sub <subscription>`
+`java -jar build/libs/pubsub-kotlin-sample-all.jar del-sub <subscription>`
 
 #### Testing
 Run the test with Gradle Wrapper

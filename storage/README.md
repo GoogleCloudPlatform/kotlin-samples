@@ -21,10 +21,10 @@ The app is a command-line tool that implements the following Google Cloud Storag
 
 Examples:
 ```sh 
-java -jar build/libs/storage.jar create my_awesome_bucket
+build/install/storage/bin/storage create my_awesome_bucket
 ```
 ```sh 
-java -jar build/libs/storage.jar upload resources/upload/dog.jpg my_awesome_bucket
+build/install/storage/bin/storage upload resources/upload/dog.jpg my_awesome_bucket
 ```
 
 ## Quickstart
@@ -42,7 +42,7 @@ java -jar build/libs/storage.jar upload resources/upload/dog.jpg my_awesome_buck
 - Build the project with Gradle Wrapper:
   ```sh
   # run with "-info" flag to print potential errors
-  ./gradlew build -info
+  ./gradlew installDist -info
   ```
 You should now have a **'storage.jar'** file under **build/libs/**
 
@@ -54,52 +54,52 @@ You can run Google Cloud Storage actions by supplying any of the below commands 
 
 Prints syntax of commands implemented in the sample
 ```sh 
-java -jar build/libs/storage.jar usage
+build/install/storage/bin/storage usage
 ```
 #### create
 
 Creates a new bucket
 ```sh 
-java -jar build/libs/storage.jar create <bucket>
+build/install/storage/bin/storage create <bucket>
 ```
 #### info
 
 Gives details about a bucket or a blob
 * To list all buckets in your storage
   ```sh 
-  java -jar build/libs/storage.jar info
+  build/install/storage/bin/storage info
   ```
 * To list all blobs in a bucket
   ```sh 
-  java -jar build/libs/storage.jar info <bucket>
+  build/install/storage/bin/storage info <bucket>
   ```
 #### upload
  
 Uploads a file to a bucket
 *  Letting the program infer blob name from **localFilePath**
    ```sh 
-   java -jar build/libs/storage.jar upload <localFilePath> <bucket>
+   build/install/storage/bin/storage upload <localFilePath> <bucket>
    ```
 *  Providing blob name
    ```sh 
-   java -jar build/libs/storage.jar upload <localFilePath> <bucket> <blob>
+   build/install/storage/bin/storage upload <localFilePath> <bucket> <blob>
    ```  
 #### download
 
 Downloads a blob from a bucket to your computer
 ```sh 
-java -jar build/libs/storage.jar download <bucket> <blob> <localFilePath>
+build/install/storage/bin/storage download <bucket> <blob> <localFilePath>
 ```
 #### delete
 
 Deletes a bucket or a blob
 * To delete a bucket
   ```sh 
-  java -jar build/libs/storage.jar delete <bucket>
+  build/install/storage/bin/storage delete <bucket>
   ```
 * To delete a blob
   ```sh 
-  java -jar build/libs/storage.jar delete <bucket> <blob>
+  build/install/storage/bin/storage delete <bucket> <blob>
   ```
   
 Head to [storageTest.kt][storage-sample-test] to see actual tests.

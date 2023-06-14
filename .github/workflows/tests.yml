@@ -1,0 +1,43 @@
+name: Unit Tests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+env:
+  GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+  GOOGLE_STORAGE_BUCKET: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+jobs:
+  sample_directories:
+    name: Get sample directories
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - id: set-testdirs
+      run: echo "::set-output name=testdirs::[$(for i in $(ls -d */); do echo -n \"${i%%/}\",; done | sed 's/.$//')]"
+    outputs:
+      testdirs: ${{ steps.set-testdirs.outputs.testdirs }}
+  unit_tests:
+    needs: sample_directories
+    strategy:
+      matrix:
+        sample: ${{ fromJson(needs.sample_directories.outputs.testdirs) }}
+    runs-on: ubuntu-latest
+    name: ${{ matrix.sample }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    - name: Set Application Default Credentials Environment Variable
+      run: echo "GOOGLE_APPLICATION_CREDENTIALS=${HOME}/credentials.json" >> $GITHUB_ENV
+    - name: Set Application Default Credentials File
+      run: echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_B64 }} | base64 --decode >> $GOOGLE_APPLICATION_CREDENTIALS
+    - name: Set config files for android-with-appengine sample
+      if: matrix.sample == 'getting-started' && (github.ref == 'refs/heads/main' || github.event.pull_request.head.repo.full_name == github.repository)
+      run : |
+        echo ${{ secrets.GOOGLE_SERVICES_B64 }} | base64 --decode >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/frontend/emojify/google-services.json
+        echo "storage.bucket.name = $GOOGLE_CLOUD_PROJECT.appspot.com" >> ${GITHUB_WORKSPACE}/getting-started/android-with-appengine/backend/src/main/resources/application.properties
+    - name: Build ${{ matrix.sample }} samples
+      run: ./.github/tests.sh ${{ matrix.sample }}
