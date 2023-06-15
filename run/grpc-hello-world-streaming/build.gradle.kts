@@ -23,7 +23,7 @@ kotlin.sourceSets.all {
 
 val grpcVersion = "1.56.0"
 val grpcKotlinVersion = "1.3.0"
-val protobufVersion = "3.23.3"
+val protobufVersion = "3.23.2"
 val coroutinesVersion = "1.7.1"
 
 dependencies {
