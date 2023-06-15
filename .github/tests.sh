@@ -46,7 +46,7 @@ build_samples()
     if [ "$2" == "maven" ]; then
         BUILD_COMMAND="./mvnw -q install ${MAVEN_FLAGS}"
     else
-        BUILD_COMMAND="./gradlew -q build ${GRADLE_FLAGS}"
+        BUILD_COMMAND="./gradlew build ${GRADLE_FLAGS}"
     fi
     echo $BUILD_COMMAND
     # Temporarily allow error
