@@ -15,7 +15,7 @@ dependencies {
     implementation("com.google.cloud:google-cloud-core")
     implementation("com.google.cloud:google-cloud-pubsub")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    testImplementation("com.google.truth:truth:1.1.4")
+    testImplementation("com.google.truth:truth:1.1.5")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
 
