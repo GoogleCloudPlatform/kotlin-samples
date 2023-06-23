@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.http4k:http4k-core:5.1.1.0")
+    implementation("org.http4k:http4k-core:5.1.1.1")
     implementation("org.http4k:http4k-server-undertow:5.1.1.0")
 }
 
