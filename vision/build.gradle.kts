@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("reflect"))
-    implementation("com.google.cloud:google-cloud-vision:3.18.0")
+    implementation("com.google.cloud:google-cloud-vision:3.19.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
 }
