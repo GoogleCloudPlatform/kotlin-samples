@@ -19,7 +19,7 @@ dependencies {
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-storage:20.2.1")
-    implementation("com.google.firebase:firebase-auth:22.0.0")
+    implementation("com.google.firebase:firebase-auth:22.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
 }
 
