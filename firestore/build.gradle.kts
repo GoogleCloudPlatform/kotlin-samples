@@ -9,9 +9,15 @@ repositories {
 
 dependencies {
     implementation(kotlin("reflect"))
-    implementation("com.google.cloud:google-cloud-firestore:3.13.2")
+    implementation("com.google.cloud:google-cloud-firestore:3.13.3")
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
+    // see: https://github.com/googleapis/sdk-platform-java/pull/1832
+    modules {
+        module("com.google.guava:listenablefuture") {
+            replacedBy("com.google.guava:guava", "listenablefuture is part of guava")
+        }
+    }
 }
 
 kotlin {
