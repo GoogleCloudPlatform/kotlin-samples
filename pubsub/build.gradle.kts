@@ -11,12 +11,18 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("com.google.cloud:libraries-bom:26.18.0"))
+    implementation(platform("com.google.cloud:libraries-bom:26.19.0"))
     implementation("com.google.cloud:google-cloud-core")
     implementation("com.google.cloud:google-cloud-pubsub")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
     testImplementation("com.google.truth:truth:1.1.5")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    // see: https://github.com/googleapis/sdk-platform-java/pull/1832
+    modules {
+        module("com.google.guava:listenablefuture") {
+            replacedBy("com.google.guava:guava", "listenablefuture is part of guava")
+        }
+    }
 }
 
 kotlin {
