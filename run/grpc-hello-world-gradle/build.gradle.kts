@@ -18,7 +18,7 @@ kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.RequiresOptIn")
 }
 
-val grpcVersion = "1.57.1"
+val grpcVersion = "1.57.2"
 val grpcKotlinVersion = "1.3.0"
 val protobufVersion = "3.24.0"
 val coroutinesVersion = "1.7.3"
