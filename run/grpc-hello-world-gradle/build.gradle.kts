@@ -71,6 +71,7 @@ ktlint {
 
 tasks.register<JavaExec>("HelloWorldClient") {
     dependsOn("classes")
+    javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
     classpath = sourceSets["main"].runtimeClasspath
     mainClass.set("io.grpc.examples.helloworld.HelloWorldClientKt")
 }
