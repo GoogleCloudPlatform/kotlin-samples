@@ -18,6 +18,11 @@ package io.grpc.examples.helloworld;
 
 option java_multiple_files = true;
 
+enum Enum {
+  A = 0;
+  B = 1;
+}
+
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
@@ -27,9 +32,11 @@ service Greeter {
 // The request message containing the user's name.
 message HelloRequest {
   string name = 1;
+  Enum enum = 2;
 }
 
 // The response message containing the greetings
 message HelloReply {
   string message = 1;
+  Enum enum = 2;
 }

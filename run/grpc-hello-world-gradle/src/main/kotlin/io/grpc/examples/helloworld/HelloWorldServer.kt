@@ -47,6 +47,7 @@ class HelloWorldServer(val port: Int) {
     private class HelloWorldService : GreeterGrpcKt.GreeterCoroutineImplBase() {
         override suspend fun sayHello(request: HelloRequest) = helloReply {
             message = "Hello ${request.name}"
+            enum = request.enum
         }
     }
 }

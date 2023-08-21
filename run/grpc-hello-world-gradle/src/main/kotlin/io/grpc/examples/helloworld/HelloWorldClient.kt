@@ -31,10 +31,13 @@ class HelloWorldClient(val channel: ManagedChannel) : Closeable {
     private val stub: GreeterCoroutineStub = GreeterCoroutineStub(channel)
 
     fun greet(s: String) = runBlocking {
-        val request = helloRequest { name = s }
+        val request = helloRequest {
+            name = s
+            enum = Enum.A
+        }
         try {
             val response = stub.sayHello(request)
-            println("Greeter client received: ${response.message}")
+            println("Greeter client received: ${response.message} ${response.enum}")
         } catch (e: StatusException) {
             println("RPC failed: ${e.status}")
         }
