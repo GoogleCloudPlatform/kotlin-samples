@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     implementation("javax.servlet:javax.servlet-api:4.0.1")
-    testImplementation("org.mockito:mockito-core:2.+")
+    testImplementation("org.mockito:mockito-core:5.+")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 }
@@ -67,7 +67,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
     compile "javax.servlet:javax.servlet-api:3.1.0"
     testCompile 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.+'
+    testImplementation 'org.mockito:mockito-core:5.+'
 }
 
 sourceSets {
