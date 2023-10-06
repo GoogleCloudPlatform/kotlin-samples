@@ -24,7 +24,7 @@ dependencies {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     namespace = "com.google.cloud.kotlin.emojify"
 
     defaultConfig {
