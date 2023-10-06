@@ -9,7 +9,7 @@ kotlin {
 
 dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.yanzhenjie:album:2.1.2")
+    implementation("com.yanzhenjie:album:2.1.3")
     implementation("com.yanzhenjie:mediascanner:1.0.3")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
