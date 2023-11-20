@@ -26,7 +26,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    testImplementation("org.testcontainers:postgresql:1.19.1")
+    testImplementation("org.testcontainers:postgresql:1.19.2")
     testImplementation("org.testcontainers:r2dbc:1.19.1")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
