@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "1.9.20"
     kotlin("plugin.allopen") version "1.9.20"
     id("com.google.devtools.ksp") version "1.9.20-1.0.14"
-    id("io.micronaut.application") version "4.1.2"
+    id("io.micronaut.application") version "4.2.0"
 }
 
 repositories {
