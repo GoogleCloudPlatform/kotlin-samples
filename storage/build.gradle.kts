@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("reflect"))
-    implementation("com.google.cloud:google-cloud-storage:2.29.1")
+    implementation("com.google.cloud:google-cloud-storage:2.30.1")
     testImplementation("junit:junit:4.13.2")
     // see: https://github.com/googleapis/sdk-platform-java/pull/1832
     modules {
