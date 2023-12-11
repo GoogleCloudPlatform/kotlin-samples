@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("com.google.cloud:libraries-bom:26.27.0"))
+    implementation(platform("com.google.cloud:libraries-bom:26.28.0"))
     implementation("com.google.cloud:google-cloud-core")
     implementation("com.google.cloud:google-cloud-pubsub")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
