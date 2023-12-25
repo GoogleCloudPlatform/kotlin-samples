@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.21"
+    kotlin("jvm") version "1.9.22"
     kotlin("plugin.allopen") version "1.9.21"
     id("com.google.devtools.ksp") version "1.9.21-1.0.16"
     id("io.micronaut.application") version "4.2.1"
