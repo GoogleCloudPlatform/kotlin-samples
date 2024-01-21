@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
     - id: set-testdirs
-      run: echo "::set-output name=testdirs::[$(for i in $(ls -d */); do echo -n \"${i%%/}\",; done | sed 's/.$//')]"
+      run: echo "testdirs=[$(for i in $(ls -d */); do echo -n \"${i%%/}\",; done | sed 's/.$//')]" >> "$GITHUB_OUTPUT"
     outputs:
       testdirs: ${{ steps.set-testdirs.outputs.testdirs }}
   unit_tests:
