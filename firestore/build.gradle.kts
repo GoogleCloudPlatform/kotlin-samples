@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("reflect"))
-    implementation("com.google.cloud:google-cloud-firestore:3.16.1")
+    implementation("com.google.cloud:google-cloud-firestore:3.16.2")
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
     // see: https://github.com/googleapis/sdk-platform-java/pull/1832
