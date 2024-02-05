@@ -22,19 +22,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class HelloWorldServer(private val port: Int) {
-    val server: Server = ServerBuilder
-        .forPort(port)
-        .addService(HelloWorldService())
-        .build()
+    val server: Server =
+        ServerBuilder
+            .forPort(port)
+            .addService(HelloWorldService())
+            .build()
 
     fun start() {
         server.start()
         println("Server started, listening on $port")
-        val thread = Thread {
-            println("*** shutting down gRPC server since JVM is shutting down")
-            stop()
-            println("*** server shut down")
-        }
+        val thread =
+            Thread {
+                println("*** shutting down gRPC server since JVM is shutting down")
+                stop()
+                println("*** server shut down")
+            }
         Runtime.getRuntime().addShutdownHook(thread)
     }
 

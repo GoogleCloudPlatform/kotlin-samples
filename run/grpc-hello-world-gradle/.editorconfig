@@ -1,0 +1,2 @@
+[build/generated/source/proto/main/**]
+ktlint = disabled

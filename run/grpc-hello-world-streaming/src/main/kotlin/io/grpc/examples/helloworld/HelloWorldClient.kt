@@ -30,13 +30,14 @@ import java.util.concurrent.TimeUnit
 class HelloWorldClient(val channel: ManagedChannel) : Closeable {
     private val stub: GreeterCoroutineStub = GreeterCoroutineStub(channel)
 
-    fun greet(s: String) = runBlocking {
-        val request = helloRequest { name = s }
-        val flow = stub.sayHelloStream(request)
-        flow.collect { response ->
-            println(response.message)
+    fun greet(s: String) =
+        runBlocking {
+            val request = helloRequest { name = s }
+            val flow = stub.sayHelloStream(request)
+            flow.collect { response ->
+                println(response.message)
+            }
         }
-    }
 
     override fun close() {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
@@ -51,11 +52,12 @@ fun main(args: Array<String>) {
     val isRemote = args.size == 1
 
     Executors.newFixedThreadPool(10).asCoroutineDispatcher().use { dispatcher ->
-        val builder = if (isRemote) {
-            ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
-        } else {
-            ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
-        }
+        val builder =
+            if (isRemote) {
+                ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
+            } else {
+                ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
+            }
 
         val channel = builder.executor(dispatcher.asExecutor()).build()
         HelloWorldClient(channel).use {
