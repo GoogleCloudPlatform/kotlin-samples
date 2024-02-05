@@ -2,7 +2,7 @@ plugins {
     application
     kotlin("jvm") version "1.9.22"
     id("com.google.protobuf") version "0.9.4"
-    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
 repositories {
@@ -69,7 +69,8 @@ application {
 
 ktlint {
     filter {
-        exclude { it.file.path.contains("$buildDir/generated/") }
+        // this doesn't work: https://github.com/JLLeitschuh/ktlint-gradle/issues/746
+        exclude("**/generated/**")
     }
 }
 
@@ -79,12 +80,13 @@ tasks.register<JavaExec>("HelloWorldClient") {
     mainClass.set("io.grpc.examples.helloworld.HelloWorldClientKt")
 }
 
-val otherStartScripts = tasks.register<CreateStartScripts>("otherStartScripts") {
-    mainClass.set("io.grpc.examples.helloworld.HelloWorldClientKt")
-    applicationName = "HelloWorldClientKt"
-    outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
-    classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
-}
+val otherStartScripts =
+    tasks.register<CreateStartScripts>("otherStartScripts") {
+        mainClass.set("io.grpc.examples.helloworld.HelloWorldClientKt")
+        applicationName = "HelloWorldClientKt"
+        outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
+        classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
+    }
 
 tasks.named("startScripts") {
     dependsOn(otherStartScripts)

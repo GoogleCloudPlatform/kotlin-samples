@@ -23,19 +23,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class HelloWorldServer(val port: Int) {
-    val server: Server = ServerBuilder
-        .forPort(port)
-        .addService(HelloWorldService())
-        .build()
+    val server: Server =
+        ServerBuilder
+            .forPort(port)
+            .addService(HelloWorldService())
+            .build()
 
     fun start() {
         server.start()
         println("Server started, listening on $port")
-        val thread = Thread {
-            println("*** shutting down gRPC server since JVM is shutting down")
-            stop()
-            println("*** server shut down")
-        }
+        val thread =
+            Thread {
+                println("*** shutting down gRPC server since JVM is shutting down")
+                stop()
+                println("*** server shut down")
+            }
         Runtime.getRuntime().addShutdownHook(thread)
     }
 
@@ -48,12 +50,13 @@ class HelloWorldServer(val port: Int) {
     }
 
     private class HelloWorldService : GreeterGrpcKt.GreeterCoroutineImplBase() {
-        override fun sayHelloStream(request: HelloRequest): Flow<HelloReply> = flow {
-            while (true) {
-                delay(1000)
-                emit(helloReply { message = "hello, ${request.name}" })
+        override fun sayHelloStream(request: HelloRequest): Flow<HelloReply> =
+            flow {
+                while (true) {
+                    delay(1000)
+                    emit(helloReply { message = "hello, ${request.name}" })
+                }
             }
-        }
     }
 }
 

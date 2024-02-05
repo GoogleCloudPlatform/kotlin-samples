@@ -33,36 +33,40 @@ import java.util.concurrent.TimeUnit
 class HelloWorldClient(private val channel: ManagedChannel) : Closeable {
     private val stub: GreeterCoroutineStub = GreeterCoroutineStub(channel)
 
-    suspend fun sayHello(producer: Flow<HelloRequest>): Unit = coroutineScope {
-        stub.sayHelloStream(producer).collect { helloResponse ->
-            println(helloResponse.message)
+    suspend fun sayHello(producer: Flow<HelloRequest>): Unit =
+        coroutineScope {
+            stub.sayHelloStream(producer).collect { helloResponse ->
+                println(helloResponse.message)
+            }
         }
-    }
 
     override fun close() {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
     }
 }
 
-fun main(args: Array<String>) = runBlocking {
-    val isRemote = args.size == 1
+fun main(args: Array<String>) =
+    runBlocking {
+        val isRemote = args.size == 1
 
-    val builder = if (isRemote) {
-        ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
-    } else {
-        ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
+        val builder =
+            if (isRemote) {
+                ManagedChannelBuilder.forTarget(args[0].removePrefix("https://") + ":443").useTransportSecurity()
+            } else {
+                ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext()
+            }
+
+        val client = HelloWorldClient(builder.executor(Dispatchers.Default.asExecutor()).build())
+
+        val user = args.singleOrNull() ?: "world"
+
+        val helloFlow =
+            flow {
+                while (true) {
+                    delay(1000)
+                    emit(helloRequest { name = user })
+                }
+            }
+
+        client.sayHello(helloFlow)
     }
-
-    val client = HelloWorldClient(builder.executor(Dispatchers.Default.asExecutor()).build())
-
-    val user = args.singleOrNull() ?: "world"
-
-    val helloFlow = flow {
-        while (true) {
-            delay(1000)
-            emit(helloRequest { name = user })
-        }
-    }
-
-    client.sayHello(helloFlow)
-}
