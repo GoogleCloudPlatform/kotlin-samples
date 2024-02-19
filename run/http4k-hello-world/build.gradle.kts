@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation("org.http4k:http4k-core:5.13.6.1")
-    implementation("org.http4k:http4k-server-undertow:5.13.6.1")
+    implementation("org.http4k:http4k-server-undertow:5.13.7.0")
 }
 
 kotlin {
