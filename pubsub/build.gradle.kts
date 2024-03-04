@@ -15,7 +15,7 @@ dependencies {
     implementation("com.google.cloud:google-cloud-core")
     implementation("com.google.cloud:google-cloud-pubsub")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-    testImplementation("com.google.truth:truth:1.4.1")
+    testImplementation("com.google.truth:truth:1.4.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
     // see: https://github.com/googleapis/sdk-platform-java/pull/1832
     modules {
