@@ -109,7 +109,7 @@
           <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-allopen</artifactId>
-            <version>1.9.22</version>
+            <version>1.9.23</version>
           </dependency>
         </dependencies>
         <configuration>
