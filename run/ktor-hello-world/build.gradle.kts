@@ -12,7 +12,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core:2.3.9")
     implementation("io.ktor:ktor-server-call-logging:2.3.9")
     implementation("io.ktor:ktor-server-default-headers:2.3.8")
-    implementation("io.ktor:ktor-server-cio:2.3.9")
+    implementation("io.ktor:ktor-server-cio:2.3.12")
     runtimeOnly("ch.qos.logback:logback-classic:1.5.3")
 }
 
