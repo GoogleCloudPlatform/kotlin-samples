@@ -21,7 +21,7 @@ kotlin.sourceSets.all {
 val grpcVersion = "1.62.2"
 val grpcKotlinVersion = "1.4.1"
 val protobufVersion = "3.25.3"
-val coroutinesVersion = "1.8.0"
+val coroutinesVersion = "1.9.0"
 
 dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
