@@ -13,11 +13,11 @@ kotlin {
 }
 
 dependencies {
-    implementation(platform("io.ktor:ktor-bom:2.3.9"))
+    implementation(platform("io.ktor:ktor-bom:3.3.1"))
     implementation("io.ktor:ktor-server-servlet")
     implementation("io.ktor:ktor-server-html-builder")
-    implementation("io.ktor:ktor-server-call-logging:2.3.9")
-    implementation("io.ktor:ktor-server-default-headers:2.3.9")
+    implementation("io.ktor:ktor-server-call-logging:3.3.1")
+    implementation("io.ktor:ktor-server-default-headers:3.3.1")
     implementation("com.google.cloud:google-cloud-logging-logback:0.131.3-alpha")
 
     runtimeOnly("com.google.appengine:appengine:1.9.98")
