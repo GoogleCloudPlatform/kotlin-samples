@@ -12,7 +12,7 @@ jobs:
     name: Get sample directories
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
     - id: set-testdirs
       run: echo "testdirs=[$(for i in $(ls -d */); do echo -n \"${i%%/}\",; done | sed 's/.$//')]" >> "$GITHUB_OUTPUT"
     outputs:
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     name: ${{ matrix.sample }}
     steps:
-    - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
     - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
